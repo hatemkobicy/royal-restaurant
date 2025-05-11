@@ -13,6 +13,7 @@ import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminCategories from "@/pages/admin/Categories";
 import AdminMenuItems from "@/pages/admin/MenuItems";
+import AdminSettings from "@/pages/admin/Settings";
 
 function Router() {
   return (
@@ -44,6 +45,11 @@ function Router() {
       <Route path="/admin/menu-items">
         <RootLayout>
           <AdminMenuItems />
+        </RootLayout>
+      </Route>
+      <Route path="/admin/settings">
+        <RootLayout>
+          <AdminSettings />
         </RootLayout>
       </Route>
       <Route path="/admin">
