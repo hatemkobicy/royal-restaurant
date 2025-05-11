@@ -109,7 +109,17 @@ const Footer = () => {
         
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
-          <p className="text-white/60">{t('footer.copyright')}</p>
+          <p className="text-white/60">
+            Copyright © ROYLE LOKANTA, All Right Reserved. Designed By{' '}
+            <a 
+              href="https://www.facebook.com/hatem.ko123" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary/80 transition underline"
+            >
+              HATEM KOBICY
+            </a>
+          </p>
         </div>
       </div>
     </footer>
