@@ -1,9 +1,9 @@
-import { ReactNode, useState, useEffect } from 'react';
-import { Link, useLocation, useRoute } from 'wouter';
+import { ReactNode, useState } from 'react';
+import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useTranslation } from '@/hooks/useTranslation';
-import { apiClient } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -13,31 +13,23 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const { t, getDirection } = useTranslation();
   const isRtl = getDirection() === 'rtl';
   const [location, navigate] = useLocation();
-  const [user, setUser] = useState<any>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isLoading, isAuthenticated, logout } = useAuth();
 
-  // Check if user is authenticated
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { authenticated, user } = await apiClient.checkAuth();
-        if (!authenticated) {
-          navigate('/admin/login');
-          return;
-        }
-        setUser(user);
-      } catch (error) {
-        console.error('Auth check failed:', error);
-        navigate('/admin/login');
-      }
-    };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
-    checkAuth();
-  }, [navigate]);
+  if (!isAuthenticated) {
+    return null; // The hook will redirect to login
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/admin/login');
+    logout();
   };
 
   const menuItems = [

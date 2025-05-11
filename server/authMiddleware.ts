@@ -29,12 +29,15 @@ export const authenticate = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Username and password are required' });
     }
 
+    console.log('Login attempt:', username);
     const user = await storage.getUserByUsername(username);
     
     if (!user) {
+      console.log('User not found');
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     
+    console.log('User found, checking password');
     const isPasswordValid = await bcrypt.compare(password, user.password);
     
     if (!isPasswordValid) {

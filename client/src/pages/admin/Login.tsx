@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
+import { apiClient } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -16,7 +17,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { apiClient } from '@/lib/utils';
 
 // Form schema
 const loginFormSchema = z.object({
@@ -36,6 +36,22 @@ const AdminLogin = () => {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { authenticated } = await apiClient.checkAuth();
+        if (authenticated) {
+          navigate('/admin');
+        }
+      } catch (error) {
+        // Proceed with login
+      }
+    };
+    
+    checkAuth();
+  }, [navigate]);
 
   // Form setup
   const form = useForm<LoginFormValues>({
