@@ -61,8 +61,24 @@ const AdminMenuItems = () => {
     queryKey: ['/api/menu-items']
   });
   
-  // Initialize local state when menuItems change
+  // Initialize local state from localStorage and API data
   useEffect(() => {
+    // Try to load from localStorage first (for development mode)
+    try {
+      const storedItems = localStorage.getItem('menuItems');
+      if (storedItems) {
+        const parsedItems = JSON.parse(storedItems);
+        if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+          console.log('Loaded menu items from localStorage:', parsedItems.length);
+          setLocalMenuItems(parsedItems);
+          return; // Skip API data if we have localStorage data
+        }
+      }
+    } catch (error) {
+      console.error('Error loading from localStorage:', error);
+    }
+    
+    // Fall back to API data if localStorage is empty or fails
     if (menuItems && Array.isArray(menuItems)) {
       setLocalMenuItems(menuItems);
     }
@@ -149,6 +165,35 @@ const AdminMenuItems = () => {
 
   // Handle menu item delete
   const handleDelete = (id: number) => {
+    // For mock development mode, also delete from localStorage
+    if (localStorage.getItem('token') === 'mock-admin-token') {
+      try {
+        const storedItems = localStorage.getItem('menuItems');
+        if (storedItems) {
+          const parsedItems = JSON.parse(storedItems);
+          const updatedItems = parsedItems.filter((item: any) => item.id !== id);
+          localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+          console.log('Deleted menu item from localStorage:', id);
+          
+          // Update local state immediately for UI
+          setLocalMenuItems(prev => prev.filter(item => item.id !== id));
+          
+          // Show success toast
+          toast({
+            title: language === 'ar' ? "تم حذف العنصر" : "Menu Item Deleted",
+            description: language === 'ar' 
+              ? "تم حذف العنصر بنجاح" 
+              : "Menu item has been deleted successfully",
+          });
+          
+          return; // Skip actual API call in mock mode
+        }
+      } catch (error) {
+        console.error('Error deleting from localStorage:', error);
+      }
+    }
+    
+    // Regular API-based delete
     deleteMutation.mutate(id);
   };
 

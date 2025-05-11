@@ -80,13 +80,21 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       // Special handling for mock token (development only)
       if (localStorage.getItem('token') === 'mock-admin-token') {
         console.log('Using mock token for menu item creation');
-        // Return a mock response for development
+        // Get existing items or initialize empty array
+        const existingItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+        
+        // Create mock item with generated ID
         const mockResult = {
           id: Math.floor(Math.random() * 10000),
           ...data,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
+        
+        // Add new item to stored items
+        const updatedItems = [mockResult, ...existingItems];
+        localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+        console.log('Saved menu item to localStorage:', mockResult);
         
         // Add a small delay to simulate network request
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -144,12 +152,25 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       // Special handling for mock token (development only)
       if (localStorage.getItem('token') === 'mock-admin-token') {
         console.log('Using mock token for menu item update');
-        // Return a mock response for development
+        
+        // Get existing items
+        const existingItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+        
+        // Create updated item
         const mockResult = {
           id: menuItem?.id,
           ...data,
           updatedAt: new Date().toISOString()
         };
+        
+        // Update the item in the list
+        const updatedItems = existingItems.map((item: any) => 
+          item.id === menuItem?.id ? mockResult : item
+        );
+        
+        // Save back to localStorage
+        localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+        console.log('Updated menu item in localStorage:', mockResult);
         
         // Add a small delay to simulate network request
         await new Promise(resolve => setTimeout(resolve, 500));
