@@ -13,6 +13,7 @@ import { useLanguage } from '@/components/LanguageSelector';
 import SocialMediaInput from '@/components/admin/SocialMediaInput';
 import ThemeToggle from '@/components/ThemeToggle';
 import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
+import CarouselEditor from '@/components/admin/CarouselEditor';
 
 const AdminSettings = () => {
   const { toast } = useToast();
@@ -193,6 +194,23 @@ const AdminSettings = () => {
                   />
                 </div>
               </div>
+            </CardContent>
+          </Card>
+          
+          {/* Carousel Editor Card */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>
+                {language === 'ar' ? 'إعدادات عرض الشرائح' : 'Carousel Settings'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'تخصيص شرائح الصفحة الرئيسية وتعديل محتواها' 
+                  : 'Customize the homepage carousel slides and their content'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CarouselEditor />
             </CardContent>
           </Card>
         </div>

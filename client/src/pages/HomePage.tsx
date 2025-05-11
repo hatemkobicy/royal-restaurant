@@ -8,6 +8,7 @@ import CustomCarousel from '@/components/CustomCarousel';
 import MenuItemCard from '@/components/MenuItemCard';
 import { restaurantImages, menuItemImages, formatCurrency } from '@/lib/utils';
 import { type MenuItem, type Category } from '@shared/schema';
+import { getCarouselData } from '@/utils/carousel';
 
 const HomePage = () => {
   const { t, language, getDirection } = useTranslation();
@@ -23,42 +24,21 @@ const HomePage = () => {
     queryKey: ['/api/categories'],
   });
 
-  // Create carousel items from images
-  const carouselItems = [
-    {
-      id: 'hero-1',
-      imageUrl: restaurantImages[0].url,
-      alt: restaurantImages[0].alt,
-      title: t('home.hero.title'),
-      subtitle: t('home.hero.subtitle'),
-      cta: {
-        text: t('home.hero.cta'),
-        link: '/menu'
-      }
-    },
-    {
-      id: 'hero-2',
-      imageUrl: restaurantImages[1].url,
-      alt: restaurantImages[1].alt,
-      title: language === 'ar' ? 'أجواء ملكية' : 'Royal Atmosphere',
-      subtitle: language === 'ar' ? 'أناقة وفخامة في قلب اسطنبول' : 'Elegance and luxury in the heart of Istanbul',
-      cta: {
-        text: language === 'ar' ? 'احجز طاولتك الآن' : 'Book Your Table Now',
-        link: '/contact'
-      }
-    },
-    {
-      id: 'hero-3',
-      imageUrl: restaurantImages[2].url,
-      alt: restaurantImages[2].alt,
-      title: language === 'ar' ? 'مذاق لا يُقاوم' : 'Irresistible Taste',
-      subtitle: language === 'ar' ? 'نكهات أصيلة محضرة بأيدي أمهر الطهاة' : 'Authentic flavors prepared by expert chefs',
-      cta: {
-        text: language === 'ar' ? 'اكتشف أطباقنا المميزة' : 'Discover Our Specialties',
-        link: '/menu'
-      }
+  // Get carousel data from settings
+  const slidesData = getCarouselData(language as 'tr' | 'ar');
+  
+  // Create carousel items from settings
+  const carouselItems = slidesData.map(slide => ({
+    id: slide.id,
+    imageUrl: slide.imageUrl,
+    alt: slide.imageAlt,
+    title: slide.title,
+    subtitle: slide.subtitle,
+    cta: {
+      text: slide.ctaText,
+      link: slide.ctaLink
     }
-  ];
+  }));
 
   return (
     <div>
