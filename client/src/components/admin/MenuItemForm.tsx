@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { useTranslation } from '@/hooks/useTranslation';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -45,7 +46,8 @@ interface MenuItemFormProps {
 }
 
 const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
-  const { t, getDirection } = useTranslation();
+  const { t, getDirection, language } = useTranslation();
+  const { toast } = useToast();
   const isRtl = getDirection() === 'rtl';
   const queryClient = useQueryClient();
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -79,12 +81,17 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       if (localStorage.getItem('token') === 'mock-admin-token') {
         console.log('Using mock token for menu item creation');
         // Return a mock response for development
-        return {
+        const mockResult = {
           id: Math.floor(Math.random() * 10000),
           ...data,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
+        
+        // Add a small delay to simulate network request
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        return mockResult;
       }
       
       const response = await fetch('/api/menu-items', {
@@ -104,11 +111,28 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
     onSuccess: (data) => {
       console.log('Menu item created successfully:', data);
       queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
+      
+      // Show success toast
+      toast({
+        title: language === 'ar' ? "تمت إضافة العنصر بنجاح" : "Item Added Successfully",
+        description: language === 'ar' 
+          ? "تم إضافة العنصر الجديد إلى القائمة" 
+          : "The new item has been added to the menu",
+      });
+      
       form.reset();
+      setImageUrl('');
+      setUploadedImage(null);
+      
       if (onSuccess) onSuccess();
     },
     onError: (error) => {
       console.error('Error creating menu item:', error);
+      toast({
+        title: language === 'ar' ? "فشل في إضافة العنصر" : "Failed to Add Item",
+        description: String(error),
+        variant: "destructive",
+      });
     },
   });
 
@@ -121,11 +145,16 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       if (localStorage.getItem('token') === 'mock-admin-token') {
         console.log('Using mock token for menu item update');
         // Return a mock response for development
-        return {
+        const mockResult = {
           id: menuItem?.id,
           ...data,
           updatedAt: new Date().toISOString()
         };
+        
+        // Add a small delay to simulate network request
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        return mockResult;
       }
       
       const response = await fetch(`/api/menu-items/${menuItem?.id}`, {
@@ -145,22 +174,75 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
     onSuccess: (data) => {
       console.log('Menu item updated successfully:', data);
       queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
+      
+      // Show success toast
+      toast({
+        title: language === 'ar' ? "تم تحديث العنصر بنجاح" : "Item Updated Successfully",
+        description: language === 'ar' 
+          ? "تم تحديث العنصر في القائمة" 
+          : "The item has been updated in the menu",
+      });
+      
       if (onSuccess) onSuccess();
     },
     onError: (error) => {
       console.error('Error updating menu item:', error);
+      toast({
+        title: language === 'ar' ? "فشل في تحديث العنصر" : "Failed to Update Item",
+        description: String(error),
+        variant: "destructive",
+      });
     },
   });
 
   // Handle form submission
-  const onSubmit = (data: MenuItemFormValues) => {
-    if (menuItem) {
-      updateMutation.mutate(data);
-    } else {
-      createMutation.mutate(data);
+  const onSubmit = async (data: MenuItemFormValues) => {
+    try {
+      console.log('Form submitted with data:', data);
+      
+      // Add default image URL if none provided
+      if (!data.imageUrl) {
+        data.imageUrl = stockImages[0];
+      }
+      
+      // Handle custom upload
+      if (uploadedImage && !data.imageUrl.startsWith('http')) {
+        console.log('Using uploaded image');
+        data.imageUrl = uploadedImage;
+      }
+      
+      console.log('Final data to submit:', data);
+      
+      // Show toast to indicate form is being processed
+      toast({
+        title: menuItem 
+          ? (language === 'ar' ? "جاري التحديث..." : "Updating...") 
+          : (language === 'ar' ? "جاري الإضافة..." : "Adding item..."),
+        description: language === 'ar' 
+          ? "يرجى الانتظار قليلاً" 
+          : "Please wait a moment",
+      });
+      
+      if (menuItem) {
+        updateMutation.mutate(data);
+      } else {
+        createMutation.mutate(data);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: language === 'ar' ? "خطأ" : "Error",
+        description: language === 'ar' 
+          ? "حدث خطأ أثناء معالجة النموذج" 
+          : "An error occurred while processing the form",
+        variant: "destructive",
+      });
     }
   };
 
+  // State for uploaded image
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  
   // Stock image URLs for form
   const stockImages = [
     "https://images.unsplash.com/photo-1544025162-d76694265947",
@@ -175,6 +257,22 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
   const handleImageSelect = (url: string) => {
     setImageUrl(url);
     form.setValue('imageUrl', url);
+    setUploadedImage(null);
+  };
+  
+  // Handle image upload
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setUploadedImage(result);
+        form.setValue('imageUrl', result);
+        setImageUrl('');
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // Set image URL when editing
@@ -294,11 +392,44 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
         
         <div>
           <FormLabel>{t('admin.form.image')}</FormLabel>
+          
+          {/* Image Upload Button */}
+          <div className="mb-4">
+            <label htmlFor="image-upload" className="block w-full">
+              <div className="bg-primary/10 border-2 border-dashed border-primary/50 rounded-lg p-4 text-center cursor-pointer hover:bg-primary/20 transition">
+                <i className="bi bi-cloud-arrow-up text-2xl text-primary mb-2"></i>
+                <p className="font-medium text-primary">{t('admin.form.upload')}</p>
+                <p className="text-sm text-muted-foreground">
+                  {uploadedImage ? 'Image uploaded successfully' : 'Click to upload from your device'}
+                </p>
+              </div>
+              <input 
+                id="image-upload" 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleImageUpload}
+              />
+            </label>
+          </div>
+          
+          {/* Display Uploaded Image */}
+          {uploadedImage && (
+            <div className="mb-4 border rounded-md overflow-hidden">
+              <img 
+                src={uploadedImage} 
+                alt="Uploaded food image" 
+                className="w-full h-48 object-cover"
+              />
+            </div>
+          )}
+          
           <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Image URL</FormLabel>
                 <FormControl>
                   <Input 
                     className="mb-2"
@@ -315,27 +446,30 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
           />
           
           {/* Stock images grid */}
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {stockImages.map((url, index) => (
-              <div 
-                key={index}
-                className={`relative cursor-pointer border rounded-md overflow-hidden ${
-                  imageUrl === url ? 'ring-2 ring-primary' : ''
-                }`}
-                onClick={() => handleImageSelect(url)}
-              >
-                <img 
-                  src={`${url}?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80`} 
-                  alt={`Stock food image ${index + 1}`}
-                  className="w-full h-24 object-cover"
-                />
-                {imageUrl === url && (
-                  <div className="absolute top-1 right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
-                    <i className="bi bi-check-lg text-xs"></i>
-                  </div>
-                )}
-              </div>
-            ))}
+          <div className="mt-4">
+            <p className="text-sm font-medium mb-2">Or choose from our stock images:</p>
+            <div className="grid grid-cols-3 gap-2">
+              {stockImages.map((url, index) => (
+                <div 
+                  key={index}
+                  className={`relative cursor-pointer border rounded-md overflow-hidden ${
+                    imageUrl === url ? 'ring-2 ring-primary' : ''
+                  }`}
+                  onClick={() => handleImageSelect(url)}
+                >
+                  <img 
+                    src={`${url}?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=150&q=80`} 
+                    alt={`Stock food image ${index + 1}`}
+                    className="w-full h-24 object-cover"
+                  />
+                  {imageUrl === url && (
+                    <div className="absolute top-1 right-1 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center">
+                      <i className="bi bi-check-lg text-xs"></i>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         
