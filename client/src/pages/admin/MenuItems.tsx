@@ -133,7 +133,15 @@ const AdminMenuItems = () => {
   };
 
   // Handle form success
-  const handleFormSuccess = () => {
+  const handleFormSuccess = (item: MenuItem, isUpdate: boolean = false) => {
+    // Update local state
+    if (isUpdate) {
+      updateMenuItem(item);
+    } else {
+      addMenuItem(item);
+    }
+    
+    // Close dialogs
     setIsAddDialogOpen(false);
     setIsEditDialogOpen(false);
     setEditItem(null);

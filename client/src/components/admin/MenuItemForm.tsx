@@ -42,7 +42,7 @@ type MenuItemFormValues = z.infer<typeof menuItemFormSchema>;
 
 interface MenuItemFormProps {
   menuItem?: MenuItem;
-  onSuccess?: () => void;
+  onSuccess?: (item: MenuItem, isUpdate: boolean) => void;
 }
 
 const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
@@ -124,7 +124,7 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       setImageUrl('');
       setUploadedImage(null);
       
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(data, false);
     },
     onError: (error) => {
       console.error('Error creating menu item:', error);
@@ -183,7 +183,7 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
           : "The item has been updated in the menu",
       });
       
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(data, true);
     },
     onError: (error) => {
       console.error('Error updating menu item:', error);
