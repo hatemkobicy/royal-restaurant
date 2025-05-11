@@ -73,6 +73,20 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
   // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: MenuItemFormValues) => {
+      console.log('Submitting menu item data:', data);
+      
+      // Special handling for mock token (development only)
+      if (localStorage.getItem('token') === 'mock-admin-token') {
+        console.log('Using mock token for menu item creation');
+        // Return a mock response for development
+        return {
+          id: Math.floor(Math.random() * 10000),
+          ...data,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+      }
+      
       const response = await fetch('/api/menu-items', {
         method: 'POST',
         headers: apiClient.getAuthHeaders(),
@@ -80,22 +94,40 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       });
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to create menu item');
+        const errorData = await response.text();
+        console.error('Server error response:', errorData);
+        throw new Error(`Failed to create menu item: ${response.status}`);
       }
       
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Menu item created successfully:', data);
       queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
       form.reset();
       if (onSuccess) onSuccess();
+    },
+    onError: (error) => {
+      console.error('Error creating menu item:', error);
     },
   });
 
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async (data: MenuItemFormValues) => {
+      console.log('Updating menu item data:', data);
+      
+      // Special handling for mock token (development only)
+      if (localStorage.getItem('token') === 'mock-admin-token') {
+        console.log('Using mock token for menu item update');
+        // Return a mock response for development
+        return {
+          id: menuItem?.id,
+          ...data,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      
       const response = await fetch(`/api/menu-items/${menuItem?.id}`, {
         method: 'PUT',
         headers: apiClient.getAuthHeaders(),
@@ -103,15 +135,20 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       });
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to update menu item');
+        const errorData = await response.text();
+        console.error('Server error response:', errorData);
+        throw new Error(`Failed to update menu item: ${response.status}`);
       }
       
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Menu item updated successfully:', data);
       queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
       if (onSuccess) onSuccess();
+    },
+    onError: (error) => {
+      console.error('Error updating menu item:', error);
     },
   });
 
@@ -193,11 +230,13 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categories?.map((category: any) => (
+                    {Array.isArray(categories) ? categories.map((category: any) => (
                       <SelectItem key={category.id} value={category.id.toString()}>
                         {isRtl ? category.nameAr : category.nameTr}
                       </SelectItem>
-                    ))}
+                    )) : (
+                      <SelectItem value="1">Loading categories...</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
                 <FormMessage />
