@@ -38,22 +38,29 @@
   --background: 220 26% 14%; /* Darker version of deep navy */
   --foreground: 0 0% 98%;
   --muted: 220 16% 22%;
-  --muted-foreground: 220 5% 64.9%;
+  --muted-foreground: 220 5% 70%;
   --popover: 220 26% 14%;
   --popover-foreground: 0 0% 98%;
   --card: 220 28% 16%;
   --card-foreground: 0 0% 98%;
   --border: 220 16% 22%;
   --input: 220 16% 22%;
-  --primary: 43 49% 61%;
-  --primary-foreground: 211 100% 99%;
-  --secondary: 210 29% 24%;
+  --primary: 43 49% 65%; /* Slightly brighter gold for dark mode */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 210 29% 35%; /* Brighter navy for dark mode */
   --secondary-foreground: 0 0% 98%;
-  --accent: 0 100% 27%;
+  --accent: 0 70% 45%; /* Brighter accent for dark mode */
   --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 62.8% 40%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 43 49% 61%; /* Match the royal gold color */
+  --ring: 43 49% 65%; /* Match the royal gold color */
+  
+  /* Dark mode specific chart colors */
+  --chart-1: 43 49% 65%; /* Brighter gold */
+  --chart-2: 210 29% 40%; /* Brighter navy */
+  --chart-3: 0 70% 45%; /* Brighter red */
+  --chart-4: 34 78% 91%; /* Light gold */
+  --chart-5: 210 40% 60%; /* Light navy */
 }
 
 @layer base {
