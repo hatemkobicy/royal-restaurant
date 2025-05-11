@@ -14,6 +14,8 @@ import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminCategories from "@/pages/admin/Categories";
 import AdminMenuItems from "@/pages/admin/MenuItems";
 import AdminSettings from "@/pages/admin/Settings";
+import { SettingsProvider } from "@/hooks/useSettings";
+import { LanguageProvider } from "@/components/LanguageSelector";
 
 function Router() {
   return (
@@ -72,10 +74,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <SettingsProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </SettingsProvider>
     </QueryClientProvider>
   );
 }
