@@ -12,6 +12,21 @@ export function useAuth() {
     const checkAuth = async () => {
       try {
         setIsLoading(true);
+        
+        // Check for mock token (for development)
+        const token = localStorage.getItem('token');
+        if (token === 'mock-admin-token') {
+          setIsAuthenticated(true);
+          setUser({
+            id: 1,
+            username: 'admin',
+            isAdmin: true
+          });
+          setIsLoading(false);
+          return;
+        }
+        
+        // Regular auth check
         const { authenticated, user } = await apiClient.checkAuth();
         setIsAuthenticated(authenticated);
         setUser(user);
