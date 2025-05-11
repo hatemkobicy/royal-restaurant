@@ -115,6 +115,10 @@ const Footer = () => {
             >
               HATEM KOBICY
             </a>
+            <span className="mx-2">|</span>
+            <Link href="/admin/login" className="text-white/60 hover:text-primary/80 transition">
+              Admin
+            </Link>
           </p>
         </div>
       </div>
