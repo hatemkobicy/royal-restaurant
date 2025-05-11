@@ -13,7 +13,7 @@ const MenuPage = () => {
   const [localMenuItems, setLocalMenuItems] = useState<any[]>([]);
   
   // Fetch all categories
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
+  const { data: categories, isLoading: categoriesLoading } = useQuery<any[]>({
     queryKey: ['/api/categories'],
   });
   
@@ -56,8 +56,8 @@ const MenuPage = () => {
 
   const filteredItems = getFilteredItems();
 
-  // Render loading skeleton
-  if (categoriesLoading || menuItemsLoading) {
+  // Render loading skeleton, but only if we don't have any items from localStorage
+  if ((categoriesLoading || menuItemsLoading) && localMenuItems.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
@@ -114,7 +114,7 @@ const MenuPage = () => {
             {t('menu.filter.all')}
           </Button>
           
-          {categories?.map((category: any) => (
+          {categories && Array.isArray(categories) ? categories.map((category: any) => (
             <Button
               key={category.id}
               variant={activeCategory === category.id.toString() ? "default" : "outline"}
@@ -123,14 +123,15 @@ const MenuPage = () => {
             >
               {language === 'ar' ? category.nameAr : category.nameTr}
             </Button>
-          ))}
+          )) : null}
         </div>
         
         {/* Menu items grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredItems.length > 0 ? (
             filteredItems.map((item: any) => {
-              const category = categories?.find((cat: any) => cat.id === item.categoryId);
+              const category = categories && Array.isArray(categories) ? 
+                categories.find((cat: any) => cat.id === item.categoryId) : null;
               return (
                 <MenuItemCard 
                   key={item.id} 
