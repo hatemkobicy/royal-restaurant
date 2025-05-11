@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '@/hooks/useTranslation';
 import MenuItemCard from '@/components/MenuItemCard';
@@ -10,6 +10,7 @@ import { menuItemImages } from '@/lib/utils';
 const MenuPage = () => {
   const { t, language } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [localMenuItems, setLocalMenuItems] = useState<any[]>([]);
   
   // Fetch all categories
   const { data: categories, isLoading: categoriesLoading } = useQuery({
@@ -17,17 +18,40 @@ const MenuPage = () => {
   });
   
   // Fetch all menu items
-  const { data: menuItems, isLoading: menuItemsLoading } = useQuery({
+  const { data: menuItems, isLoading: menuItemsLoading } = useQuery<any[]>({
     queryKey: ['/api/menu-items'],
   });
+  
+  // Load menu items from localStorage for development mode
+  useEffect(() => {
+    // Try to load from localStorage first
+    try {
+      const storedItems = localStorage.getItem('menuItems');
+      if (storedItems) {
+        const parsedItems = JSON.parse(storedItems);
+        if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+          console.log('MenuPage loaded items from localStorage:', parsedItems.length);
+          setLocalMenuItems(parsedItems);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Error loading menu items from localStorage:', error);
+    }
+    
+    // Fallback to API data
+    if (menuItems && menuItems.length > 0) {
+      setLocalMenuItems(menuItems);
+    }
+  }, [menuItems]);
 
   // Get filtered menu items based on active category
   const getFilteredItems = () => {
-    if (!menuItems) return [];
-    if (!activeCategory) return menuItems;
+    if (localMenuItems.length === 0) return [];
+    if (!activeCategory) return localMenuItems;
     
     const categoryId = parseInt(activeCategory);
-    return menuItems.filter((item: any) => item.categoryId === categoryId);
+    return localMenuItems.filter(item => item.categoryId === categoryId);
   };
 
   const filteredItems = getFilteredItems();
