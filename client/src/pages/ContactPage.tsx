@@ -191,14 +191,14 @@ const ContactPage = () => {
               {/* Map */}
               <div className="mt-6 rounded-lg overflow-hidden shadow-md">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3003.5747760912776!2d28.884635276239775!3d41.15454247131998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab7a6fd7d1c4d%3A0xfc1b2e0ad358f00!2sRoyal%20Restaurant%20Sultangazi!5e0!3m2!1sen!2str!4v1684958721786!5m2!1sen!2str" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.4462882536293!2d28.86809911535979!3d41.13821097928958!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab76efcb2d99f%3A0x8ce71b8d7c1e8e62!2zxLBzbWV0cGHFn2EsIDUzLiBTay4gTk86OUEsIDM0MjcwIFN1bHRhbmdhemkvxLBzdGFuYnVs!5e0!3m2!1sen!2str!4v1685271552149!5m2!1sen!2str" 
                   width="100%" 
                   height="400" 
                   style={{ border: 0 }} 
                   allowFullScreen 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Royal Restaurant Sultangazi"
+                  title="Royal Restaurant Sultangazi - İsmetpaşa"
                 ></iframe>
               </div>
             </div>
