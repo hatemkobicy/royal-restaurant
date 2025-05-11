@@ -25,17 +25,17 @@ const Footer = () => {
             <p className="text-white/70 mb-6">
               {t('home.about.subtitle')}
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-primary transition">
+            <div className="flex gap-8">
+              <a href="#" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-instagram"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              <a href="#" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-facebook"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              <a href="#" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-youtube"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              <a href="#" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-twitter"></i>
               </a>
             </div>

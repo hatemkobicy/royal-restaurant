@@ -171,18 +171,18 @@ const ContactPage = () => {
               <Card className="bg-gray-50">
                 <CardContent className="p-8">
                   <h3 className="text-xl font-bold text-secondary mb-6">{t('contact.social.title')}</h3>
-                  <div className="flex space-x-4">
-                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-instagram"></i>
+                  <div className="flex gap-6">
+                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                      <i className="bi bi-instagram text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-facebook"></i>
+                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                      <i className="bi bi-facebook text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-youtube"></i>
+                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                      <i className="bi bi-youtube text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-twitter"></i>
+                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                      <i className="bi bi-twitter text-lg"></i>
                     </a>
                   </div>
                 </CardContent>
