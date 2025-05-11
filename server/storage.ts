@@ -2,12 +2,15 @@ import {
   users, 
   categories, 
   menuItems,
+  siteSettings,
   type User, 
   type InsertUser,
   type Category,
   type InsertCategory,
   type MenuItem,
-  type InsertMenuItem 
+  type InsertMenuItem,
+  type SiteSetting,
+  type InsertSiteSetting
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, asc } from "drizzle-orm";
@@ -33,6 +36,12 @@ export interface IStorage {
   createMenuItem(menuItem: InsertMenuItem): Promise<MenuItem>;
   updateMenuItem(id: number, menuItem: Partial<InsertMenuItem>): Promise<MenuItem | undefined>;
   deleteMenuItem(id: number): Promise<boolean>;
+  
+  // Site settings operations
+  getAllSettings(): Promise<SiteSetting[]>;
+  getSetting(key: string): Promise<SiteSetting | undefined>;
+  upsertSetting(key: string, value: string): Promise<SiteSetting>;
+  deleteSetting(key: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -129,6 +138,56 @@ export class DatabaseStorage implements IStorage {
       .where(eq(menuItems.id, id))
       .returning({ id: menuItems.id });
     return !!deleted;
+  }
+  
+  // Site settings operations
+  async getAllSettings(): Promise<SiteSetting[]> {
+    try {
+      return await db.select().from(siteSettings).orderBy(asc(siteSettings.key));
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+      return [];
+    }
+  }
+  
+  async getSetting(key: string): Promise<SiteSetting | undefined> {
+    try {
+      const [setting] = await db.select().from(siteSettings).where(eq(siteSettings.key, key));
+      return setting;
+    } catch (error) {
+      console.error(`Error fetching setting ${key}:`, error);
+      return undefined;
+    }
+  }
+  
+  async upsertSetting(key: string, value: string): Promise<SiteSetting> {
+    try {
+      const [setting] = await db
+        .insert(siteSettings)
+        .values({ key, value })
+        .onConflictDoUpdate({
+          target: siteSettings.key,
+          set: { 
+            value,
+            updatedAt: new Date()
+          },
+        })
+        .returning();
+      return setting;
+    } catch (error) {
+      console.error(`Error upserting setting ${key}:`, error);
+      throw error;
+    }
+  }
+  
+  async deleteSetting(key: string): Promise<boolean> {
+    try {
+      const result = await db.delete(siteSettings).where(eq(siteSettings.key, key)).returning();
+      return result.length > 0;
+    } catch (error) {
+      console.error(`Error deleting setting ${key}:`, error);
+      return false;
+    }
   }
 }
 
