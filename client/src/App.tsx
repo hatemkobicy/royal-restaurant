@@ -18,23 +18,52 @@ import AdminMenuItems from "@/pages/admin/MenuItems";
 function Router() {
   return (
     <Switch>
-      <Route path="/select-language" component={LandingPage} />
-      <Route path="/">
+      <Route path="/select-language">
+        <LandingPage />
+      </Route>
+      <Route path="/menu">
         <RootLayout>
-          <Switch>
-            <Route path="/" component={HomePage} />
-            <Route path="/menu" component={MenuPage} />
-            <Route path="/about" component={AboutPage} />
-            <Route path="/contact" component={ContactPage} />
-            <Route path="/admin/login" component={AdminLogin} />
-            <Route path="/admin" component={AdminDashboard} />
-            <Route path="/admin/categories" component={AdminCategories} />
-            <Route path="/admin/menu-items" component={AdminMenuItems} />
-            <Route component={NotFound} />
-          </Switch>
+          <MenuPage />
         </RootLayout>
       </Route>
-      <Route component={NotFound} />
+      <Route path="/about">
+        <RootLayout>
+          <AboutPage />
+        </RootLayout>
+      </Route>
+      <Route path="/contact">
+        <RootLayout>
+          <ContactPage />
+        </RootLayout>
+      </Route>
+      <Route path="/admin/login">
+        <RootLayout>
+          <AdminLogin />
+        </RootLayout>
+      </Route>
+      <Route path="/admin/categories">
+        <RootLayout>
+          <AdminCategories />
+        </RootLayout>
+      </Route>
+      <Route path="/admin/menu-items">
+        <RootLayout>
+          <AdminMenuItems />
+        </RootLayout>
+      </Route>
+      <Route path="/admin">
+        <RootLayout>
+          <AdminDashboard />
+        </RootLayout>
+      </Route>
+      <Route path="/">
+        <RootLayout>
+          <HomePage />
+        </RootLayout>
+      </Route>
+      <Route>
+        <NotFound />
+      </Route>
     </Switch>
   );
 }

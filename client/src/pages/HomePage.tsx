@@ -7,18 +7,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import CustomCarousel from '@/components/CustomCarousel';
 import MenuItemCard from '@/components/MenuItemCard';
 import { restaurantImages, menuItemImages, formatCurrency } from '@/lib/utils';
+import { type MenuItem, type Category } from '@shared/schema';
 
 const HomePage = () => {
   const { t, language, getDirection } = useTranslation();
   const isRtl = getDirection() === 'rtl';
 
   // Fetch menu items for featured section
-  const { data: menuItems, isLoading } = useQuery({
+  const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
     queryKey: ['/api/menu-items'],
   });
 
   // Fetch categories for mapping to menu items
-  const { data: categories } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ['/api/categories'],
   });
 
@@ -143,8 +144,8 @@ const HomePage = () => {
               ))
             ) : (
               // Actual menu items
-              menuItems?.slice(0, 6).map((item: any) => {
-                const category = categories?.find((cat: any) => cat.id === item.categoryId);
+              menuItems.slice(0, 6).map((item) => {
+                const category = categories.find((cat) => cat.id === item.categoryId);
                 return (
                   <MenuItemCard 
                     key={item.id} 

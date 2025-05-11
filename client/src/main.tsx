@@ -2,11 +2,9 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-// Check if language was already selected, otherwise go to language selector
-const selectedLanguage = localStorage.getItem('language');
-if (!selectedLanguage) {
-  // Redirect to language selector on first visit
-  window.location.href = '/select-language';
+// Initialize with Turkish as default language if none is selected
+if (!localStorage.getItem('language')) {
+  localStorage.setItem('language', 'tr');
 }
 
 createRoot(document.getElementById("root")!).render(<App />);

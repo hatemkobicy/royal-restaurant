@@ -46,23 +46,23 @@ const Footer = () => {
             <h4 className="text-lg font-bold text-primary mb-6">{t('footer.quicklinks')}</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/">
-                  <a className="text-white/70 hover:text-primary transition">{t('nav.home')}</a>
+                <Link href="/" className="text-white/70 hover:text-primary transition">
+                  {t('nav.home')}
                 </Link>
               </li>
               <li>
-                <Link href="/menu">
-                  <a className="text-white/70 hover:text-primary transition">{t('nav.menu')}</a>
+                <Link href="/menu" className="text-white/70 hover:text-primary transition">
+                  {t('nav.menu')}
                 </Link>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-white/70 hover:text-primary transition">{t('nav.about')}</a>
+                <Link href="/about" className="text-white/70 hover:text-primary transition">
+                  {t('nav.about')}
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
-                  <a className="text-white/70 hover:text-primary transition">{t('nav.contact')}</a>
+                <Link href="/contact" className="text-white/70 hover:text-primary transition">
+                  {t('nav.contact')}
                 </Link>
               </li>
             </ul>
