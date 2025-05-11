@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { getTheme, toggleTheme } from '@/utils/theme';
-import { getSocialLinks } from '@/utils/social';
+import { getTheme, toggleTheme } from '../utils/theme';
+import { getSocialLinks } from '../utils/social';
 
 export const SOCIAL_MEDIA_KEYS = {
   INSTAGRAM: 'social_instagram',

@@ -1,8 +1,10 @@
 import { Link } from 'wouter';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useSettings } from '@/hooks/useSettings';
 
 const Footer = () => {
   const { t, getDirection } = useTranslation();
+  const { socialLinks } = useSettings();
   const isRtl = getDirection() === 'rtl';
 
   return (
@@ -26,16 +28,16 @@ const Footer = () => {
               {t('home.about.subtitle')}
             </p>
             <div className="flex gap-8">
-              <a href="#" className="text-white hover:text-primary transition text-xl">
+              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-instagram"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition text-xl">
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-facebook"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition text-xl">
+              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-youtube"></i>
               </a>
-              <a href="#" className="text-white hover:text-primary transition text-xl">
+              <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-twitter"></i>
               </a>
             </div>
