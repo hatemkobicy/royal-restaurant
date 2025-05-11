@@ -300,7 +300,14 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input {...field} className="mb-2" />
+                  <Input 
+                    className="mb-2"
+                    name={field.name}
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    ref={field.ref}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
