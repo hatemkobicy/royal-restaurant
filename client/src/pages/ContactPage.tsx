@@ -191,14 +191,14 @@ const ContactPage = () => {
               {/* Map */}
               <div className="mt-6 rounded-lg overflow-hidden shadow-md">
                 <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3004.7433248473397!2d28.86911467550841!3d41.127772714748336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab5d295a61433%3A0x6fef59fc1b4b0d81!2sSultan%C3%A7iftli%C4%9Fi%2C%20Gazi%20Mustafa%20Kemal%20Cd%20No%3A5B%2C%2034265%20Sultangazi%2F%C4%B0stanbul%2C%20T%C3%BCrkiye!5e0!3m2!1sen!2sus!4v1684592633619!5m2!1sen!2sus" 
+                  src="https://maps.google.com/maps?q=41.144991,28.882136&z=17&output=embed" 
                   width="100%" 
                   height="350" 
                   style={{ border: 0 }} 
                   allowFullScreen 
                   loading="lazy" 
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Royal Restaurant Location"
+                  title="Royal Restaurant Location - Sultançiftliği"
                 ></iframe>
               </div>
             </div>
