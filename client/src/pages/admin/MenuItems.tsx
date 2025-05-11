@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useToast } from '@/hooks/use-toast';
@@ -54,16 +54,34 @@ const AdminMenuItems = () => {
   const [editItem, setEditItem] = useState<MenuItem | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [localMenuItems, setLocalMenuItems] = useState<MenuItem[]>([]);
 
   // Fetch menu items
   const { data: menuItems, isLoading: menuItemsLoading } = useQuery({
     queryKey: ['/api/menu-items'],
+    onSuccess: (data) => {
+      // Initialize local state with fetched data
+      if (data && Array.isArray(data)) {
+        setLocalMenuItems(data);
+      }
+    }
   });
 
   // Fetch categories for mapping to menu items
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ['/api/categories'],
   });
+
+  // Public methods for adding and updating menu items
+  const addMenuItem = (item: MenuItem) => {
+    setLocalMenuItems(prev => [item, ...prev]);
+  };
+
+  const updateMenuItem = (updatedItem: MenuItem) => {
+    setLocalMenuItems(prev => 
+      prev.map(item => item.id === updatedItem.id ? updatedItem : item)
+    );
+  };
 
   // Delete mutation
   const deleteMutation = useMutation({
@@ -79,7 +97,10 @@ const AdminMenuItems = () => {
       
       return id;
     },
-    onSuccess: () => {
+    onSuccess: (id) => {
+      // Update local state
+      setLocalMenuItems(prev => prev.filter(item => item.id !== id));
+      
       queryClient.invalidateQueries({ queryKey: ['/api/menu-items'] });
       toast({
         title: language === 'ar' ? "تم حذف العنصر" : "Menu Item Deleted",
