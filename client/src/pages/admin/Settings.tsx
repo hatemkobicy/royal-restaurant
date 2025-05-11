@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/components/LanguageSelector';
 import SocialMediaInput from '@/components/admin/SocialMediaInput';
+import ThemeToggle from '@/components/ThemeToggle';
+import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
 
 const AdminSettings = () => {
   const { toast } = useToast();
@@ -119,31 +121,16 @@ const AdminSettings = () => {
                   {language === 'ar' ? 'الوضع المظلم' : 'Dark Mode'}
                 </h3>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse">
-                  <Button 
-                    onClick={() => {
-                      // Toggle dark mode
-                      const isDark = document.documentElement.classList.contains('dark');
-                      if (isDark) {
-                        document.documentElement.classList.remove('dark');
-                        localStorage.setItem('theme', 'light');
-                      } else {
-                        document.documentElement.classList.add('dark');
-                        localStorage.setItem('theme', 'dark');
-                      }
-
-                      toast({
-                        title: isDark 
-                          ? (language === 'ar' ? 'تم تفعيل الوضع الفاتح' : 'Light Mode Activated') 
-                          : (language === 'ar' ? 'تم تفعيل الوضع المظلم' : 'Dark Mode Activated'),
-                        description: isDark
-                          ? (language === 'ar' ? 'تم تغيير مظهر الموقع إلى الوضع الفاتح' : 'Website appearance changed to light mode') 
-                          : (language === 'ar' ? 'تم تغيير مظهر الموقع إلى الوضع المظلم' : 'Website appearance changed to dark mode'),
-                      });
-                    }}
-                    variant="outline"
-                  >
-                    {language === 'ar' ? 'تبديل الوضع المظلم' : 'Toggle Dark Mode'}
-                  </Button>
+                  <ThemeToggle 
+                    variant="default" 
+                    size="default" 
+                    showText={true} 
+                  />
+                  <p className="text-sm text-muted-foreground ml-2">
+                    {language === 'ar' 
+                      ? 'يمكنك تبديل مظهر الموقع بين الوضع الفاتح والمظلم' 
+                      : 'Toggle between light and dark mode for the website appearance'}
+                  </p>
                 </div>
               </div>
 
@@ -155,14 +142,10 @@ const AdminSettings = () => {
                 <div className="space-y-4">
                   <SocialMediaInput 
                     name="Instagram"
-                    defaultValue="https://instagram.com/royalrestaurant"
+                    defaultValue={SOCIAL_MEDIA.DEFAULT.INSTAGRAM}
                     label={language === 'ar' ? 'إنستغرام' : 'Instagram'}
                     onSave={(value) => {
-                      // Save to localStorage for development
-                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-                      settings.social_instagram = value;
-                      localStorage.setItem('siteSettings', JSON.stringify(settings));
-                      
+                      saveSocialLink(SOCIAL_MEDIA.KEYS.INSTAGRAM, value);
                       toast({
                         title: language === 'ar' ? 'تم التحديث' : 'Updated',
                         description: language === 'ar' ? 'تم تحديث رابط إنستغرام' : 'Instagram link updated'
@@ -172,14 +155,10 @@ const AdminSettings = () => {
                   
                   <SocialMediaInput 
                     name="Facebook"
-                    defaultValue="https://facebook.com/royalrestaurant"
+                    defaultValue={SOCIAL_MEDIA.DEFAULT.FACEBOOK}
                     label={language === 'ar' ? 'فيسبوك' : 'Facebook'}
                     onSave={(value) => {
-                      // Save to localStorage for development
-                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-                      settings.social_facebook = value;
-                      localStorage.setItem('siteSettings', JSON.stringify(settings));
-                      
+                      saveSocialLink(SOCIAL_MEDIA.KEYS.FACEBOOK, value);
                       toast({
                         title: language === 'ar' ? 'تم التحديث' : 'Updated',
                         description: language === 'ar' ? 'تم تحديث رابط فيسبوك' : 'Facebook link updated'
@@ -189,14 +168,10 @@ const AdminSettings = () => {
                   
                   <SocialMediaInput 
                     name="YouTube"
-                    defaultValue="https://youtube.com/royalrestaurant"
+                    defaultValue={SOCIAL_MEDIA.DEFAULT.YOUTUBE}
                     label={language === 'ar' ? 'يوتيوب' : 'YouTube'}
                     onSave={(value) => {
-                      // Save to localStorage for development
-                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-                      settings.social_youtube = value;
-                      localStorage.setItem('siteSettings', JSON.stringify(settings));
-                      
+                      saveSocialLink(SOCIAL_MEDIA.KEYS.YOUTUBE, value);
                       toast({
                         title: language === 'ar' ? 'تم التحديث' : 'Updated',
                         description: language === 'ar' ? 'تم تحديث رابط يوتيوب' : 'YouTube link updated'
@@ -206,14 +181,10 @@ const AdminSettings = () => {
                   
                   <SocialMediaInput 
                     name="Twitter"
-                    defaultValue="https://twitter.com/royalrestaurant"
+                    defaultValue={SOCIAL_MEDIA.DEFAULT.TWITTER}
                     label={language === 'ar' ? 'تويتر' : 'Twitter'}
                     onSave={(value) => {
-                      // Save to localStorage for development
-                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-                      settings.social_twitter = value;
-                      localStorage.setItem('siteSettings', JSON.stringify(settings));
-                      
+                      saveSocialLink(SOCIAL_MEDIA.KEYS.TWITTER, value);
                       toast({
                         title: language === 'ar' ? 'تم التحديث' : 'Updated',
                         description: language === 'ar' ? 'تم تحديث رابط تويتر' : 'Twitter link updated'
