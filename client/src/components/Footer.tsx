@@ -1,11 +1,31 @@
 import { Link } from 'wouter';
+import { useState, useEffect } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useSettings } from '@/hooks/useSettings';
+import { getSocialLinks } from '@/utils/social';
 
 const Footer = () => {
   const { t, getDirection } = useTranslation();
-  const { socialLinks } = useSettings();
+  const [links, setLinks] = useState(getSocialLinks());
   const isRtl = getDirection() === 'rtl';
+  
+  // Listen for localStorage changes to update social links
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setLinks(getSocialLinks());
+    };
+    
+    // Update links when localStorage changes
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Custom event for when social links are updated in the admin panel
+    document.addEventListener('socialLinksUpdated', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      document.removeEventListener('socialLinksUpdated', handleStorageChange);
+    };
+  }, []);
 
   return (
     <footer className="bg-secondary text-white py-12">
@@ -28,16 +48,16 @@ const Footer = () => {
               {t('home.about.subtitle')}
             </p>
             <div className="flex gap-8">
-              <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
+              <a href={links.instagram} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-instagram"></i>
               </a>
-              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
+              <a href={links.facebook} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-facebook"></i>
               </a>
-              <a href={socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
+              <a href={links.youtube} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-youtube"></i>
               </a>
-              <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
+              <a href={links.twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition text-xl">
                 <i className="bi bi-twitter"></i>
               </a>
             </div>

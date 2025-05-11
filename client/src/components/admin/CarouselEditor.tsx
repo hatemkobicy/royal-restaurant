@@ -171,6 +171,9 @@ const CarouselEditor: React.FC = () => {
     saveCarouselSetting(CAROUSEL_KEYS[`${prefix}_CTA_LINK` as keyof typeof CAROUSEL_KEYS], slide.ctaLink);
     saveCarouselSetting(CAROUSEL_KEYS[`${prefix}_IMAGE` as keyof typeof CAROUSEL_KEYS], slide.imageUrl);
     
+    // Notify other components that carousel data has changed
+    document.dispatchEvent(new Event('carouselUpdated'));
+    
     toast({
       title: language === 'ar' ? 'تم الحفظ' : 'Saved',
       description: language === 'ar' 
@@ -215,6 +218,9 @@ const CarouselEditor: React.FC = () => {
     delete settings[CAROUSEL_KEYS[`${prefix}_CTA_LINK` as keyof typeof CAROUSEL_KEYS]];
     delete settings[CAROUSEL_KEYS[`${prefix}_IMAGE` as keyof typeof CAROUSEL_KEYS]];
     localStorage.setItem('siteSettings', JSON.stringify(settings));
+    
+    // Notify other components that carousel data has changed
+    document.dispatchEvent(new Event('carouselUpdated'));
     
     toast({
       title: language === 'ar' ? 'تم إعادة الضبط' : 'Reset',

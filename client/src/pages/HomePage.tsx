@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -25,7 +25,29 @@ const HomePage = () => {
   });
 
   // Get carousel data from settings
-  const slidesData = getCarouselData(language as 'tr' | 'ar');
+  const [slidesData, setSlidesData] = useState(getCarouselData(language as 'tr' | 'ar'));
+  
+  // Listen for carousel data changes
+  useEffect(() => {
+    // Update carousel data when language changes
+    setSlidesData(getCarouselData(language as 'tr' | 'ar'));
+    
+    // Listen for carousel settings changes
+    const handleCarouselUpdate = () => {
+      setSlidesData(getCarouselData(language as 'tr' | 'ar'));
+    };
+    
+    // Update when localStorage changes
+    window.addEventListener('storage', handleCarouselUpdate);
+    
+    // Listen for custom event from carousel editor
+    document.addEventListener('carouselUpdated', handleCarouselUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleCarouselUpdate);
+      document.removeEventListener('carouselUpdated', handleCarouselUpdate);
+    };
+  }, [language]);
   
   // Create carousel items from settings
   const carouselItems = slidesData.map(slide => ({

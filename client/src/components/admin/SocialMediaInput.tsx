@@ -64,6 +64,9 @@ const SocialMediaInput: React.FC<SocialMediaInputProps> = ({
     onSave(value);
     setSavedValue(value);
     setIsEditing(false);
+    
+    // Dispatch event to notify Footer that social links have changed
+    document.dispatchEvent(new Event('socialLinksUpdated'));
   };
 
   const handleCancel = () => {
