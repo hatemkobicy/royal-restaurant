@@ -173,16 +173,16 @@ const ContactPage = () => {
                   <h3 className="text-xl font-bold text-secondary mb-6">{t('contact.social.title')}</h3>
                   <div className="flex space-x-4">
                     <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-facebook"></i>
-                    </a>
-                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
                       <i className="bi bi-instagram"></i>
                     </a>
                     <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
-                      <i className="bi bi-twitter"></i>
+                      <i className="bi bi-facebook"></i>
                     </a>
                     <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
                       <i className="bi bi-youtube"></i>
+                    </a>
+                    <a href="#" className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                      <i className="bi bi-twitter"></i>
                     </a>
                   </div>
                 </CardContent>

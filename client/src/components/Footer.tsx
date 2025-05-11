@@ -27,16 +27,16 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-white hover:text-primary transition">
-                <i className="bi bi-facebook"></i>
-              </a>
-              <a href="#" className="text-white hover:text-primary transition">
                 <i className="bi bi-instagram"></i>
               </a>
               <a href="#" className="text-white hover:text-primary transition">
-                <i className="bi bi-twitter"></i>
+                <i className="bi bi-facebook"></i>
               </a>
               <a href="#" className="text-white hover:text-primary transition">
                 <i className="bi bi-youtube"></i>
+              </a>
+              <a href="#" className="text-white hover:text-primary transition">
+                <i className="bi bi-twitter"></i>
               </a>
             </div>
           </div>
