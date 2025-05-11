@@ -35,16 +35,16 @@
 }
 
 .dark {
-  --background: 240 10% 3.9%;
+  --background: 220 26% 14%; /* Darker version of deep navy */
   --foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --popover: 240 10% 3.9%;
+  --muted: 220 16% 22%;
+  --muted-foreground: 220 5% 64.9%;
+  --popover: 220 26% 14%;
   --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
+  --card: 220 28% 16%;
   --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
+  --border: 220 16% 22%;
+  --input: 220 16% 22%;
   --primary: 43 49% 61%;
   --primary-foreground: 211 100% 99%;
   --secondary: 210 29% 24%;
@@ -53,7 +53,7 @@
   --accent-foreground: 0 0% 98%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 240 4.9% 83.9%;
+  --ring: 43 49% 61%; /* Match the royal gold color */
 }
 
 @layer base {
