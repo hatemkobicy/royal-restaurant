@@ -57,18 +57,19 @@ const AdminMenuItems = () => {
   const [localMenuItems, setLocalMenuItems] = useState<MenuItem[]>([]);
 
   // Fetch menu items
-  const { data: menuItems, isLoading: menuItemsLoading } = useQuery({
-    queryKey: ['/api/menu-items'],
-    onSuccess: (data) => {
-      // Initialize local state with fetched data
-      if (data && Array.isArray(data)) {
-        setLocalMenuItems(data);
-      }
-    }
+  const { data: menuItems, isLoading: menuItemsLoading } = useQuery<MenuItem[]>({
+    queryKey: ['/api/menu-items']
   });
+  
+  // Initialize local state when menuItems change
+  useEffect(() => {
+    if (menuItems && Array.isArray(menuItems)) {
+      setLocalMenuItems(menuItems);
+    }
+  }, [menuItems]);
 
   // Fetch categories for mapping to menu items
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
+  const { data: categories, isLoading: categoriesLoading } = useQuery<Category[]>({
     queryKey: ['/api/categories'],
   });
 
@@ -121,7 +122,7 @@ const AdminMenuItems = () => {
   // Get category name by id
   const getCategoryName = (categoryId: number) => {
     if (!categories) return '';
-    const category = categories.find((cat: any) => cat.id === categoryId);
+    const category = categories.find(cat => cat.id === categoryId);
     return category ? (language === 'ar' ? category.nameAr : category.nameTr) : '';
   };
 
@@ -188,7 +189,7 @@ const AdminMenuItems = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading ? (
+          {menuItemsLoading || categoriesLoading ? (
             <div className="space-y-4">
               {Array(5).fill(0).map((_, index) => (
                 <div key={index} className="flex items-center space-x-4">
@@ -223,8 +224,8 @@ const AdminMenuItems = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {menuItems?.length > 0 ? (
-                    menuItems.map((item: MenuItem) => (
+                  {localMenuItems.length > 0 ? (
+                    localMenuItems.map((item: MenuItem) => (
                       <TableRow key={item.id}>
                         <TableCell>
                           <div className="flex items-center">
