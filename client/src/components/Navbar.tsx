@@ -3,6 +3,7 @@ import { useLocation, Link } from 'wouter';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from './LanguageSelector';
+import ThemeToggle from './ThemeToggle';
 import {
   Sheet,
   SheetContent,
@@ -69,6 +70,11 @@ const Navbar = () => {
                 <i className={`bi bi-globe ${isRtl ? 'me-1' : 'ms-1'} text-primary`}></i>
               </Button>
             </div>
+            
+            {/* Theme toggle for desktop */}
+            <div className="ml-3">
+              <ThemeToggle />
+            </div>
           </div>
           
           {/* Mobile menu button */}
@@ -101,6 +107,11 @@ const Navbar = () => {
                       <span>{language === 'ar' ? 'العربية' : 'Türkçe'}</span>
                       <i className={`bi bi-globe ${isRtl ? 'me-1' : 'ms-1'} text-primary`}></i>
                     </Button>
+
+                    {/* Theme toggle for mobile */}
+                    <div className="mt-2">
+                      <ThemeToggle variant="ghost" showText={true} size="default" />
+                    </div>
                   </div>
                   
                   <div className="mt-auto border-t border-gray-200 pt-4 px-2">
