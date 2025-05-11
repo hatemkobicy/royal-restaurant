@@ -91,12 +91,12 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <div className="mt-4 space-y-1">
             {menuItems.map((item) => (
               <Link key={item.path} href={item.path}>
-                <a className={`sidebar-item flex items-center px-4 py-2 text-secondary hover:text-primary transition ${
-                  isActive(item.path) ? 'active' : ''
+                <div className={`sidebar-item flex items-center px-4 py-2 text-secondary hover:text-primary transition ${
+                  isActive(item.path) ? 'active bg-primary/10' : ''
                 }`}>
                   <i className={`bi bi-${item.icon} ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                   <span>{item.label}</span>
-                </a>
+                </div>
               </Link>
             ))}
           </div>
@@ -176,15 +176,15 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               <div className="mt-4 space-y-1">
                 {menuItems.map((item) => (
                   <Link key={item.path} href={item.path}>
-                    <a 
+                    <div 
                       className={`sidebar-item flex items-center px-4 py-2 text-secondary hover:text-primary transition ${
-                        isActive(item.path) ? 'active' : ''
+                        isActive(item.path) ? 'active bg-primary/10' : ''
                       }`}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <i className={`bi bi-${item.icon} ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                       <span>{item.label}</span>
-                    </a>
+                    </div>
                   </Link>
                 ))}
               </div>
