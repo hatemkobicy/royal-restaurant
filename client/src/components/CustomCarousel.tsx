@@ -115,14 +115,14 @@ const CustomCarousel = ({
                 alt={item.alt} 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center p-6">
+              <div className="absolute inset-0 bg-black bg-opacity-40 dark:bg-opacity-50 flex items-center justify-center p-6">
                 <div className="text-center">
-                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">{item.title}</h2>
-                  <p className="text-xl text-white mb-6">{item.subtitle}</p>
+                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-md">{item.title}</h2>
+                  <p className="text-xl text-white mb-6 drop-shadow-sm">{item.subtitle}</p>
                   {item.cta && (
                     <a 
                       href={item.cta.link} 
-                      className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-6 rounded-lg transition duration-300 inline-block"
+                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-2 px-6 rounded-lg transition duration-300 inline-block shadow-md"
                     >
                       {item.cta.text}
                     </a>
@@ -137,7 +137,7 @@ const CustomCarousel = ({
       {/* Carousel Controls */}
       <Button 
         onClick={handlePrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10 shadow-md"
         size="icon"
         variant="ghost"
       >
@@ -146,7 +146,7 @@ const CustomCarousel = ({
       
       <Button 
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10 shadow-md"
         size="icon"
         variant="ghost"
       >
@@ -158,9 +158,11 @@ const CustomCarousel = ({
         {items.map((_, index) => (
           <button 
             key={index}
-            className={`carousel-indicator w-3 h-3 rounded-full bg-white ${
-              index === currentIndex ? 'bg-opacity-100' : 'bg-opacity-50 hover:bg-opacity-75'
-            } transition-all`}
+            className={`carousel-indicator w-3 h-3 rounded-full ${
+              index === currentIndex 
+                ? 'bg-white dark:bg-primary' 
+                : 'bg-white bg-opacity-50 dark:bg-white dark:bg-opacity-60 hover:bg-opacity-75 dark:hover:bg-opacity-80'
+            } transition-all shadow-sm`}
             onClick={() => handleIndicatorClick(index)}
             aria-label={`Go to slide ${index + 1}`}
           />

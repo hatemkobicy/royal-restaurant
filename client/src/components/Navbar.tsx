@@ -35,7 +35,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`bg-white sticky top-0 z-40 border-b border-primary/10 transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
+    <nav className={`bg-white dark:bg-background sticky top-0 z-40 border-b border-primary/10 dark:border-primary/20 transition-shadow ${scrolled ? 'shadow-md' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex justify-start">
@@ -114,7 +114,7 @@ const Navbar = () => {
                     </div>
                   </div>
                   
-                  <div className="mt-auto border-t border-gray-200 pt-4 px-2">
+                  <div className="mt-auto border-t border-gray-200 dark:border-gray-700 pt-4 px-2">
                     <div className="flex items-center">
                       <img className="h-8 w-auto" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120&q=80" alt="Royal Restaurant Logo" />
                       <div className={`${isRtl ? 'mr-3' : 'ml-3'}`}>

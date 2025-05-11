@@ -24,7 +24,7 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
     : t(`category.${item.categoryId === 1 ? 'appetizers' : item.categoryId === 2 ? 'main-dishes' : item.categoryId === 3 ? 'drinks' : 'desserts'}`);
 
   return (
-    <Card className="overflow-hidden menu-card transition-all duration-300">
+    <Card className="overflow-hidden menu-card transition-all duration-300 hover:shadow-md dark:shadow-none dark:hover:shadow-primary/5">
       <div className="w-full h-48 overflow-hidden">
         <img 
           src={item.imageUrl} 
@@ -34,15 +34,15 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
       </div>
       <CardContent className="p-6">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold text-secondary">{name}</h3>
-          <span className="text-primary font-bold">{formatCurrency(item.price)}</span>
+          <h3 className="text-xl font-bold text-secondary dark:text-secondary">{name}</h3>
+          <span className="text-primary dark:text-primary font-bold">{formatCurrency(item.price)}</span>
         </div>
-        <p className="text-foreground/80 text-sm mb-4 line-clamp-2">{description}</p>
+        <p className="text-foreground/80 dark:text-foreground/70 text-sm mb-4 line-clamp-2">{description}</p>
         <div className="flex justify-between items-center">
-          <span className="bg-primary/10 text-primary text-xs font-medium px-2.5 py-1 rounded">
+          <span className="bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary text-xs font-medium px-2.5 py-1 rounded">
             {categoryName}
           </span>
-          <Button variant="ghost" size="sm" className="text-accent hover:text-accent/80 transition">
+          <Button variant="ghost" size="sm" className="text-accent dark:text-accent hover:text-accent/80 dark:hover:text-accent/90 transition">
             <i className="bi bi-heart text-lg"></i>
           </Button>
         </div>
