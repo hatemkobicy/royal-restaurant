@@ -48,25 +48,17 @@ const Navbar = () => {
           </div>
           
           <div className="hidden sm:ml-6 sm:flex sm:items-center gap-1">
-            <Link href="/">
-              <a className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/' ? 'text-primary' : ''}`}>
-                {t('nav.home')}
-              </a>
+            <Link href="/" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/' ? 'text-primary' : ''}`}>
+              {t('nav.home')}
             </Link>
-            <Link href="/menu">
-              <a className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/menu' ? 'text-primary' : ''}`}>
-                {t('nav.menu')}
-              </a>
+            <Link href="/menu" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/menu' ? 'text-primary' : ''}`}>
+              {t('nav.menu')}
             </Link>
-            <Link href="/about">
-              <a className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/about' ? 'text-primary' : ''}`}>
-                {t('nav.about')}
-              </a>
+            <Link href="/about" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/about' ? 'text-primary' : ''}`}>
+              {t('nav.about')}
             </Link>
-            <Link href="/contact">
-              <a className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/contact' ? 'text-primary' : ''}`}>
-                {t('nav.contact')}
-              </a>
+            <Link href="/contact" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/contact' ? 'text-primary' : ''}`}>
+              {t('nav.contact')}
             </Link>
             
             <div className={`${isRtl ? 'mr-3' : 'ml-3'} relative`}>
@@ -92,25 +84,17 @@ const Navbar = () => {
               <SheetContent side={isRtl ? "right" : "left"} className="w-[250px] sm:w-[350px]">
                 <div className="py-4 flex flex-col h-full">
                   <div className="px-2 space-y-1">
-                    <Link href="/">
-                      <a className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
-                        {t('nav.home')}
-                      </a>
+                    <Link href="/" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
+                      {t('nav.home')}
                     </Link>
-                    <Link href="/menu">
-                      <a className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
-                        {t('nav.menu')}
-                      </a>
+                    <Link href="/menu" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
+                      {t('nav.menu')}
                     </Link>
-                    <Link href="/about">
-                      <a className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
-                        {t('nav.about')}
-                      </a>
+                    <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
+                      {t('nav.about')}
                     </Link>
-                    <Link href="/contact">
-                      <a className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
-                        {t('nav.contact')}
-                      </a>
+                    <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
+                      {t('nav.contact')}
                     </Link>
                     
                     <Button 

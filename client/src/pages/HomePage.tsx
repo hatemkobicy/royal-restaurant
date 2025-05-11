@@ -104,11 +104,9 @@ const HomePage = () => {
                 </div>
               </div>
               
-              <Link href="/contact">
-                <a className="inline-flex items-center text-primary hover:text-primary/80 font-bold transition-colors">
-                  <span>{t('home.about.cta')}</span>
-                  <i className={`bi bi-arrow-${isRtl ? 'left' : 'right'} ${isRtl ? 'mr-2' : 'ml-2'}`}></i>
-                </a>
+              <Link href="/contact" className="inline-flex items-center text-primary hover:text-primary/80 font-bold transition-colors">
+                <span>{t('home.about.cta')}</span>
+                <i className={`bi bi-arrow-${isRtl ? 'left' : 'right'} ${isRtl ? 'mr-2' : 'ml-2'}`}></i>
               </Link>
             </div>
           </div>
@@ -163,10 +161,8 @@ const HomePage = () => {
           </div>
           
           <div className="text-center mt-12">
-            <Link href="/menu">
-              <a className="inline-block bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-                {t('menu.view.all')}
-              </a>
+            <Link href="/menu" className="inline-block bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+              {t('menu.view.all')}
             </Link>
           </div>
         </div>
