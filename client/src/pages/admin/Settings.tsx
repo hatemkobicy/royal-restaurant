@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import {
   Card,
@@ -8,8 +8,71 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/components/LanguageSelector';
+
+// Component for social media input fields
+interface SocialMediaInputProps {
+  name: string;
+  label: string;
+  defaultValue: string;
+  onSave: (value: string) => void;
+}
+
+const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ 
+  name, 
+  label, 
+  defaultValue, 
+  onSave 
+}) => {
+  const [value, setValue] = useState(defaultValue);
+  const [editing, setEditing] = useState(false);
+  const { language } = useLanguage();
+
+  // Load stored value from localStorage when available
+  useEffect(() => {
+    try {
+      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+      const key = `social_${name.toLowerCase()}`;
+      if (settings[key]) {
+        setValue(settings[key]);
+      }
+    } catch (error) {
+      console.error('Error loading social media link:', error);
+    }
+  }, [name]);
+
+  const handleSave = () => {
+    onSave(value);
+    setEditing(false);
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={`social-${name}`}>{label}</Label>
+      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+        <Input
+          id={`social-${name}`}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          disabled={!editing}
+          className="flex-1"
+        />
+        {!editing ? (
+          <Button variant="outline" onClick={() => setEditing(true)}>
+            {language === 'ar' ? 'تعديل' : 'Edit'}
+          </Button>
+        ) : (
+          <Button onClick={handleSave}>
+            {language === 'ar' ? 'حفظ' : 'Save'}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const AdminSettings = () => {
   const { toast } = useToast();
@@ -111,12 +174,116 @@ const AdminSettings = () => {
                   : 'Modify website settings and properties'}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                {language === 'ar' 
-                  ? 'ستتوفر المزيد من الإعدادات قريبًا.' 
-                  : 'More settings will be available soon.'}
-              </p>
+            <CardContent className="space-y-6">
+              {/* Dark Mode Toggle */}
+              <div>
+                <h3 className="text-lg font-medium mb-2">
+                  {language === 'ar' ? 'الوضع المظلم' : 'Dark Mode'}
+                </h3>
+                <div className="flex items-center space-x-4 rtl:space-x-reverse">
+                  <Button 
+                    onClick={() => {
+                      // Toggle dark mode
+                      const isDark = document.documentElement.classList.contains('dark');
+                      if (isDark) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                      } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                      }
+
+                      toast({
+                        title: isDark 
+                          ? (language === 'ar' ? 'تم تفعيل الوضع الفاتح' : 'Light Mode Activated') 
+                          : (language === 'ar' ? 'تم تفعيل الوضع المظلم' : 'Dark Mode Activated'),
+                        description: isDark
+                          ? (language === 'ar' ? 'تم تغيير مظهر الموقع إلى الوضع الفاتح' : 'Website appearance changed to light mode') 
+                          : (language === 'ar' ? 'تم تغيير مظهر الموقع إلى الوضع المظلم' : 'Website appearance changed to dark mode'),
+                      });
+                    }}
+                    variant="outline"
+                  >
+                    {language === 'ar' ? 'تبديل الوضع المظلم' : 'Toggle Dark Mode'}
+                  </Button>
+                </div>
+              </div>
+
+              {/* Social Media Links */}
+              <div>
+                <h3 className="text-lg font-medium mb-2">
+                  {language === 'ar' ? 'روابط مواقع التواصل الاجتماعي' : 'Social Media Links'}
+                </h3>
+                <div className="space-y-4">
+                  <SocialMediaInput 
+                    name="Instagram"
+                    defaultValue="https://instagram.com/royalrestaurant"
+                    label={language === 'ar' ? 'إنستغرام' : 'Instagram'}
+                    onSave={(value) => {
+                      // Save to localStorage for development
+                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+                      settings.social_instagram = value;
+                      localStorage.setItem('siteSettings', JSON.stringify(settings));
+                      
+                      toast({
+                        title: language === 'ar' ? 'تم التحديث' : 'Updated',
+                        description: language === 'ar' ? 'تم تحديث رابط إنستغرام' : 'Instagram link updated'
+                      });
+                    }}
+                  />
+                  
+                  <SocialMediaInput 
+                    name="Facebook"
+                    defaultValue="https://facebook.com/royalrestaurant"
+                    label={language === 'ar' ? 'فيسبوك' : 'Facebook'}
+                    onSave={(value) => {
+                      // Save to localStorage for development
+                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+                      settings.social_facebook = value;
+                      localStorage.setItem('siteSettings', JSON.stringify(settings));
+                      
+                      toast({
+                        title: language === 'ar' ? 'تم التحديث' : 'Updated',
+                        description: language === 'ar' ? 'تم تحديث رابط فيسبوك' : 'Facebook link updated'
+                      });
+                    }}
+                  />
+                  
+                  <SocialMediaInput 
+                    name="YouTube"
+                    defaultValue="https://youtube.com/royalrestaurant"
+                    label={language === 'ar' ? 'يوتيوب' : 'YouTube'}
+                    onSave={(value) => {
+                      // Save to localStorage for development
+                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+                      settings.social_youtube = value;
+                      localStorage.setItem('siteSettings', JSON.stringify(settings));
+                      
+                      toast({
+                        title: language === 'ar' ? 'تم التحديث' : 'Updated',
+                        description: language === 'ar' ? 'تم تحديث رابط يوتيوب' : 'YouTube link updated'
+                      });
+                    }}
+                  />
+                  
+                  <SocialMediaInput 
+                    name="Twitter"
+                    defaultValue="https://twitter.com/royalrestaurant"
+                    label={language === 'ar' ? 'تويتر' : 'Twitter'}
+                    onSave={(value) => {
+                      // Save to localStorage for development
+                      const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+                      settings.social_twitter = value;
+                      localStorage.setItem('siteSettings', JSON.stringify(settings));
+                      
+                      toast({
+                        title: language === 'ar' ? 'تم التحديث' : 'Updated',
+                        description: language === 'ar' ? 'تم تحديث رابط تويتر' : 'Twitter link updated'
+                      });
+                    }}
+                  />
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>

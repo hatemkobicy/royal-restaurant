@@ -224,6 +224,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: 'Failed to delete menu item' });
     }
   });
+  
+  // Site settings routes
+  app.get('/api/settings', async (req, res) => {
+    try {
+      const settings = await storage.getAllSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+      res.status(500).json({ message: 'Failed to fetch settings' });
+    }
+  });
+  
+  app.get('/api/settings/:key', async (req, res) => {
+    try {
+      const { key } = req.params;
+      const setting = await storage.getSetting(key);
+      
+      if (!setting) {
+        return res.status(404).json({ message: `Setting with key '${key}' not found` });
+      }
+      
+      res.json(setting);
+    } catch (error) {
+      console.error(`Error fetching setting ${req.params.key}:`, error);
+      res.status(500).json({ message: 'Failed to fetch setting' });
+    }
+  });
+  
+  app.post('/api/settings', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { key, value } = req.body;
+      
+      if (!key || value === undefined) {
+        return res.status(400).json({ message: 'Key and value are required' });
+      }
+      
+      const setting = await storage.upsertSetting(key, value);
+      res.status(201).json(setting);
+    } catch (error) {
+      console.error('Error creating/updating setting:', error);
+      res.status(500).json({ message: 'Failed to create/update setting' });
+    }
+  });
+  
+  app.delete('/api/settings/:key', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { key } = req.params;
+      const deleted = await storage.deleteSetting(key);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: `Setting with key '${key}' not found` });
+      }
+      
+      res.json({ message: `Setting with key '${key}' deleted successfully` });
+    } catch (error) {
+      console.error('Error deleting setting:', error);
+      res.status(500).json({ message: 'Failed to delete setting' });
+    }
+  });
 
   // Setup admin user if none exists
   try {
