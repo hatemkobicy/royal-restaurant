@@ -497,7 +497,7 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
           <Button 
             type="button" 
             variant="secondary" 
-            onClick={() => onSuccess && onSuccess()}
+            onClick={() => onSuccess && onSuccess(menuItem || {} as MenuItem, !!menuItem)}
           >
             {t('admin.form.cancel')}
           </Button>

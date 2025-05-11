@@ -209,6 +209,21 @@ const AdminMenuItems = () => {
                 </div>
               ))}
             </div>
+          ) : localMenuItems.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">
+                {language === 'ar' 
+                  ? "لا توجد عناصر في القائمة بعد" 
+                  : "No menu items added yet"}
+              </p>
+              <Button
+                variant="outline"
+                onClick={() => setIsAddDialogOpen(true)}
+              >
+                <i className={`bi bi-plus-lg ${isRtl ? 'ml-2' : 'mr-2'}`}></i>
+                {language === 'ar' ? "إضافة عنصر جديد" : "Add First Menu Item"}
+              </Button>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
