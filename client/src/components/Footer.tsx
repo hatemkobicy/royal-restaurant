@@ -55,11 +55,7 @@ const Footer = () => {
                   {t('nav.menu')}
                 </Link>
               </li>
-              <li>
-                <Link href="/about" className="text-white/70 hover:text-primary transition">
-                  {t('nav.about')}
-                </Link>
-              </li>
+
               <li>
                 <Link href="/contact" className="text-white/70 hover:text-primary transition">
                   {t('nav.contact')}

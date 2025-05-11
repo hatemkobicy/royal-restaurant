@@ -8,7 +8,6 @@ import RootLayout from "@/components/RootLayout";
 import LandingPage from "@/pages/LandingPage";
 import HomePage from "@/pages/HomePage";
 import MenuPage from "@/pages/MenuPage";
-import AboutPage from "@/pages/AboutPage";
 import ContactPage from "@/pages/ContactPage";
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
@@ -26,11 +25,7 @@ function Router() {
           <MenuPage />
         </RootLayout>
       </Route>
-      <Route path="/about">
-        <RootLayout>
-          <AboutPage />
-        </RootLayout>
-      </Route>
+
       <Route path="/contact">
         <RootLayout>
           <ContactPage />

@@ -54,9 +54,7 @@ const Navbar = () => {
             <Link href="/menu" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/menu' ? 'text-primary' : ''}`}>
               {t('nav.menu')}
             </Link>
-            <Link href="/about" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/about' ? 'text-primary' : ''}`}>
-              {t('nav.about')}
-            </Link>
+
             <Link href="/contact" className={`px-3 py-2 text-sm font-medium text-foreground hover:text-primary transition duration-150 ${location === '/contact' ? 'text-primary' : ''}`}>
               {t('nav.contact')}
             </Link>
@@ -90,9 +88,7 @@ const Navbar = () => {
                     <Link href="/menu" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
                       {t('nav.menu')}
                     </Link>
-                    <Link href="/about" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
-                      {t('nav.about')}
-                    </Link>
+
                     <Link href="/contact" className="block px-3 py-2 rounded-md text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 transition duration-150">
                       {t('nav.contact')}
                     </Link>
