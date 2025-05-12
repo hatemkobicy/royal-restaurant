@@ -1,29 +1,22 @@
-import type { Express, Request } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { 
-  setupAuth,
-  isAuthenticated,
-  isAdmin
-} from "./replitAuth";
+  authenticate,
+  requireAuth,
+  requireAdmin,
+  AuthenticatedRequest
+} from "./authMiddleware";
 import { insertCategorySchema, insertMenuItemSchema, insertSpecialDishSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Set up Replit Auth
-  await setupAuth(app);
-
   // Authentication routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
+  app.post('/api/auth/login', authenticate);
+  
+  app.get('/api/auth/check', requireAuth, (req: AuthenticatedRequest, res) => {
+    res.json({ user: req.user });
   });
 
   // Category routes
@@ -57,7 +50,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/categories', isAuthenticated, isAdmin, async (req, res) => {
+  app.post('/api/categories', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const categoryData = insertCategorySchema.parse(req.body);
       const newCategory = await storage.createCategory(categoryData);
@@ -72,7 +65,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/categories/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.put('/api/categories/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -97,7 +90,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/categories/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.delete('/api/categories/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -169,7 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/menu-items', isAuthenticated, isAdmin, async (req, res) => {
+  app.post('/api/menu-items', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const menuItemData = insertMenuItemSchema.parse(req.body);
       const newMenuItem = await storage.createMenuItem(menuItemData);
@@ -184,7 +177,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/menu-items/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.put('/api/menu-items/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -209,7 +202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/menu-items/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.delete('/api/menu-items/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -256,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.post('/api/settings', isAuthenticated, isAdmin, async (req: Request, res) => {
+  app.post('/api/settings', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const { key, value } = req.body;
       
@@ -272,7 +265,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  app.delete('/api/settings/:key', isAuthenticated, isAdmin, async (req: Request, res) => {
+  app.delete('/api/settings/:key', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const { key } = req.params;
       const deleted = await storage.deleteSetting(key);

@@ -4,7 +4,6 @@ import {
   menuItems,
   siteSettings,
   specialDishes,
-  sessions,
   type User, 
   type InsertUser,
   type Category,
@@ -21,8 +20,9 @@ import { eq, asc } from "drizzle-orm";
 
 export interface IStorage {
   // User operations
-  getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: InsertUser): Promise<User>;
+  getUser(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
   
   // Category operations
   getAllCategories(): Promise<Category[]>;
@@ -56,22 +56,20 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   // User operations
-  async getUser(id: string): Promise<User | undefined> {
+  async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async upsertUser(userData: InsertUser): Promise<User> {
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(userData: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(userData)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
       .returning();
     return user;
   }

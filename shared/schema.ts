@@ -8,22 +8,17 @@ import {
   varchar,
   doublePrecision,
   foreignKey,
-  jsonb,
-  index,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // Users table
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
-  profileImageUrl: varchar("profile_image_url"),
+  id: serial("id").primaryKey(),
+  username: varchar("username").notNull().unique(),
+  password: varchar("password").notNull(),
   isAdmin: boolean("is_admin").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Categories table
@@ -50,13 +45,10 @@ export const menuItems = pgTable("menu_items", {
 });
 
 // Schema for inserting users
-export const insertUserSchema = z.object({
-  id: z.string(),
-  email: z.string().email().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  profileImageUrl: z.string().url().optional(),
-  isAdmin: z.boolean().default(false),
+export const insertUserSchema = createInsertSchema(users).pick({
+  username: true,
+  password: true,
+  isAdmin: true,
 });
 
 // Schema for inserting categories
@@ -137,13 +129,4 @@ export type InsertSpecialDish = z.infer<typeof insertSpecialDishSchema>;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type InsertSiteSetting = z.infer<typeof insertSiteSettingSchema>;
 
-// Session storage table for Replit Auth
-export const sessions = pgTable(
-  "sessions",
-  {
-    sid: varchar("sid").primaryKey(),
-    sess: jsonb("sess").notNull(),
-    expire: timestamp("expire").notNull(),
-  },
-  (table) => [index("IDX_session_expire").on(table.expire)],
-);
+
