@@ -39,13 +39,10 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
           <span className="text-primary dark:text-primary font-bold text-base sm:text-lg whitespace-nowrap">{formatCurrency(item.price)}</span>
         </div>
         <p className="text-foreground/80 dark:text-foreground/70 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">{description}</p>
-        <div className="flex justify-between items-center">
-          <span className="bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary text-xs font-medium px-2 py-1 rounded truncate max-w-[70%]">
+        <div className="flex items-center">
+          <span className="bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary text-xs font-medium px-2 py-1 rounded truncate">
             {categoryName}
           </span>
-          <Button variant="ghost" size="sm" className="text-accent dark:text-accent hover:text-accent/80 dark:hover:text-accent/90 transition h-8 w-8 p-0">
-            <i className="bi bi-heart text-lg"></i>
-          </Button>
         </div>
       </CardContent>
     </Card>
