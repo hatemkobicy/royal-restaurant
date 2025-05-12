@@ -19,23 +19,53 @@ const AdminDashboard = () => {
   const { t, language, getDirection } = useTranslation();
   const isRtl = getDirection() === 'rtl';
 
-  // Fetch menu items for recent items list
+  // Fetch menu items for recent items list (with localStorage fallback)
   const { data: menuItems, isLoading: menuItemsLoading } = useQuery({
     queryKey: ['/api/menu-items'],
+    retry: false,
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 
   // Fetch categories for mapping to menu items
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ['/api/categories'],
+    retry: false,
+    staleTime: 5 * 60 * 1000 // 5 minutes
   });
 
+  // Get local storage menu items as fallback
+  const getLocalMenuItems = () => {
+    try {
+      const localItems = JSON.parse(localStorage.getItem('menuItems') || '[]');
+      console.log('Loaded menu items from localStorage:', localItems.length);
+      return localItems;
+    } catch (error) {
+      console.error('Error loading menu items from localStorage:', error);
+      return [];
+    }
+  };
+
+  // Get local storage categories as fallback  
+  const getLocalCategories = () => {
+    try {
+      return JSON.parse(localStorage.getItem('categories') || '[]');
+    } catch (error) {
+      console.error('Error loading categories from localStorage:', error);
+      return [];
+    }
+  };
+
+  // Get actual items to display, with fallback to localStorage
+  const itemsToDisplay = menuItems || getLocalMenuItems();
+  const categoriesToUse = categories || getLocalCategories();
+  
   // Get recent items (latest 5)
-  const recentItems = menuItems?.slice(0, 5);
+  const recentItems = itemsToDisplay?.slice(0, 5);
 
   // Get category name by id
   const getCategoryName = (categoryId: number) => {
-    if (!categories) return '';
-    const category = categories.find((cat: any) => cat.id === categoryId);
+    if (!categoriesToUse || categoriesToUse.length === 0) return '';
+    const category = categoriesToUse.find((cat: any) => cat.id === categoryId);
     return category ? (language === 'ar' ? category.nameAr : category.nameTr) : '';
   };
 
@@ -169,10 +199,35 @@ const AdminDashboard = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
-                        <Button variant="ghost" size="icon" className="text-primary">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="text-primary"
+                          onClick={() => window.location.href = `/admin/menu-items/edit/${item.id}`}
+                        >
                           <i className="bi bi-pencil-square"></i>
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-accent">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="text-accent"
+                          onClick={() => {
+                            if (confirm(language === 'ar' 
+                              ? 'هل أنت متأكد من حذف هذا العنصر؟' 
+                              : 'Are you sure you want to delete this item?')) {
+                              // Delete the item
+                              try {
+                                const items = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                                const updatedItems = items.filter((i: any) => i.id !== item.id);
+                                localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+                                // Force re-render
+                                window.location.reload();
+                              } catch (err) {
+                                console.error('Error deleting item:', err);
+                              }
+                            }
+                          }}
+                        >
                           <i className="bi bi-trash"></i>
                         </Button>
                       </div>
