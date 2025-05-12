@@ -190,7 +190,27 @@ const translations: TranslationSet = {
     "admin.seasonal.success.add": "تمت إضافة المكون الموسمي بنجاح",
     "admin.seasonal.success.update": "تم تحديث المكون الموسمي بنجاح",
     "admin.seasonal.success.delete": "تم حذف المكون الموسمي بنجاح",
-    "admin.seasonal.error": "حدث خطأ أثناء حفظ المكون الموسمي"
+    "admin.seasonal.error": "حدث خطأ أثناء حفظ المكون الموسمي",
+    
+    // Story Editor
+    "admin.story.title": "تحرير قصتنا",
+    "admin.story.description": "تعديل محتوى قسم قصتنا الذي يظهر في الصفحة الرئيسية",
+    "admin.story.image": "صورة القصة",
+    "admin.story.image.description": "صورة تظهر في قسم قصتنا",
+    "admin.story.since": "سنة التأسيس",
+    "admin.story.since.description": "سنة تأسيس المطعم، تظهر في شارة \"منذ\" على الصورة",
+    "admin.story.title.ar": "العنوان (بالعربية)",
+    "admin.story.title.tr": "العنوان (بالتركية)",
+    "admin.story.p1.ar": "الفقرة 1 (بالعربية)",
+    "admin.story.p1.tr": "الفقرة 1 (بالتركية)",
+    "admin.story.p2.ar": "الفقرة 2 (بالعربية)",
+    "admin.story.p2.tr": "الفقرة 2 (بالتركية)",
+    "admin.story.save": "حفظ التغييرات",
+    "admin.story.reset": "إعادة التعيين",
+    "admin.story.preview": "معاينة",
+    "admin.story.success.save": "تم حفظ قصتنا بنجاح",
+    "admin.story.success.reset": "تمت إعادة تعيين قصتنا إلى القيم الافتراضية",
+    "admin.story.error": "حدث خطأ أثناء حفظ قصتنا"
   },
   tr: {
     // Layout & Navigation
@@ -374,7 +394,27 @@ const translations: TranslationSet = {
     "admin.seasonal.success.add": "Mevsimlik malzeme başarıyla eklendi",
     "admin.seasonal.success.update": "Mevsimlik malzeme başarıyla güncellendi",
     "admin.seasonal.success.delete": "Mevsimlik malzeme başarıyla silindi",
-    "admin.seasonal.error": "Mevsimlik malzeme kaydedilirken bir hata oluştu"
+    "admin.seasonal.error": "Mevsimlik malzeme kaydedilirken bir hata oluştu",
+    
+    // Story Editor
+    "admin.story.title": "Hikayemizi Düzenle",
+    "admin.story.description": "Ana sayfada görünen Hikayemiz bölümünün içeriğini düzenleyin",
+    "admin.story.image": "Hikaye Resmi",
+    "admin.story.image.description": "Hikayemiz bölümünde görünen resim",
+    "admin.story.since": "Kuruluş Yılı",
+    "admin.story.since.description": "Resim üzerindeki \"since\" rozetinde görünen kuruluş yılı",
+    "admin.story.title.ar": "Başlık (Arapça)",
+    "admin.story.title.tr": "Başlık (Türkçe)",
+    "admin.story.p1.ar": "Paragraf 1 (Arapça)",
+    "admin.story.p1.tr": "Paragraf 1 (Türkçe)",
+    "admin.story.p2.ar": "Paragraf 2 (Arapça)",
+    "admin.story.p2.tr": "Paragraf 2 (Türkçe)",
+    "admin.story.save": "Değişiklikleri Kaydet",
+    "admin.story.reset": "Sıfırla",
+    "admin.story.preview": "Önizleme",
+    "admin.story.success.save": "Hikayemiz başarıyla kaydedildi",
+    "admin.story.success.reset": "Hikayemiz varsayılan değerlere sıfırlandı",
+    "admin.story.error": "Hikayemiz kaydedilirken bir hata oluştu"
   }
 };
 

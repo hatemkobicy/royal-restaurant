@@ -9,10 +9,12 @@ import MenuItemCard from '@/components/MenuItemCard';
 import { restaurantImages, menuItemImages, formatCurrency } from '@/lib/utils';
 import { type MenuItem, type Category } from '@shared/schema';
 import { getCarouselData } from '@/utils/carousel';
+import { getStoryData, type StoryData } from '@/utils/story';
 
 const HomePage = () => {
   const { t, language, getDirection } = useTranslation();
   const isRtl = getDirection() === 'rtl';
+  const isArabic = language === 'ar';
 
   // Fetch menu items for featured section
   const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
@@ -26,6 +28,9 @@ const HomePage = () => {
 
   // Get carousel data from settings
   const [slidesData, setSlidesData] = useState(getCarouselData(language as 'tr' | 'ar'));
+  
+  // Get story data from settings
+  const [storyData, setStoryData] = useState<StoryData>(getStoryData());
   
   // Listen for carousel data changes
   useEffect(() => {
@@ -48,6 +53,25 @@ const HomePage = () => {
       document.removeEventListener('carouselUpdated', handleCarouselUpdate);
     };
   }, [language]);
+  
+  // Listen for story data changes
+  useEffect(() => {
+    // Listen for story settings changes
+    const handleStoryUpdate = () => {
+      setStoryData(getStoryData());
+    };
+    
+    // Update when localStorage changes
+    window.addEventListener('storage', handleStoryUpdate);
+    
+    // Listen for custom event from story editor
+    document.addEventListener('storyUpdated', handleStoryUpdate);
+    
+    return () => {
+      window.removeEventListener('storage', handleStoryUpdate);
+      document.removeEventListener('storyUpdated', handleStoryUpdate);
+    };
+  }, []);
   
   // Create carousel items from settings
   const carouselItems = slidesData.map(slide => ({
@@ -81,20 +105,26 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="relative">
               <img 
-                src={restaurantImages[3].url} 
-                alt={restaurantImages[3].alt} 
+                src={storyData.imageUrl} 
+                alt={isArabic ? storyData.title.ar : storyData.title.tr} 
                 className="rounded-lg shadow-lg w-full"
               />
               <div className="absolute -bottom-5 right-5 md:-right-5 w-24 h-24 md:w-32 md:h-32 bg-primary rounded-lg flex items-center justify-center">
-                <p className="text-white font-bold text-lg md:text-xl">{t('home.about.since')}</p>
+                <p className="text-white font-bold text-lg md:text-xl">Since {storyData.sinceYear}</p>
               </div>
             </div>
             
             <div className="mt-10 md:mt-0">
-              <h3 className="text-xl sm:text-2xl font-bold text-secondary dark:text-secondary mb-3 md:mb-4">{t('home.about.story.title')}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-secondary dark:text-secondary mb-3 md:mb-4">
+                {isArabic ? storyData.title.ar : storyData.title.tr}
+              </h3>
               <div className="w-16 h-1 bg-primary dark:bg-primary mb-4 md:mb-6"></div>
-              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">{t('home.about.story.p1')}</p>
-              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">{t('home.about.story.p2')}</p>
+              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">
+                {isArabic ? storyData.paragraph1.ar : storyData.paragraph1.tr}
+              </p>
+              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">
+                {isArabic ? storyData.paragraph2.ar : storyData.paragraph2.tr}
+              </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 md:mb-6">
                 <div className="bg-gray-50 dark:bg-card p-3 sm:p-4 rounded-lg text-center shadow-sm">
