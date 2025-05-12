@@ -159,7 +159,38 @@ const translations: TranslationSet = {
     "admin.logo.error.type.title": "نوع ملف غير مدعوم",
     "admin.logo.error.type.description": "الرجاء تحميل صورة بتنسيق JPG أو PNG أو GIF أو SVG",
     "admin.logo.error.upload.title": "خطأ في التحميل",
-    "admin.logo.error.upload.description": "حدث خطأ أثناء تحميل الشعار. الرجاء المحاولة مرة أخرى"
+    "admin.logo.error.upload.description": "حدث خطأ أثناء تحميل الشعار. الرجاء المحاولة مرة أخرى",
+    
+    // Seasonal Ingredients
+    "seasonal.title": "مكونات موسمية مميزة",
+    "seasonal.subtitle": "نفخر باستخدام مكونات محلية طازجة وموسمية",
+    "seasonal.cta": "اكتشف المزيد",
+    "seasonal.current": "المكونات الموسمية الحالية",
+    "seasonal.spring": "الربيع",
+    "seasonal.summer": "الصيف",
+    "seasonal.autumn": "الخريف",
+    "seasonal.winter": "الشتاء",
+    "seasonal.from": "من",
+    "seasonal.local": "المزارع المحلية",
+    
+    // Admin Seasonal Ingredients
+    "admin.seasonal.title": "المكونات الموسمية",
+    "admin.seasonal.description": "إدارة المكونات الموسمية المميزة التي تظهر في الموقع",
+    "admin.seasonal.add": "إضافة مكون جديد",
+    "admin.seasonal.edit": "تعديل",
+    "admin.seasonal.delete": "حذف",
+    "admin.seasonal.name": "اسم المكون",
+    "admin.seasonal.description.field": "وصف المكون",
+    "admin.seasonal.image": "صورة المكون",
+    "admin.seasonal.season": "الموسم",
+    "admin.seasonal.active": "نشط",
+    "admin.seasonal.inactive": "غير نشط",
+    "admin.seasonal.save": "حفظ",
+    "admin.seasonal.cancel": "إلغاء",
+    "admin.seasonal.success.add": "تمت إضافة المكون الموسمي بنجاح",
+    "admin.seasonal.success.update": "تم تحديث المكون الموسمي بنجاح",
+    "admin.seasonal.success.delete": "تم حذف المكون الموسمي بنجاح",
+    "admin.seasonal.error": "حدث خطأ أثناء حفظ المكون الموسمي"
   },
   tr: {
     // Layout & Navigation
@@ -312,7 +343,38 @@ const translations: TranslationSet = {
     "admin.logo.error.type.title": "Desteklenmeyen dosya türü",
     "admin.logo.error.type.description": "Lütfen JPG, PNG, GIF veya SVG formatında bir resim yükleyin",
     "admin.logo.error.upload.title": "Yükleme Hatası",
-    "admin.logo.error.upload.description": "Logo yüklenirken bir hata oluştu. Lütfen tekrar deneyin"
+    "admin.logo.error.upload.description": "Logo yüklenirken bir hata oluştu. Lütfen tekrar deneyin",
+    
+    // Seasonal Ingredients
+    "seasonal.title": "Mevsimlik Malzemeler",
+    "seasonal.subtitle": "Taze, mevsimsel ve yerel malzemeler kullanmaktan gurur duyuyoruz",
+    "seasonal.cta": "Daha Fazla Keşfet",
+    "seasonal.current": "Güncel Mevsim Malzemeleri",
+    "seasonal.spring": "İlkbahar",
+    "seasonal.summer": "Yaz",
+    "seasonal.autumn": "Sonbahar",
+    "seasonal.winter": "Kış",
+    "seasonal.from": "Kaynak:",
+    "seasonal.local": "Yerel Çiftlikler",
+    
+    // Admin Seasonal Ingredients
+    "admin.seasonal.title": "Mevsimlik Malzemeler",
+    "admin.seasonal.description": "Web sitesinde gösterilen özel mevsimlik malzemeleri yönetin",
+    "admin.seasonal.add": "Yeni Malzeme Ekle",
+    "admin.seasonal.edit": "Düzenle",
+    "admin.seasonal.delete": "Sil",
+    "admin.seasonal.name": "Malzeme Adı",
+    "admin.seasonal.description.field": "Malzeme Açıklaması",
+    "admin.seasonal.image": "Malzeme Görüntüsü",
+    "admin.seasonal.season": "Mevsim",
+    "admin.seasonal.active": "Aktif",
+    "admin.seasonal.inactive": "Pasif",
+    "admin.seasonal.save": "Kaydet",
+    "admin.seasonal.cancel": "İptal",
+    "admin.seasonal.success.add": "Mevsimlik malzeme başarıyla eklendi",
+    "admin.seasonal.success.update": "Mevsimlik malzeme başarıyla güncellendi",
+    "admin.seasonal.success.delete": "Mevsimlik malzeme başarıyla silindi",
+    "admin.seasonal.error": "Mevsimlik malzeme kaydedilirken bir hata oluştu"
   }
 };
 

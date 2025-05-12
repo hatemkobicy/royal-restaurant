@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import CustomCarousel from '@/components/CustomCarousel';
 import MenuItemCard from '@/components/MenuItemCard';
+import SeasonalIngredientsSection from '@/components/SeasonalIngredientsSection';
 import { restaurantImages, menuItemImages, formatCurrency } from '@/lib/utils';
 import { type MenuItem, type Category } from '@shared/schema';
 import { getCarouselData } from '@/utils/carousel';
@@ -234,6 +235,9 @@ const HomePage = () => {
           <div className="absolute inset-0 arabic-pattern"></div>
         </div>
       </section>
+
+      {/* Seasonal Ingredients Section */}
+      <SeasonalIngredientsSection />
     </div>
   );
 };
