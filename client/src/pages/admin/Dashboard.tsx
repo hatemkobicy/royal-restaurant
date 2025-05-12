@@ -160,80 +160,89 @@ const AdminDashboard = () => {
                 ))}
               </div>
             </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className={isRtl ? "text-right" : "text-left"}>{t('admin.items.name')}</TableHead>
-                  <TableHead className={isRtl ? "text-right" : "text-left"}>{t('admin.items.category')}</TableHead>
-                  <TableHead className={isRtl ? "text-right" : "text-left"}>{t('admin.items.price')}</TableHead>
-                  <TableHead className={isRtl ? "text-right" : "text-left"}>{t('admin.items.status')}</TableHead>
-                  <TableHead className={isRtl ? "text-right" : "text-left"}>{t('admin.items.actions')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentItems?.map((item: any) => (
-                  <TableRow key={item.id}>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0">
-                          <img 
-                            className="h-10 w-10 rounded-full object-cover" 
-                            src={item.imageUrl || `https://via.placeholder.com/40?text=${item.id}`} 
-                            alt={language === 'ar' ? item.nameAr : item.nameTr} 
-                          />
-                        </div>
-                        <div className={isRtl ? "mr-4" : "ml-4"}>
-                          <div className="text-sm font-medium text-secondary">
-                            {language === 'ar' ? item.nameAr : item.nameTr}
-                          </div>
+          ) : recentItems && recentItems.length > 0 ? (
+            <div className="w-full">
+              <div className="grid grid-cols-5 gap-4 bg-muted/50 p-4 text-sm font-medium">
+                <div className={isRtl ? "text-right" : "text-left"}>{t('admin.items.name')}</div>
+                <div className={isRtl ? "text-right" : "text-left"}>{t('admin.items.category')}</div>
+                <div className={isRtl ? "text-right" : "text-left"}>{t('admin.items.price')}</div>
+                <div className={isRtl ? "text-right" : "text-left"}>{t('admin.items.status')}</div>
+                <div className={isRtl ? "text-right" : "text-left"}>{t('admin.items.actions')}</div>
+              </div>
+              
+              {recentItems.map((item: any) => (
+                <div key={item.id} className="grid grid-cols-5 gap-4 p-4 border-b hover:bg-muted/20 transition-colors">
+                  <div className="font-medium">
+                    <div className="flex items-center">
+                      <div className="h-10 w-10 flex-shrink-0">
+                        <img 
+                          className="h-10 w-10 rounded-full object-cover" 
+                          src={item.imageUrl || `https://via.placeholder.com/40?text=${item.id}`} 
+                          alt={language === 'ar' ? item.nameAr : item.nameTr} 
+                        />
+                      </div>
+                      <div className={isRtl ? "mr-4" : "ml-4"}>
+                        <div className="text-sm font-medium text-secondary">
+                          {language === 'ar' ? item.nameAr : item.nameTr}
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>{getCategoryName(item.categoryId)}</TableCell>
-                    <TableCell>{formatCurrency(item.price)}</TableCell>
-                    <TableCell>
-                      <Badge variant={item.isAvailable ? "success" : "destructive"}>
-                        {item.isAvailable ? t('admin.items.available') : t('admin.items.unavailable')}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex space-x-2">
-                        <a 
-                          href={`/admin/menu-items/edit/${item.id}`}
-                          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-primary hover:bg-muted hover:text-primary"
+                    </div>
+                  </div>
+                  <div>{getCategoryName(item.categoryId)}</div>
+                  <div>{formatCurrency(item.price)}</div>
+                  <div>
+                    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${
+                      item.isAvailable 
+                        ? "border-transparent bg-green-500 text-white" 
+                        : "border-transparent bg-destructive text-destructive-foreground"
+                    }`}>
+                      {item.isAvailable ? t('admin.items.available') : t('admin.items.unavailable')}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex space-x-2">
+                      <form action={`/admin/menu-items/edit/${item.id}`} method="get">
+                        <button
+                          type="submit"
+                          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-primary hover:bg-muted hover:text-primary"
                         >
                           <i className="bi bi-pencil-square"></i>
-                        </a>
-                        <a
-                          href="#"
-                          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-accent hover:bg-muted hover:text-accent"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            if (confirm(language === 'ar' 
-                              ? 'هل أنت متأكد من حذف هذا العنصر؟' 
-                              : 'Are you sure you want to delete this item?')) {
-                              // Delete the item
-                              try {
-                                const items = JSON.parse(localStorage.getItem('menuItems') || '[]');
-                                const updatedItems = items.filter((i: any) => i.id !== item.id);
-                                localStorage.setItem('menuItems', JSON.stringify(updatedItems));
-                                // Force re-render
-                                window.location.reload();
-                              } catch (err) {
-                                console.error('Error deleting item:', err);
-                              }
-                            }
-                          }}
+                        </button>
+                      </form>
+                      
+                      <form onSubmit={(e) => {
+                        e.preventDefault();
+                        if (confirm(language === 'ar' 
+                          ? 'هل أنت متأكد من حذف هذا العنصر؟' 
+                          : 'Are you sure you want to delete this item?')) {
+                          // Delete the item
+                          try {
+                            const items = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                            const updatedItems = items.filter((i: any) => i.id !== item.id);
+                            localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+                            // Force re-render
+                            window.location.reload();
+                          } catch (err) {
+                            console.error('Error deleting item:', err);
+                          }
+                        }
+                      }}>
+                        <button
+                          type="submit" 
+                          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-accent hover:bg-muted hover:text-accent"
                         >
                           <i className="bi bi-trash"></i>
-                        </a>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 text-center text-muted-foreground">
+              {t('admin.items.noItems')}
+            </div>
           )}
         </div>
       </Card>
