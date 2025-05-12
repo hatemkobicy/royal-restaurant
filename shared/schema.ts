@@ -71,6 +71,21 @@ export const insertMenuItemSchema = createInsertSchema(menuItems).pick({
   categoryId: true,
 });
 
+// Special dishes table for featured dishes on homepage
+export const specialDishes = pgTable("special_dishes", {
+  id: serial("id").primaryKey(),
+  titleAr: text("title_ar").notNull(),
+  titleTr: text("title_tr").notNull(),
+  descriptionAr: text("description_ar").notNull(),
+  descriptionTr: text("description_tr").notNull(),
+  price: doublePrecision("price").notNull(),
+  imageUrl: text("image_url").notNull(),
+  position: integer("position").notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Types
 // Site settings for global configuration
 export const siteSettings = pgTable("site_settings", {
@@ -86,6 +101,18 @@ export const insertSiteSettingSchema = createInsertSchema(siteSettings).pick({
   value: true,
 });
 
+// Schema for inserting special dishes
+export const insertSpecialDishSchema = createInsertSchema(specialDishes).pick({
+  titleAr: true,
+  titleTr: true,
+  descriptionAr: true,
+  descriptionTr: true,
+  price: true,
+  imageUrl: true,
+  position: true,
+  isActive: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 
@@ -94,6 +121,9 @@ export type InsertCategory = z.infer<typeof insertCategorySchema>;
 
 export type MenuItem = typeof menuItems.$inferSelect;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
+
+export type SpecialDish = typeof specialDishes.$inferSelect;
+export type InsertSpecialDish = z.infer<typeof insertSpecialDishSchema>;
 
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type InsertSiteSetting = z.infer<typeof insertSiteSettingSchema>;

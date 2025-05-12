@@ -3,6 +3,7 @@ import {
   categories, 
   menuItems,
   siteSettings,
+  specialDishes,
   type User, 
   type InsertUser,
   type Category,
@@ -10,7 +11,9 @@ import {
   type MenuItem,
   type InsertMenuItem,
   type SiteSetting,
-  type InsertSiteSetting
+  type InsertSiteSetting,
+  type SpecialDish,
+  type InsertSpecialDish
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, asc } from "drizzle-orm";
@@ -36,6 +39,14 @@ export interface IStorage {
   createMenuItem(menuItem: InsertMenuItem): Promise<MenuItem>;
   updateMenuItem(id: number, menuItem: Partial<InsertMenuItem>): Promise<MenuItem | undefined>;
   deleteMenuItem(id: number): Promise<boolean>;
+  
+  // Special dishes operations
+  getAllSpecialDishes(): Promise<SpecialDish[]>;
+  getActiveSpecialDishes(): Promise<SpecialDish[]>;
+  getSpecialDishById(id: number): Promise<SpecialDish | undefined>;
+  createSpecialDish(dish: InsertSpecialDish): Promise<SpecialDish>;
+  updateSpecialDish(id: number, dish: Partial<InsertSpecialDish>): Promise<SpecialDish | undefined>;
+  deleteSpecialDish(id: number): Promise<boolean>;
   
   // Site settings operations
   getAllSettings(): Promise<SiteSetting[]>;
