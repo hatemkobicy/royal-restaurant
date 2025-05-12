@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import {
   Card,
@@ -11,13 +11,16 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/components/LanguageSelector';
 import SocialMediaInput from '@/components/admin/SocialMediaInput';
+import WorkingHoursInput from '@/components/admin/WorkingHoursInput';
 import ThemeToggle from '@/components/ThemeToggle';
 import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
+import { WORKING_HOURS, getWorkingHours, saveWorkingHours } from '@/utils/workingHours';
 import CarouselEditor from '@/components/admin/CarouselEditor';
 
 const AdminSettings = () => {
   const { toast } = useToast();
   const { language } = useLanguage();
+  const [hours, setHours] = useState(getWorkingHours());
   
   // Placeholder function to clear cache
   const handleClearCache = () => {

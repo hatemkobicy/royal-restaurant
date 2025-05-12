@@ -3,27 +3,37 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useSettings } from '@/hooks/useSettings';
 import { getSocialLinks } from '@/utils/social';
+import { getWorkingHours } from '@/utils/workingHours';
 
 const Footer = () => {
   const { t, getDirection } = useTranslation();
   const [links, setLinks] = useState(getSocialLinks());
+  const [hours, setHours] = useState(getWorkingHours());
   const isRtl = getDirection() === 'rtl';
   
-  // Listen for localStorage changes to update social links
+  // Listen for localStorage changes
   useEffect(() => {
     const handleStorageChange = () => {
       setLinks(getSocialLinks());
     };
     
-    // Update links when localStorage changes
-    window.addEventListener('storage', handleStorageChange);
+    const handleWorkingHoursChange = () => {
+      setHours(getWorkingHours());
+    };
     
-    // Custom event for when social links are updated in the admin panel
+    // Update data when localStorage changes
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('storage', handleWorkingHoursChange);
+    
+    // Custom events for admin panel updates
     document.addEventListener('socialLinksUpdated', handleStorageChange);
+    document.addEventListener('workingHoursUpdated', handleWorkingHoursChange);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('storage', handleWorkingHoursChange);
       document.removeEventListener('socialLinksUpdated', handleStorageChange);
+      document.removeEventListener('workingHoursUpdated', handleWorkingHoursChange);
     };
   }, []);
 
@@ -92,15 +102,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex justify-between">
                 <span className="text-white/70 dark:text-white/80">{t('footer.hours.weekdays')}:</span>
-                <span className="text-white dark:text-white">12:00 - 23:00</span>
+                <span className="text-white dark:text-white">{hours.weekdays}</span>
               </li>
               <li className="flex justify-between">
                 <span className="text-white/70 dark:text-white/80">{t('footer.hours.weekend')}:</span>
-                <span className="text-white dark:text-white">12:00 - 00:00</span>
+                <span className="text-white dark:text-white">{hours.weekend}</span>
               </li>
               <li className="flex justify-between">
                 <span className="text-white/70 dark:text-white/80">{t('footer.hours.sunday')}:</span>
-                <span className="text-white dark:text-white">12:00 - 22:00</span>
+                <span className="text-white dark:text-white">{hours.sunday}</span>
               </li>
             </ul>
           </div>
