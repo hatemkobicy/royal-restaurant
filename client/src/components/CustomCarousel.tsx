@@ -152,8 +152,9 @@ const CustomCarousel = ({
         className={`absolute ${isRtl ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all z-10 shadow-md`}
         size="icon"
         variant="ghost"
+        aria-label={isRtl ? "Next slide" : "Previous slide"}
       >
-        <i className="bi bi-chevron-left"></i>
+        <i className={`bi ${isRtl ? 'bi-chevron-right' : 'bi-chevron-left'}`}></i>
       </Button>
       
       <Button 
@@ -161,12 +162,13 @@ const CustomCarousel = ({
         className={`absolute ${isRtl ? 'left-4' : 'right-4'} top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all z-10 shadow-md`}
         size="icon"
         variant="ghost"
+        aria-label={isRtl ? "Previous slide" : "Next slide"}
       >
-        <i className="bi bi-chevron-right"></i>
+        <i className={`bi ${isRtl ? 'bi-chevron-left' : 'bi-chevron-right'}`}></i>
       </Button>
       
       {/* Carousel Indicators */}
-      <div className={`absolute bottom-5 left-1/2 transform -translate-x-1/2 flex ${isRtl ? 'space-x-reverse' : ''} space-x-4`}>
+      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex gap-4">
         {items.map((_, index) => (
           <button 
             key={index}

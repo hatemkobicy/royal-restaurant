@@ -739,6 +739,11 @@ const CarouselEditor: React.FC = () => {
                 onChange={(e) => updateSlide(3, 'ctaLink', e.target.value)}
                 placeholder="/menu"
               />
+              <p className="text-xs text-muted-foreground">
+                {language === 'ar' 
+                  ? 'أدخل المسار بدون علامة / في البداية (مثال: menu) أو المسار الكامل (مثال: /menu)' 
+                  : 'Enter path without leading / (e.g. menu) or full path (e.g. /menu)'}
+              </p>
             </div>
             
             <div className="flex justify-between mt-6">
