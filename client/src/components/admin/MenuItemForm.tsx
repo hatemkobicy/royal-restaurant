@@ -35,6 +35,8 @@ const menuItemFormSchema = insertMenuItemSchema.extend({
   descriptionAr: z.string().min(5, { message: 'Description in Arabic is required' }),
   descriptionTr: z.string().min(5, { message: 'Description in Turkish is required' }),
   price: z.number().min(0, { message: 'Price must be positive' }),
+  travelPrice: z.number().nullable().optional().transform(val => val === undefined || val === null || isNaN(val) ? null : val),
+  travelPriceColor: z.string().default('#FF5722'),
   categoryId: z.coerce.number().min(1, { message: 'Category is required' }),
 });
 
@@ -66,6 +68,8 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
       descriptionAr: menuItem?.descriptionAr || '',
       descriptionTr: menuItem?.descriptionTr || '',
       price: menuItem?.price || 0,
+      travelPrice: menuItem?.travelPrice || null,
+      travelPriceColor: menuItem?.travelPriceColor || '#FF5722',
       imageUrl: menuItem?.imageUrl || '',
       isAvailable: menuItem?.isAvailable ?? true,
       categoryId: menuItem?.categoryId || 1,
@@ -381,6 +385,62 @@ const MenuItemForm = ({ menuItem, onSuccess }: MenuItemFormProps) => {
               </FormItem>
             )}
           />
+          
+          <div className="space-y-4">
+            <FormField
+              control={form.control}
+              name="travelPrice"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('admin.form.travel.price')}</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="number" 
+                      step="0.01" 
+                      min="0" 
+                      {...field} 
+                      value={field.value === null ? '' : field.value}
+                      onChange={(e) => {
+                        const value = e.target.value === '' ? null : parseFloat(e.target.value);
+                        field.onChange(value);
+                      }} 
+                      placeholder={language === 'ar' ? 'اختياري' : 'Optional'}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="travelPriceColor"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('admin.form.travel.price.color')}</FormLabel>
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-8 h-8 rounded-full border"
+                      style={{ backgroundColor: field.value }}
+                    />
+                    <FormControl>
+                      <Input 
+                        type="color" 
+                        {...field} 
+                        className="w-16 h-10 p-1"
+                      />
+                    </FormControl>
+                    <Input 
+                      value={field.value} 
+                      onChange={(e) => field.onChange(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
         
         <FormField

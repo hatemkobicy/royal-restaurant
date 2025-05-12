@@ -36,7 +36,17 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
       <CardContent className="p-4 sm:p-6">
         <div className="flex flex-wrap justify-between items-start mb-2 gap-1">
           <h3 className="text-lg sm:text-xl font-bold text-secondary dark:text-secondary line-clamp-1">{name}</h3>
-          <span className="text-primary dark:text-primary font-bold text-base sm:text-lg whitespace-nowrap">{formatCurrency(item.price)}</span>
+          <div className="flex flex-col items-end">
+            <span className="text-primary dark:text-primary font-bold text-base sm:text-lg whitespace-nowrap">{formatCurrency(item.price)}</span>
+            {item.travelPrice && (
+              <span 
+                className="text-xs sm:text-sm whitespace-nowrap" 
+                style={{ color: item.travelPriceColor || '#FF5722' }}
+              >
+                {isRtl ? `توصيل: ${formatCurrency(item.travelPrice)}` : `Delivery: ${formatCurrency(item.travelPrice)}`}
+              </span>
+            )}
+          </div>
         </div>
         <p className="text-foreground/80 dark:text-foreground/70 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">{description}</p>
         <div className="flex items-center">
