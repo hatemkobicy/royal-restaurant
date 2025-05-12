@@ -47,17 +47,17 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-background">
       {/* Sidebar for desktop */}
-      <div className="w-64 hidden md:block bg-white shadow-lg">
-        <div className="p-4 border-b">
+      <div className="w-64 hidden md:block bg-white dark:bg-card shadow-lg">
+        <div className="p-4 border-b dark:border-border">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-primary">{t('admin.dashboard')}</h2>
+            <h2 className="text-xl font-bold text-primary dark:text-primary">{t('admin.dashboard')}</h2>
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => navigate('/')}
-              className="text-foreground hover:text-accent"
+              className="text-foreground hover:text-accent dark:text-foreground dark:hover:text-accent"
             >
               <i className="bi bi-x-lg"></i>
             </Button>
@@ -72,10 +72,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                 <AvatarFallback>AD</AvatarFallback>
               </Avatar>
               <div className={isRtl ? "mr-3" : "ml-3"}>
-                <p className="text-sm font-medium text-secondary">
+                <p className="text-sm font-medium text-secondary dark:text-secondary">
                   {user?.username || t('admin.dashboard')}
                 </p>
-                <p className="text-xs text-foreground/70">admin@royalrestaurant.com</p>
+                <p className="text-xs text-foreground/70 dark:text-foreground/80">admin@royalrestaurant.com</p>
               </div>
             </div>
           </div>
@@ -107,24 +107,24 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       </div>
       
       {/* Mobile header */}
-      <div className="md:hidden fixed top-0 inset-x-0 z-30 bg-white border-b border-gray-200">
+      <div className="md:hidden fixed top-0 inset-x-0 z-30 bg-white dark:bg-card border-b border-gray-200 dark:border-border">
         <div className="flex items-center justify-between h-16 px-4">
           <div className="flex items-center">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-foreground -ml-1 mr-2"
+              className="text-foreground dark:text-foreground -ml-1 mr-2"
             >
               <i className="bi bi-list text-xl"></i>
             </Button>
-            <h1 className="text-lg font-bold text-primary">{t('admin.dashboard')}</h1>
+            <h1 className="text-lg font-bold text-primary dark:text-primary">{t('admin.dashboard')}</h1>
           </div>
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={handleLogout}
-            className="text-accent"
+            className="text-accent dark:text-accent"
           >
             <i className="bi bi-box-arrow-right"></i>
           </Button>
@@ -133,16 +133,16 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-50" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-white shadow-lg" onClick={(e) => e.stopPropagation()}>
-            <div className="p-4 border-b">
+        <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-60" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="fixed inset-y-0 left-0 max-w-xs w-full bg-white dark:bg-card shadow-lg" onClick={(e) => e.stopPropagation()}>
+            <div className="p-4 border-b dark:border-border">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-primary">{t('admin.dashboard')}</h2>
+                <h2 className="text-xl font-bold text-primary dark:text-primary">{t('admin.dashboard')}</h2>
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-foreground hover:text-accent"
+                  className="text-foreground hover:text-accent dark:text-foreground dark:hover:text-accent"
                 >
                   <i className="bi bi-x-lg"></i>
                 </Button>
@@ -157,10 +157,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                     <AvatarFallback>AD</AvatarFallback>
                   </Avatar>
                   <div className={isRtl ? "mr-3" : "ml-3"}>
-                    <p className="text-sm font-medium text-secondary">
+                    <p className="text-sm font-medium text-secondary dark:text-secondary">
                       {user?.username || t('admin.dashboard')}
                     </p>
-                    <p className="text-xs text-foreground/70">admin@royalrestaurant.com</p>
+                    <p className="text-xs text-foreground/70 dark:text-foreground/80">admin@royalrestaurant.com</p>
                   </div>
                 </div>
               </div>
@@ -197,7 +197,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       )}
       
       {/* Main content */}
-      <div className="flex-1 bg-gray-50 md:p-8 pt-16 md:pt-0">
+      <div className="flex-1 bg-gray-50 dark:bg-background/95 md:p-8 pt-16 md:pt-0">
         <div className="max-w-6xl mx-auto">
           {children}
         </div>
