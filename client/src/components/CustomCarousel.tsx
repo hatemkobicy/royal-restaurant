@@ -121,8 +121,18 @@ const CustomCarousel = ({
                   <p className="text-xl text-white mb-6 drop-shadow-sm">{item.subtitle}</p>
                   {item.cta && (
                     <a 
-                      href={item.cta.link} 
-                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-2 px-6 rounded-lg transition duration-300 inline-block shadow-md"
+                      href={item.cta.link.startsWith('/') ? item.cta.link : `/${item.cta.link}`} 
+                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-3 px-8 rounded-lg transition duration-300 inline-block shadow-md"
+                      onClick={(e) => {
+                        // Prevent default if it's an internal link
+                        if (item.cta?.link.startsWith('/') || !item.cta?.link.includes('://')) {
+                          e.preventDefault();
+                          // Handle internal navigation
+                          window.location.href = item.cta?.link.startsWith('/') 
+                            ? item.cta?.link 
+                            : `/${item.cta?.link}`;
+                        }
+                      }}
                     >
                       {item.cta.text}
                     </a>
@@ -137,28 +147,28 @@ const CustomCarousel = ({
       {/* Carousel Controls */}
       <Button 
         onClick={handlePrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10 shadow-md"
+        className={`absolute ${isRtl ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all z-10 shadow-md`}
         size="icon"
         variant="ghost"
       >
-        <i className={`bi bi-chevron-${isRtl ? 'right' : 'left'}`}></i>
+        <i className="bi bi-chevron-left"></i>
       </Button>
       
       <Button 
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-10 h-10 rounded-full flex items-center justify-center transition-all z-10 shadow-md"
+        className={`absolute ${isRtl ? 'left-4' : 'right-4'} top-1/2 -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 dark:bg-black dark:bg-opacity-60 dark:hover:bg-opacity-80 text-white w-12 h-12 rounded-full flex items-center justify-center transition-all z-10 shadow-md`}
         size="icon"
         variant="ghost"
       >
-        <i className={`bi bi-chevron-${isRtl ? 'left' : 'right'}`}></i>
+        <i className="bi bi-chevron-right"></i>
       </Button>
       
       {/* Carousel Indicators */}
-      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-4">
         {items.map((_, index) => (
           <button 
             key={index}
-            className={`carousel-indicator w-3 h-3 rounded-full ${
+            className={`carousel-indicator w-4 h-4 rounded-full ${
               index === currentIndex 
                 ? 'bg-white dark:bg-primary' 
                 : 'bg-white bg-opacity-50 dark:bg-white dark:bg-opacity-60 hover:bg-opacity-75 dark:hover:bg-opacity-80'

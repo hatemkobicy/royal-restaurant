@@ -231,6 +231,32 @@ const CarouselEditor: React.FC = () => {
   };
 
   // Manage slide inputs
+  // Handle file upload from device
+  const handleImageUpload = (slideNumber: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        if (event.target && event.target.result) {
+          const imageDataUrl = event.target.result.toString();
+          
+          // Update the state with the uploaded image
+          const updateFunction = slideNumber === 1 
+            ? setSlide1 
+            : (slideNumber === 2 ? setSlide2 : setSlide3);
+            
+          updateFunction(prev => ({
+            ...prev,
+            imageUrl: imageDataUrl
+          }));
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  };
+
   const updateSlide = (
     slideNumber: number, 
     field: keyof CarouselSlideState, 
@@ -306,6 +332,19 @@ const CarouselEditor: React.FC = () => {
                 alt="Slide 1 Preview" 
                 className="w-full h-48 object-cover rounded-md mb-2"
               />
+              <div className="flex gap-2 mt-2 mb-4">
+                <Button variant="outline" className="w-full relative overflow-hidden">
+                  <input 
+                    type="file" 
+                    onChange={(e) => handleImageUpload(1, e)} 
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    accept="image/*"
+                  />
+                  <i className="bi bi-upload mr-2"></i>
+                  {language === 'ar' ? 'تحميل صورة من الجهاز' : 'Upload from device'}
+                </Button>
+              </div>
+              
               <div className="grid grid-cols-3 gap-2 mt-2">
                 {restaurantImages.map((image, index) => (
                   <div 
@@ -435,6 +474,19 @@ const CarouselEditor: React.FC = () => {
                 alt="Slide 2 Preview" 
                 className="w-full h-48 object-cover rounded-md mb-2"
               />
+              <div className="flex gap-2 mt-2 mb-4">
+                <Button variant="outline" className="w-full relative overflow-hidden">
+                  <input 
+                    type="file" 
+                    onChange={(e) => handleImageUpload(2, e)} 
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    accept="image/*"
+                  />
+                  <i className="bi bi-upload mr-2"></i>
+                  {language === 'ar' ? 'تحميل صورة من الجهاز' : 'Upload from device'}
+                </Button>
+              </div>
+              
               <div className="grid grid-cols-3 gap-2 mt-2">
                 {restaurantImages.map((image, index) => (
                   <div 
@@ -564,6 +616,19 @@ const CarouselEditor: React.FC = () => {
                 alt="Slide 3 Preview" 
                 className="w-full h-48 object-cover rounded-md mb-2"
               />
+              <div className="flex gap-2 mt-2 mb-4">
+                <Button variant="outline" className="w-full relative overflow-hidden">
+                  <input 
+                    type="file" 
+                    onChange={(e) => handleImageUpload(3, e)} 
+                    className="absolute inset-0 opacity-0 cursor-pointer" 
+                    accept="image/*"
+                  />
+                  <i className="bi bi-upload mr-2"></i>
+                  {language === 'ar' ? 'تحميل صورة من الجهاز' : 'Upload from device'}
+                </Button>
+              </div>
+              
               <div className="grid grid-cols-3 gap-2 mt-2">
                 {restaurantImages.map((image, index) => (
                   <div 
