@@ -263,25 +263,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Special Dishes Section */}
-      <section id="specialties" className="py-16 bg-secondary dark:bg-secondary/90 text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('home.special.title')}</h2>
-            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-white/90 dark:text-white/90 max-w-3xl mx-auto">{t('home.special.subtitle')}</p>
-          </div>
-          
-          {/* Fetch special dishes */}
-          <SpecialDishesSection />
-        </div>
-        
-        {/* Decorative pattern overlay */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0 arabic-pattern"></div>
-        </div>
-      </section>
     </div>
   );
 };
