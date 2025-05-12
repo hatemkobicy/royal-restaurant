@@ -78,36 +78,36 @@ const HomePage = () => {
             <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">{t('home.about.subtitle')}</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="relative">
               <img 
                 src={restaurantImages[3].url} 
                 alt={restaurantImages[3].alt} 
                 className="rounded-lg shadow-lg w-full"
               />
-              <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-primary rounded-lg hidden md:flex items-center justify-center">
-                <p className="text-white font-bold text-xl">{t('home.about.since')}</p>
+              <div className="absolute -bottom-5 right-5 md:-right-5 w-24 h-24 md:w-32 md:h-32 bg-primary rounded-lg flex items-center justify-center">
+                <p className="text-white font-bold text-lg md:text-xl">{t('home.about.since')}</p>
               </div>
             </div>
             
-            <div>
-              <h3 className="text-2xl font-bold text-secondary dark:text-secondary mb-4">{t('home.about.story.title')}</h3>
-              <div className="w-16 h-1 bg-primary dark:bg-primary mb-6"></div>
-              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p1')}</p>
-              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p2')}</p>
+            <div className="mt-10 md:mt-0">
+              <h3 className="text-xl sm:text-2xl font-bold text-secondary dark:text-secondary mb-3 md:mb-4">{t('home.about.story.title')}</h3>
+              <div className="w-16 h-1 bg-primary dark:bg-primary mb-4 md:mb-6"></div>
+              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">{t('home.about.story.p1')}</p>
+              <p className="text-sm sm:text-base text-foreground dark:text-foreground/90 mb-4 md:mb-6">{t('home.about.story.p2')}</p>
               
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gray-50 dark:bg-card p-4 rounded-lg text-center shadow-sm">
-                  <i className="bi bi-award text-3xl text-primary dark:text-primary mb-2"></i>
-                  <p className="font-bold dark:text-foreground">{t('home.about.quality')}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 md:mb-6">
+                <div className="bg-gray-50 dark:bg-card p-3 sm:p-4 rounded-lg text-center shadow-sm">
+                  <i className="bi bi-award text-2xl sm:text-3xl text-primary dark:text-primary mb-1 sm:mb-2"></i>
+                  <p className="font-bold text-sm sm:text-base dark:text-foreground">{t('home.about.quality')}</p>
                 </div>
-                <div className="bg-gray-50 dark:bg-card p-4 rounded-lg text-center shadow-sm">
-                  <i className="bi bi-hand-thumbs-up text-3xl text-primary dark:text-primary mb-2"></i>
-                  <p className="font-bold dark:text-foreground">{t('home.about.service')}</p>
+                <div className="bg-gray-50 dark:bg-card p-3 sm:p-4 rounded-lg text-center shadow-sm">
+                  <i className="bi bi-hand-thumbs-up text-2xl sm:text-3xl text-primary dark:text-primary mb-1 sm:mb-2"></i>
+                  <p className="font-bold text-sm sm:text-base dark:text-foreground">{t('home.about.service')}</p>
                 </div>
               </div>
               
-              <Link href="/contact" className="inline-flex items-center text-primary hover:text-primary/80 font-bold transition-colors">
+              <Link href="/contact" className="inline-flex items-center text-primary hover:text-primary/80 font-bold transition-colors text-sm sm:text-base">
                 <span>{t('home.about.cta')}</span>
                 <i className={`bi bi-arrow-${isRtl ? 'left' : 'right'} ${isRtl ? 'mr-2' : 'ml-2'}`}></i>
               </Link>
@@ -181,47 +181,47 @@ const HomePage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
               <img 
                 src={menuItemImages[6].url} 
                 alt={menuItemImages[6].alt} 
-                className="w-full h-64 object-cover rounded-lg mb-6"
+                className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
               />
-              <h3 className="text-2xl font-bold text-primary dark:text-primary mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
                 {language === 'ar' ? 'طبق المشاوي الملكي' : 'Royal Mixed Grill Plate'}
               </h3>
-              <p className="text-white/80 dark:text-white/90 mb-4">
+              <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base">
                 {language === 'ar' 
                   ? 'تشكيلة فاخرة من المشاوي تتضمن قطع من لحم الضأن، شيش طاووق، كفتة، ريش غنم، وكباب. يقدم مع الأرز المبهر والخضروات المشوية وصلصات متنوعة.'
                   : 'A luxurious selection of grilled meats including lamb cuts, shish tawook, kofta, lamb chops, and kebab. Served with spiced rice, grilled vegetables, and various sauces.'
                 }
               </p>
-              <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold text-primary dark:text-primary">{formatCurrency(395)}</span>
-                <Button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
+              <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:justify-between sm:items-center">
+                <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(395)}</span>
+                <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
                   {t('home.special.cta')}
                 </Button>
               </div>
             </div>
             
-            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
               <img 
                 src={menuItemImages[7].url} 
                 alt={menuItemImages[7].alt} 
-                className="w-full h-64 object-cover rounded-lg mb-6"
+                className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
               />
-              <h3 className="text-2xl font-bold text-primary dark:text-primary mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
                 {language === 'ar' ? 'طبق المأكولات البحرية' : 'Seafood Platter'}
               </h3>
-              <p className="text-white/80 dark:text-white/90 mb-4">
+              <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base">
                 {language === 'ar'
                   ? 'تشكيلة من أجود أنواع المأكولات البحرية الطازجة تشمل سمك السلطان إبراهيم، الروبيان، الكاليماري والمحار. يقدم مع الأعشاب البحرية، صلصة الليمون والثوم وخبز محمص.'
                   : 'A selection of the finest fresh seafood including Sultan Ibrahim fish, prawns, calamari, and oysters. Served with seaweed, lemon and garlic sauce, and toasted bread.'
                 }
               </p>
-              <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold text-primary dark:text-primary">{formatCurrency(450)}</span>
-                <Button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
+              <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:justify-between sm:items-center">
+                <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(450)}</span>
+                <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
                   {t('home.special.cta')}
                 </Button>
               </div>

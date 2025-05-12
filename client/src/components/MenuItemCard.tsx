@@ -25,24 +25,25 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
 
   return (
     <Card className="overflow-hidden menu-card transition-all duration-300 hover:shadow-md dark:shadow-none dark:hover:shadow-primary/5">
-      <div className="w-full h-48 overflow-hidden">
+      <div className="w-full h-40 sm:h-48 overflow-hidden">
         <img 
           src={item.imageUrl} 
           alt={name} 
           className="w-full h-full object-cover transform hover:scale-105 transition duration-500"
+          loading="lazy"
         />
       </div>
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold text-secondary dark:text-secondary">{name}</h3>
-          <span className="text-primary dark:text-primary font-bold">{formatCurrency(item.price)}</span>
+      <CardContent className="p-4 sm:p-6">
+        <div className="flex flex-wrap justify-between items-start mb-2 gap-1">
+          <h3 className="text-lg sm:text-xl font-bold text-secondary dark:text-secondary line-clamp-1">{name}</h3>
+          <span className="text-primary dark:text-primary font-bold text-base sm:text-lg whitespace-nowrap">{formatCurrency(item.price)}</span>
         </div>
-        <p className="text-foreground/80 dark:text-foreground/70 text-sm mb-4 line-clamp-2">{description}</p>
+        <p className="text-foreground/80 dark:text-foreground/70 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">{description}</p>
         <div className="flex justify-between items-center">
-          <span className="bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary text-xs font-medium px-2.5 py-1 rounded">
+          <span className="bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary text-xs font-medium px-2 py-1 rounded truncate max-w-[70%]">
             {categoryName}
           </span>
-          <Button variant="ghost" size="sm" className="text-accent dark:text-accent hover:text-accent/80 dark:hover:text-accent/90 transition">
+          <Button variant="ghost" size="sm" className="text-accent dark:text-accent hover:text-accent/80 dark:hover:text-accent/90 transition h-8 w-8 p-0">
             <i className="bi bi-heart text-lg"></i>
           </Button>
         </div>

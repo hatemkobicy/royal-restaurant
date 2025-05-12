@@ -131,8 +131,8 @@ const ContactPage = () => {
             {/* Contact Information */}
             <div>
               <Card className="bg-gray-50 dark:bg-card mb-6 shadow-sm">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.info.title')}</h3>
+                <CardContent className="p-4 sm:p-6 md:p-8">
+                  <h3 className="text-lg sm:text-xl font-bold text-secondary dark:text-secondary mb-4 sm:mb-6">{t('contact.info.title')}</h3>
                   
                   <div className="flex items-start mb-4">
                     <i className={`bi bi-geo-alt text-primary dark:text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
@@ -169,8 +169,8 @@ const ContactPage = () => {
               </Card>
               
               <Card className="bg-gray-50 dark:bg-card shadow-sm">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.social.title')}</h3>
+                <CardContent className="p-4 sm:p-6 md:p-8">
+                  <h3 className="text-lg sm:text-xl font-bold text-secondary dark:text-secondary mb-4 sm:mb-6">{t('contact.social.title')}</h3>
                   <div className="flex gap-6">
                     <a href="#" className="bg-primary dark:bg-primary text-white dark:text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 dark:hover:bg-primary/90 transition shadow-sm">
                       <i className="bi bi-instagram text-lg"></i>
@@ -206,8 +206,8 @@ const ContactPage = () => {
             {/* Reservation Form */}
             <div>
               <Card className="dark:bg-card shadow-sm">
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.booking.title')}</h3>
+                <CardContent className="p-4 sm:p-6 md:p-8">
+                  <h3 className="text-lg sm:text-xl font-bold text-secondary dark:text-secondary mb-4 sm:mb-6">{t('contact.booking.title')}</h3>
                   
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
