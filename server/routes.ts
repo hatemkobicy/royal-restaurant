@@ -389,20 +389,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Setup admin user if none exists
-  try {
-    const adminUser = await storage.getUserByUsername('admin');
-    if (!adminUser) {
-      await storage.createUser({
-        username: 'admin',
-        password: 'RoyalRestaurant2023',
+  // Add API route to make a user admin (requires environment secret)
+  app.post('/api/auth/set-admin', async (req, res) => {
+    const adminToken = req.headers['x-admin-token'];
+    if (!adminToken || adminToken !== process.env.ADMIN_SECRET) {
+      return res.status(403).json({ message: 'Invalid admin token' });
+    }
+    
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    
+    try {
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      
+      // Extract only the properties we need to update
+      await storage.upsertUser({
+        id: user.id,
+        email: user.email || undefined,
+        firstName: user.firstName || undefined,
+        lastName: user.lastName || undefined,
+        profileImageUrl: user.profileImageUrl || undefined,
         isAdmin: true
       });
-      console.log('Admin user created');
+      
+      return res.status(200).json({ message: 'User is now an admin' });
+    } catch (error) {
+      console.error('Error setting admin status:', error);
+      return res.status(500).json({ message: 'Failed to set admin status' });
     }
-  } catch (error) {
-    console.error('Error setting up admin user:', error);
-  }
+  });
 
   // Seed initial categories if none exist
   try {
