@@ -146,6 +146,74 @@ export const apiClient = {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
+  },
+  
+  post: async <T>(url: string, data: any): Promise<T> => {
+    // For development with mock token
+    if (localStorage.getItem('token') === 'mock-admin-token') {
+      console.log('Using mock token for POST request to', url, data);
+      // Return mock response with ID for mocking
+      return { ...data, id: Math.floor(Math.random() * 10000) } as T;
+    }
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`POST request failed: ${response.statusText}`);
+    }
+    
+    return response.json();
+  },
+  
+  put: async <T>(url: string, data: any): Promise<T> => {
+    // For development with mock token
+    if (localStorage.getItem('token') === 'mock-admin-token') {
+      console.log('Using mock token for PUT request to', url, data);
+      // Get ID from URL
+      const id = parseInt(url.split('/').pop() || '1');
+      return { ...data, id } as T;
+    }
+    
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error(`PUT request failed: ${response.statusText}`);
+    }
+    
+    return response.json();
+  },
+  
+  delete: async (url: string): Promise<void> => {
+    // For development with mock token
+    if (localStorage.getItem('token') === 'mock-admin-token') {
+      console.log('Using mock token for DELETE request to', url);
+      return;
+    }
+    
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`DELETE request failed: ${response.statusText}`);
+    }
   }
 };
 

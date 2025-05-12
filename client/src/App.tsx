@@ -55,6 +55,11 @@ function Router() {
           <AdminSettings />
         </RootLayout>
       </Route>
+      <Route path="/admin/special-dishes">
+        <RootLayout>
+          <AdminSpecialDishes />
+        </RootLayout>
+      </Route>
       <Route path="/admin">
         <RootLayout>
           <AdminDashboard />
