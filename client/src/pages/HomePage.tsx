@@ -264,61 +264,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Menu Highlights Section */}
-      <section id="menu-highlights" className="py-16 bg-gray-50 dark:bg-background/95 arabic-pattern">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('menu.title')}</h2>
-            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">{t('menu.subtitle')}</p>
-          </div>
-          
-          {/* Menu Items Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {isLoading ? (
-              // Loading skeleton
-              Array(6).fill(0).map((_, index) => (
-                <Card key={index} className="overflow-hidden dark:bg-card">
-                  <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-                  <CardContent className="p-6">
-                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-4 animate-pulse"></div>
-                    <div className="flex justify-between items-center">
-                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 animate-pulse"></div>
-                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-8 animate-pulse"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              // Actual menu items
-              menuItems.slice(0, 6).map((item) => {
-                const category = categories.find((cat) => cat.id === item.categoryId);
-                return (
-                  <MenuItemCard 
-                    key={item.id} 
-                    item={{
-                      ...item,
-                      // If image URL is missing, use a stock image
-                      imageUrl: item.imageUrl || menuItemImages[Math.floor(Math.random() * menuItemImages.length)].url
-                    }} 
-                    category={category}
-                  />
-                );
-              })
-            )}
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link href="/menu" className="inline-block bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
-              {t('menu.view.all')}
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Special Dishes Section */}
       <section id="specialties" className="py-16 bg-secondary dark:bg-secondary/90 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
