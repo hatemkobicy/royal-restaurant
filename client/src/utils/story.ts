@@ -106,6 +106,16 @@ export function saveStoryImage(imageUrl: string): boolean {
   }
 }
 
+// Convert file to base64
+export function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
+}
+
 // Save since year
 export function saveSinceYear(year: string): boolean {
   try {

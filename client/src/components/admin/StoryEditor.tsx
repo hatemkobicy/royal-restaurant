@@ -16,6 +16,7 @@ import {
   saveStoryParagraph1, 
   saveStoryParagraph2,
   resetStoryData,
+  fileToBase64,
   type StoryData
 } from '@/utils/story';
 
@@ -34,6 +35,9 @@ const StoryEditor = () => {
   const [p1Tr, setP1Tr] = useState(storyData.paragraph1.tr);
   const [p2Ar, setP2Ar] = useState(storyData.paragraph2.ar);
   const [p2Tr, setP2Tr] = useState(storyData.paragraph2.tr);
+  
+  // Upload state
+  const [isUploading, setIsUploading] = useState(false);
   
   // Preview state
   const [showPreview, setShowPreview] = useState(false);
@@ -82,6 +86,61 @@ const StoryEditor = () => {
         description: String(error),
         variant: 'destructive',
       });
+    }
+  };
+  
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    const file = files[0];
+    
+    // Validate file type
+    if (!file.type.includes('image/')) {
+      toast({
+        title: language === 'ar' ? 'نوع ملف غير صحيح' : 'Invalid file type',
+        description: language === 'ar' 
+          ? 'يرجى تحميل صورة فقط (JPG، PNG، GIF)' 
+          : 'Please upload only images (JPG, PNG, GIF)',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: language === 'ar' ? 'حجم الملف كبير جدًا' : 'File too large',
+        description: language === 'ar'
+          ? 'يجب أن يكون حجم الصورة أقل من 5 ميغابايت'
+          : 'Image size must be less than 5MB',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    try {
+      setIsUploading(true);
+      
+      // Convert to base64
+      const base64 = await fileToBase64(file);
+      
+      // Set the image URL
+      setImageUrl(base64);
+      
+      toast({
+        title: language === 'ar' ? 'تم تحميل الصورة بنجاح' : 'Image uploaded successfully',
+        variant: 'default',
+      });
+    } catch (error) {
+      toast({
+        title: language === 'ar' ? 'فشل في تحميل الصورة' : 'Failed to upload image',
+        description: String(error),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
   
@@ -148,23 +207,52 @@ const StoryEditor = () => {
                   <div>
                     <Label htmlFor="story-image">{t('admin.story.image')}</Label>
                     <p className="text-sm text-muted-foreground mb-2">{t('admin.story.image.description')}</p>
-                    <Input
-                      id="story-image"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                  </div>
-                  
-                  {imageUrl && (
-                    <div className="relative overflow-hidden rounded-md border border-input h-48">
-                      <img 
-                        src={imageUrl} 
-                        alt={language === 'ar' ? titleAr : titleTr} 
-                        className="w-full h-full object-cover" 
-                      />
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <Label htmlFor="story-image-url" className="text-xs text-muted-foreground mb-1 block">
+                          {language === 'ar' ? 'رابط الصورة' : 'Image URL'}
+                        </Label>
+                        <Input
+                          id="story-image-url"
+                          value={imageUrl}
+                          onChange={(e) => setImageUrl(e.target.value)}
+                          placeholder="https://example.com/image.jpg"
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="story-image-upload" className="text-xs text-muted-foreground mb-1 block">
+                          {language === 'ar' ? 'أو تحميل صورة' : 'Or upload image'}
+                        </Label>
+                        <div className="flex">
+                          <Input
+                            id="story-image-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            disabled={isUploading}
+                            className="file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90"
+                          />
+                        </div>
+                      </div>
                     </div>
-                  )}
+                    
+                    {imageUrl && (
+                      <div className="relative overflow-hidden rounded-md border border-input h-48 mt-4">
+                        <img 
+                          src={imageUrl} 
+                          alt={language === 'ar' ? titleAr : titleTr} 
+                          className="w-full h-full object-cover" 
+                        />
+                        {isUploading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-background/80">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
                 <div>

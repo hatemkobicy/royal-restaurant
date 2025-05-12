@@ -210,7 +210,8 @@ const translations: TranslationSet = {
     "admin.story.preview": "معاينة",
     "admin.story.success.save": "تم حفظ قصتنا بنجاح",
     "admin.story.success.reset": "تمت إعادة تعيين قصتنا إلى القيم الافتراضية",
-    "admin.story.error": "حدث خطأ أثناء حفظ قصتنا"
+    "admin.story.error": "حدث خطأ أثناء حفظ قصتنا",
+    "admin.edit": "تعديل"
   },
   tr: {
     // Layout & Navigation
@@ -414,7 +415,8 @@ const translations: TranslationSet = {
     "admin.story.preview": "Önizleme",
     "admin.story.success.save": "Hikayemiz başarıyla kaydedildi",
     "admin.story.success.reset": "Hikayemiz varsayılan değerlere sıfırlandı",
-    "admin.story.error": "Hikayemiz kaydedilirken bir hata oluştu"
+    "admin.story.error": "Hikayemiz kaydedilirken bir hata oluştu",
+    "admin.edit": "Düzenle"
   }
 };
 
