@@ -14,6 +14,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import SocialMediaInput from '@/components/admin/SocialMediaInput';
 import WorkingHoursInput from '@/components/admin/WorkingHoursInput';
 import ThemeToggle from '@/components/ThemeToggle';
+import SeasonalIngredientsManager from '@/components/admin/SeasonalIngredientsManager';
 import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
 import { WORKING_HOURS, getWorkingHours, saveWorkingHours } from '@/utils/workingHours';
 import LogoUploader from '@/components/admin/LogoUploader';
@@ -283,6 +284,17 @@ const AdminSettings = () => {
             </CardHeader>
             <CardContent>
               <CarouselEditor />
+            </CardContent>
+          </Card>
+
+          {/* Seasonal Ingredients Card */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>{t('admin.seasonal.title')}</CardTitle>
+              <CardDescription>{t('admin.seasonal.description')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SeasonalIngredientsManager />
             </CardContent>
           </Card>
         </div>
