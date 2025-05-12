@@ -141,7 +141,25 @@ const translations: TranslationSet = {
     "admin.hours.edit": "تعديل",
     "admin.hours.updated.weekdays": "تم تحديث ساعات العمل أيام الأسبوع",
     "admin.hours.updated.weekend": "تم تحديث ساعات العمل في نهاية الأسبوع",
-    "admin.hours.updated.sunday": "تم تحديث ساعات العمل يوم الأحد"
+    "admin.hours.updated.sunday": "تم تحديث ساعات العمل يوم الأحد",
+    
+    // Logo Upload
+    "admin.logo.title": "شعار المطعم",
+    "admin.logo.description": "قم بتحميل شعار لعرضه في جميع أنحاء الموقع",
+    "admin.logo.requirements": "الحد الأقصى للحجم: 2 ميجابايت. صيغ الملفات المدعومة: JPG, PNG, GIF, SVG",
+    "admin.logo.upload": "تحميل شعار جديد",
+    "admin.logo.uploading": "جاري التحميل...",
+    "admin.logo.reset": "استعادة الشعار الافتراضي",
+    "admin.logo.success.title": "تم التحديث",
+    "admin.logo.success.description": "تم تحديث شعار المطعم بنجاح",
+    "admin.logo.reset.title": "تم إعادة التعيين",
+    "admin.logo.reset.description": "تم استعادة الشعار الافتراضي",
+    "admin.logo.error.size.title": "حجم الملف كبير جدًا",
+    "admin.logo.error.size.description": "يجب أن يكون حجم الملف أقل من 2 ميجابايت",
+    "admin.logo.error.type.title": "نوع ملف غير مدعوم",
+    "admin.logo.error.type.description": "الرجاء تحميل صورة بتنسيق JPG أو PNG أو GIF أو SVG",
+    "admin.logo.error.upload.title": "خطأ في التحميل",
+    "admin.logo.error.upload.description": "حدث خطأ أثناء تحميل الشعار. الرجاء المحاولة مرة أخرى"
   },
   tr: {
     // Layout & Navigation
@@ -276,7 +294,25 @@ const translations: TranslationSet = {
     "admin.hours.edit": "Düzenle",
     "admin.hours.updated.weekdays": "Hafta içi çalışma saatleri güncellendi",
     "admin.hours.updated.weekend": "Hafta sonu çalışma saatleri güncellendi",
-    "admin.hours.updated.sunday": "Pazar çalışma saatleri güncellendi"
+    "admin.hours.updated.sunday": "Pazar çalışma saatleri güncellendi",
+    
+    // Logo Upload
+    "admin.logo.title": "Restoran Logosu",
+    "admin.logo.description": "Sitenin tamamında görüntülenecek logo yükleyin",
+    "admin.logo.requirements": "Maksimum boyut: 2MB. Desteklenen dosya türleri: JPG, PNG, GIF, SVG",
+    "admin.logo.upload": "Yeni Logo Yükle",
+    "admin.logo.uploading": "Yükleniyor...",
+    "admin.logo.reset": "Varsayılan Logoyu Geri Yükle",
+    "admin.logo.success.title": "Güncellendi",
+    "admin.logo.success.description": "Restoran logosu başarıyla güncellendi",
+    "admin.logo.reset.title": "Sıfırlandı",
+    "admin.logo.reset.description": "Varsayılan logo geri yüklendi",
+    "admin.logo.error.size.title": "Dosya boyutu çok büyük",
+    "admin.logo.error.size.description": "Dosya boyutu 2MB'den küçük olmalıdır",
+    "admin.logo.error.type.title": "Desteklenmeyen dosya türü",
+    "admin.logo.error.type.description": "Lütfen JPG, PNG, GIF veya SVG formatında bir resim yükleyin",
+    "admin.logo.error.upload.title": "Yükleme Hatası",
+    "admin.logo.error.upload.description": "Logo yüklenirken bir hata oluştu. Lütfen tekrar deneyin"
   }
 };
 

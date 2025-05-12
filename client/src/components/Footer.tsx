@@ -4,11 +4,13 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useSettings } from '@/hooks/useSettings';
 import { getSocialLinks } from '@/utils/social';
 import { getWorkingHours } from '@/utils/workingHours';
+import { getLogo } from '@/utils/logo';
 
 const Footer = () => {
   const { t, getDirection } = useTranslation();
   const [links, setLinks] = useState(getSocialLinks());
   const [hours, setHours] = useState(getWorkingHours());
+  const [logo, setLogo] = useState(getLogo());
   const isRtl = getDirection() === 'rtl';
   
   // Listen for localStorage changes
@@ -21,19 +23,27 @@ const Footer = () => {
       setHours(getWorkingHours());
     };
     
+    const handleLogoChange = () => {
+      setLogo(getLogo());
+    };
+    
     // Update data when localStorage changes
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('storage', handleWorkingHoursChange);
+    window.addEventListener('storage', handleLogoChange);
     
     // Custom events for admin panel updates
     document.addEventListener('socialLinksUpdated', handleStorageChange);
     document.addEventListener('workingHoursUpdated', handleWorkingHoursChange);
+    document.addEventListener('logoUpdated', handleLogoChange);
     
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('storage', handleWorkingHoursChange);
+      window.removeEventListener('storage', handleLogoChange);
       document.removeEventListener('socialLinksUpdated', handleStorageChange);
       document.removeEventListener('workingHoursUpdated', handleWorkingHoursChange);
+      document.removeEventListener('logoUpdated', handleLogoChange);
     };
   }, []);
 
@@ -45,9 +55,9 @@ const Footer = () => {
           <div>
             <div className="flex items-center mb-6">
               <img 
-                className="h-12 w-auto" 
-                src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120&q=80" 
-                alt="Royal Restaurant Logo" 
+                className="h-12 w-auto object-contain" 
+                src={logo.url} 
+                alt={logo.alt} 
               />
               <div className={isRtl ? "mr-3" : "ml-3"}>
                 <h3 className="text-xl font-bold text-primary">{t('app.title')}</h3>

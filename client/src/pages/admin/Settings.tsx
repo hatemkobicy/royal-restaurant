@@ -16,6 +16,7 @@ import WorkingHoursInput from '@/components/admin/WorkingHoursInput';
 import ThemeToggle from '@/components/ThemeToggle';
 import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
 import { WORKING_HOURS, getWorkingHours, saveWorkingHours } from '@/utils/workingHours';
+import LogoUploader from '@/components/admin/LogoUploader';
 import CarouselEditor from '@/components/admin/CarouselEditor';
 
 const AdminSettings = () => {
@@ -121,6 +122,16 @@ const AdminSettings = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Restaurant Logo */}
+              <div className="mb-8">
+                <h3 className="text-lg font-medium mb-4">
+                  {t('admin.logo.title')}
+                </h3>
+                <div className="border rounded-lg p-4 bg-background dark:bg-background/80">
+                  <LogoUploader />
+                </div>
+              </div>
+              
               {/* Dark Mode Toggle */}
               <div>
                 <h3 className="text-lg font-medium mb-2">
