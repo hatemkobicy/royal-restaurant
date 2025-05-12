@@ -27,7 +27,7 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
     <Card className="overflow-hidden menu-card transition-all duration-300 hover:shadow-md dark:shadow-none dark:hover:shadow-primary/5">
       <div className="w-full h-40 sm:h-48 overflow-hidden">
         <img 
-          src={item.imageUrl} 
+          src={item.imageUrl || ''} 
           alt={name} 
           className="w-full h-full object-cover transform hover:scale-105 transition duration-500"
           loading="lazy"
