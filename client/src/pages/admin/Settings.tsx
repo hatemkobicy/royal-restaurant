@@ -18,6 +18,7 @@ import { SOCIAL_MEDIA, saveSocialLink } from '@/utils/social';
 import { WORKING_HOURS, getWorkingHours, saveWorkingHours } from '@/utils/workingHours';
 import LogoUploader from '@/components/admin/LogoUploader';
 import CarouselEditor from '@/components/admin/CarouselEditor';
+import StoryEditor from '@/components/admin/StoryEditor';
 
 const AdminSettings = () => {
   const { toast } = useToast();
@@ -283,6 +284,21 @@ const AdminSettings = () => {
             </CardHeader>
             <CardContent>
               <CarouselEditor />
+            </CardContent>
+          </Card>
+          
+          {/* Story Editor Card */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>
+                {t('admin.story.title')}
+              </CardTitle>
+              <CardDescription>
+                {t('admin.story.description')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <StoryEditor />
             </CardContent>
           </Card>
         </div>
