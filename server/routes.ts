@@ -7,7 +7,7 @@ import {
   requireAdmin,
   type AuthenticatedRequest
 } from "./authMiddleware";
-import { insertCategorySchema, insertMenuItemSchema } from "@shared/schema";
+import { insertCategorySchema, insertMenuItemSchema, insertSpecialDishSchema } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -281,6 +281,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error deleting setting:', error);
       res.status(500).json({ message: 'Failed to delete setting' });
+    }
+  });
+
+  // Special dishes routes
+  app.get('/api/special-dishes', async (req, res) => {
+    try {
+      const dishes = await storage.getAllSpecialDishes();
+      res.json(dishes);
+    } catch (error) {
+      console.error('Error fetching special dishes:', error);
+      res.status(500).json({ message: 'Failed to fetch special dishes' });
+    }
+  });
+
+  app.get('/api/special-dishes/active', async (req, res) => {
+    try {
+      const dishes = await storage.getActiveSpecialDishes();
+      res.json(dishes);
+    } catch (error) {
+      console.error('Error fetching active special dishes:', error);
+      res.status(500).json({ message: 'Failed to fetch active special dishes' });
+    }
+  });
+
+  app.get('/api/special-dishes/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'Invalid special dish ID' });
+      }
+      
+      const dish = await storage.getSpecialDishById(id);
+      
+      if (!dish) {
+        return res.status(404).json({ message: 'Special dish not found' });
+      }
+      
+      res.json(dish);
+    } catch (error) {
+      console.error('Error fetching special dish:', error);
+      res.status(500).json({ message: 'Failed to fetch special dish' });
+    }
+  });
+
+  app.post('/api/special-dishes', requireAuth, requireAdmin, async (req, res) => {
+    try {
+      const dishData = insertSpecialDishSchema.parse(req.body);
+      const newDish = await storage.createSpecialDish(dishData);
+      res.status(201).json(newDish);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        return res.status(400).json({ message: validationError.message });
+      }
+      console.error('Error creating special dish:', error);
+      res.status(500).json({ message: 'Failed to create special dish' });
+    }
+  });
+
+  app.put('/api/special-dishes/:id', requireAuth, requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'Invalid special dish ID' });
+      }
+      
+      const dishData = insertSpecialDishSchema.partial().parse(req.body);
+      const updatedDish = await storage.updateSpecialDish(id, dishData);
+      
+      if (!updatedDish) {
+        return res.status(404).json({ message: 'Special dish not found' });
+      }
+      
+      res.json(updatedDish);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const validationError = fromZodError(error);
+        return res.status(400).json({ message: validationError.message });
+      }
+      console.error('Error updating special dish:', error);
+      res.status(500).json({ message: 'Failed to update special dish' });
+    }
+  });
+
+  app.delete('/api/special-dishes/:id', requireAuth, requireAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'Invalid special dish ID' });
+      }
+      
+      const deleted = await storage.deleteSpecialDish(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ message: 'Special dish not found' });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error('Error deleting special dish:', error);
+      res.status(500).json({ message: 'Failed to delete special dish' });
     }
   });
 

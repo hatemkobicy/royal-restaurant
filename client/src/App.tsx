@@ -14,6 +14,7 @@ import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminCategories from "@/pages/admin/Categories";
 import AdminMenuItems from "@/pages/admin/MenuItems";
 import AdminSettings from "@/pages/admin/Settings";
+import AdminSpecialDishes from "@/pages/admin/SpecialDishes";
 import { SettingsProvider } from "@/hooks/useSettings";
 import { LanguageProvider } from "@/components/LanguageSelector";
 

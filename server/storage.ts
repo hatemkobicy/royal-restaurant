@@ -200,6 +200,51 @@ export class DatabaseStorage implements IStorage {
       return false;
     }
   }
+
+  // Special dishes operations
+  async getAllSpecialDishes(): Promise<SpecialDish[]> {
+    return await db.select().from(specialDishes).orderBy(asc(specialDishes.position));
+  }
+
+  async getActiveSpecialDishes(): Promise<SpecialDish[]> {
+    return await db.select().from(specialDishes)
+      .where(eq(specialDishes.isActive, true))
+      .orderBy(asc(specialDishes.position));
+  }
+
+  async getSpecialDishById(id: number): Promise<SpecialDish | undefined> {
+    const [dish] = await db.select().from(specialDishes).where(eq(specialDishes.id, id));
+    return dish;
+  }
+
+  async createSpecialDish(dish: InsertSpecialDish): Promise<SpecialDish> {
+    const [newDish] = await db.insert(specialDishes).values(dish).returning();
+    return newDish;
+  }
+
+  async updateSpecialDish(id: number, dish: Partial<InsertSpecialDish>): Promise<SpecialDish | undefined> {
+    try {
+      const [updatedDish] = await db
+        .update(specialDishes)
+        .set({...dish, updatedAt: new Date()})
+        .where(eq(specialDishes.id, id))
+        .returning();
+      return updatedDish;
+    } catch (error) {
+      console.error("Error updating special dish:", error);
+      return undefined;
+    }
+  }
+
+  async deleteSpecialDish(id: number): Promise<boolean> {
+    try {
+      await db.delete(specialDishes).where(eq(specialDishes.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting special dish:", error);
+      return false;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
