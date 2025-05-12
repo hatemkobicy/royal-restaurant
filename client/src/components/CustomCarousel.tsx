@@ -120,22 +120,24 @@ const CustomCarousel = ({
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-md">{item.title}</h2>
                   <p className="text-xl text-white mb-6 drop-shadow-sm">{item.subtitle}</p>
                   {item.cta && (
-                    <a 
-                      href={item.cta.link.startsWith('/') ? item.cta.link : `/${item.cta.link}`} 
-                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-3 px-8 rounded-lg transition duration-300 inline-block shadow-md"
-                      onClick={(e) => {
-                        // Prevent default if it's an internal link
-                        if (item.cta?.link.startsWith('/') || !item.cta?.link.includes('://')) {
-                          e.preventDefault();
-                          // Handle internal navigation
-                          window.location.href = item.cta?.link.startsWith('/') 
-                            ? item.cta?.link 
-                            : `/${item.cta?.link}`;
+                    <button 
+                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-3 px-8 rounded-lg transition duration-300 inline-block shadow-md cursor-pointer"
+                      onClick={() => {
+                        // Directly navigate to the target URL without going through language selector
+                        const link = item.cta?.link || '';
+                        let targetUrl = link;
+                        
+                        // Handle relative links
+                        if (!link.startsWith('http') && !link.startsWith('/')) {
+                          targetUrl = '/' + link;
                         }
+                        
+                        // Navigate using direct assignment to avoid language selector
+                        window.location.assign(targetUrl);
                       }}
                     >
                       {item.cta.text}
-                    </a>
+                    </button>
                   )}
                 </div>
               </div>
@@ -164,7 +166,7 @@ const CustomCarousel = ({
       </Button>
       
       {/* Carousel Indicators */}
-      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-4">
+      <div className={`absolute bottom-5 left-1/2 transform -translate-x-1/2 flex ${isRtl ? 'space-x-reverse' : ''} space-x-4`}>
         {items.map((_, index) => (
           <button 
             key={index}
