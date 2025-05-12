@@ -199,19 +199,17 @@ const AdminDashboard = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="text-primary"
-                          onClick={() => window.location.href = `/admin/menu-items/edit/${item.id}`}
+                        <a 
+                          href={`/admin/menu-items/edit/${item.id}`}
+                          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-primary hover:bg-muted hover:text-primary"
                         >
                           <i className="bi bi-pencil-square"></i>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="text-accent"
-                          onClick={() => {
+                        </a>
+                        <a
+                          href="#"
+                          className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-accent hover:bg-muted hover:text-accent"
+                          onClick={(e) => {
+                            e.preventDefault();
                             if (confirm(language === 'ar' 
                               ? 'هل أنت متأكد من حذف هذا العنصر؟' 
                               : 'Are you sure you want to delete this item?')) {
@@ -229,7 +227,7 @@ const AdminDashboard = () => {
                           }}
                         >
                           <i className="bi bi-trash"></i>
-                        </Button>
+                        </a>
                       </div>
                     </TableCell>
                   </TableRow>
