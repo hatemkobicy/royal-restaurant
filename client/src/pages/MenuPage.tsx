@@ -59,7 +59,7 @@ const MenuPage = () => {
   // Render loading skeleton, but only if we don't have any items from localStorage
   if ((categoriesLoading || menuItemsLoading) && localMenuItems.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-background">
         <div className="text-center mb-12">
           <Skeleton className="h-10 w-48 mx-auto mb-4" />
           <Skeleton className="h-1 w-24 mx-auto mb-6" />
@@ -74,7 +74,7 @@ const MenuPage = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {Array(6).fill(0).map((_, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div key={index} className="bg-white dark:bg-card rounded-xl shadow-md dark:shadow-sm overflow-hidden">
               <Skeleton className="w-full h-48" />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
@@ -96,12 +96,12 @@ const MenuPage = () => {
   }
 
   return (
-    <section className="py-16 bg-gray-50 arabic-pattern">
+    <section className="py-16 bg-gray-50 dark:bg-background arabic-pattern">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-primary mb-4">{t('menu.title')}</h1>
-          <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-          <p className="text-lg text-foreground max-w-3xl mx-auto">{t('menu.subtitle')}</p>
+          <h1 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('menu.title')}</h1>
+          <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
+          <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">{t('menu.subtitle')}</p>
         </div>
         
         {/* Category filters */}
@@ -146,7 +146,7 @@ const MenuPage = () => {
             })
           ) : (
             <div className="col-span-3 text-center py-12">
-              <p className="text-lg text-foreground/70">
+              <p className="text-lg text-foreground/70 dark:text-foreground/80">
                 {language === 'ar' 
                   ? 'لا توجد عناصر في هذه الفئة حالياً'
                   : 'No items in this category yet'}

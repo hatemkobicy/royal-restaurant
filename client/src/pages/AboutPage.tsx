@@ -6,7 +6,7 @@ const AboutPage = () => {
   const isRtl = getDirection() === 'rtl';
 
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       {/* Hero Section */}
       <section className="relative">
         <div className="h-[300px] md:h-[400px] overflow-hidden">
@@ -29,11 +29,11 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 className="text-3xl font-bold text-primary mb-6">{t('home.about.title')}</h2>
-              <div className="w-16 h-1 bg-primary mb-6"></div>
-              <p className="text-foreground mb-6">{t('home.about.story.p1')}</p>
-              <p className="text-foreground mb-6">{t('home.about.story.p2')}</p>
-              <p className="text-foreground mb-6">
+              <h2 className="text-3xl font-bold text-primary dark:text-primary mb-6">{t('home.about.title')}</h2>
+              <div className="w-16 h-1 bg-primary dark:bg-primary mb-6"></div>
+              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p1')}</p>
+              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p2')}</p>
+              <p className="text-foreground dark:text-foreground/90 mb-6">
                 {language === 'ar' 
                   ? 'نحن نفخر بتقديم مأكولات متنوعة من المطبخ العربي والتركي، مع التركيز على استخدام أفضل المكونات الطازجة والمحلية. هدفنا هو توفير تجربة طعام استثنائية لكل ضيف مع خدمة ممتازة في أجواء أنيقة.'
                   : 'We pride ourselves on offering a diverse selection of Arabic and Turkish cuisine, with a focus on using the best fresh, local ingredients. Our goal is to provide an exceptional dining experience for every guest with excellent service in an elegant atmosphere.'}
@@ -54,13 +54,13 @@ const AboutPage = () => {
           {/* Our Vision */}
           <div className="mb-16">
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-primary mb-4">
+              <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">
                 {language === 'ar' ? 'رؤيتنا' : 'Our Vision'}
               </h2>
-              <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
+              <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
             </div>
-            <div className="bg-gray-50 rounded-lg p-8 shadow-inner">
-              <p className="text-lg text-center text-foreground italic">
+            <div className="bg-gray-50 dark:bg-card rounded-lg p-8 shadow-inner">
+              <p className="text-lg text-center text-foreground dark:text-foreground/90 italic">
                 {language === 'ar' 
                   ? 'نسعى في المطعم الملكي لأن نكون الوجهة المفضلة لعشاق الطعام الأصيل، حيث نقدم تجربة طعام فريدة تجمع بين الأصالة والابتكار، ونعكس ثراء وتنوع المطبخين العربي والتركي في أجواء تناسب جميع المناسبات.'
                   : 'At Royal Restaurant, we strive to be the preferred destination for lovers of authentic food, where we offer a unique dining experience that combines authenticity and innovation, reflecting the richness and diversity of both Arabic and Turkish cuisines in an atmosphere suitable for all occasions.'}
@@ -71,48 +71,48 @@ const AboutPage = () => {
           {/* Our Values */}
           <div>
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-primary mb-4">
+              <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">
                 {language === 'ar' ? 'قيمنا' : 'Our Values'}
               </h2>
-              <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
+              <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                  <i className="bi bi-star-fill text-3xl text-primary"></i>
+              <div className="bg-white dark:bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
+                <div className="inline-block p-3 bg-primary/10 dark:bg-primary/20 rounded-full mb-4">
+                  <i className="bi bi-star-fill text-3xl text-primary dark:text-primary"></i>
                 </div>
-                <h3 className="text-xl font-bold text-secondary mb-3">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-3">
                   {language === 'ar' ? 'الجودة' : 'Quality'}
                 </h3>
-                <p className="text-foreground">
+                <p className="text-foreground dark:text-foreground/90">
                   {language === 'ar' 
                     ? 'نلتزم بتقديم أفضل المكونات والوصفات الأصيلة في كل طبق'
                     : 'We are committed to offering the best ingredients and authentic recipes in every dish'}
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                  <i className="bi bi-people-fill text-3xl text-primary"></i>
+              <div className="bg-white dark:bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
+                <div className="inline-block p-3 bg-primary/10 dark:bg-primary/20 rounded-full mb-4">
+                  <i className="bi bi-people-fill text-3xl text-primary dark:text-primary"></i>
                 </div>
-                <h3 className="text-xl font-bold text-secondary mb-3">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-3">
                   {language === 'ar' ? 'الضيافة' : 'Hospitality'}
                 </h3>
-                <p className="text-foreground">
+                <p className="text-foreground dark:text-foreground/90">
                   {language === 'ar' 
                     ? 'نسعى لأن يشعر كل ضيف بالترحيب والراحة في أجواء المطعم الملكي'
                     : 'We strive to make every guest feel welcome and comfortable in the atmosphere of Royal Restaurant'}
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
-                <div className="inline-block p-3 bg-primary/10 rounded-full mb-4">
-                  <i className="bi bi-heart-fill text-3xl text-primary"></i>
+              <div className="bg-white dark:bg-card rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow text-center">
+                <div className="inline-block p-3 bg-primary/10 dark:bg-primary/20 rounded-full mb-4">
+                  <i className="bi bi-heart-fill text-3xl text-primary dark:text-primary"></i>
                 </div>
-                <h3 className="text-xl font-bold text-secondary mb-3">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-3">
                   {language === 'ar' ? 'الشغف' : 'Passion'}
                 </h3>
-                <p className="text-foreground">
+                <p className="text-foreground dark:text-foreground/90">
                   {language === 'ar' 
                     ? 'نعمل بشغف لتقديم تجربة طعام لا تُنسى وخدمة استثنائية'
                     : 'We work with passion to provide an unforgettable dining experience and exceptional service'}
