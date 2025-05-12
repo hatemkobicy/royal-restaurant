@@ -201,39 +201,37 @@ const AdminDashboard = () => {
                   </div>
                   <div>
                     <div className="flex space-x-2">
-                      <form action={`/admin/menu-items/edit/${item.id}`} method="get">
-                        <button
-                          type="submit"
-                          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-primary hover:bg-muted hover:text-primary"
-                        >
-                          <i className="bi bi-pencil-square"></i>
-                        </button>
-                      </form>
+                      <button
+                        onClick={() => {
+                          // Use direct window location change
+                          window.location.href = `/admin/menu-items/edit/${item.id}`;
+                        }}
+                        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-primary hover:bg-muted hover:text-primary"
+                      >
+                        <i className="bi bi-pencil-square"></i>
+                      </button>
                       
-                      <form onSubmit={(e) => {
-                        e.preventDefault();
-                        if (confirm(language === 'ar' 
-                          ? 'هل أنت متأكد من حذف هذا العنصر؟' 
-                          : 'Are you sure you want to delete this item?')) {
-                          // Delete the item
-                          try {
-                            const items = JSON.parse(localStorage.getItem('menuItems') || '[]');
-                            const updatedItems = items.filter((i: any) => i.id !== item.id);
-                            localStorage.setItem('menuItems', JSON.stringify(updatedItems));
-                            // Force re-render
-                            window.location.reload();
-                          } catch (err) {
-                            console.error('Error deleting item:', err);
+                      <button
+                        onClick={() => {
+                          if (confirm(language === 'ar' 
+                            ? 'هل أنت متأكد من حذف هذا العنصر؟' 
+                            : 'Are you sure you want to delete this item?')) {
+                            // Delete the item
+                            try {
+                              const items = JSON.parse(localStorage.getItem('menuItems') || '[]');
+                              const updatedItems = items.filter((i: any) => i.id !== item.id);
+                              localStorage.setItem('menuItems', JSON.stringify(updatedItems));
+                              // Force re-render
+                              window.location.reload();
+                            } catch (err) {
+                              console.error('Error deleting item:', err);
+                            }
                           }
-                        }
-                      }}>
-                        <button
-                          type="submit" 
-                          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-accent hover:bg-muted hover:text-accent"
-                        >
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </form>
+                        }}
+                        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 text-accent hover:bg-muted hover:text-accent"
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
                     </div>
                   </div>
                 </div>

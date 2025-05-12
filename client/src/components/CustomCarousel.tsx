@@ -120,14 +120,20 @@ const CustomCarousel = ({
                   <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-md">{item.title}</h2>
                   <p className="text-xl text-white mb-6 drop-shadow-sm">{item.subtitle}</p>
                   {item.cta && (
-                    <form action={item.cta.link.startsWith('/') ? item.cta.link : `/${item.cta.link}`} method="get">
-                      <button 
-                        type="submit"
-                        className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-3 px-8 rounded-lg transition duration-300 inline-block shadow-md cursor-pointer"
-                      >
-                        {item.cta.text}
-                      </button>
-                    </form>
+                    <button 
+                      onClick={() => {
+                        const link = item.cta?.link || '';
+                        const url = link.startsWith('/') || link.startsWith('http') 
+                          ? link 
+                          : `/${link}`;
+                        
+                        // Force navigation with full page refresh
+                        window.location.href = url;
+                      }}
+                      className="bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white dark:text-primary-foreground font-bold py-3 px-8 rounded-lg transition duration-300 inline-block shadow-md cursor-pointer"
+                    >
+                      {item.cta.text}
+                    </button>
                   )}
                 </div>
               </div>

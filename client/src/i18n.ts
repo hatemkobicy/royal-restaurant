@@ -113,6 +113,7 @@ const translations: TranslationSet = {
     "admin.items.actions": "الإجراءات",
     "admin.items.available": "متاح",
     "admin.items.unavailable": "غير متاح",
+    "admin.items.noItems": "لا توجد عناصر لعرضها",
     
     "admin.form.add": "إضافة عنصر جديد",
     "admin.form.name.ar": "اسم العنصر (عربي)",
@@ -233,6 +234,7 @@ const translations: TranslationSet = {
     "admin.items.actions": "İşlemler",
     "admin.items.available": "Mevcut",
     "admin.items.unavailable": "Mevcut Değil",
+    "admin.items.noItems": "Gösterilecek öğe yok",
     
     "admin.form.add": "Yeni Öğe Ekle",
     "admin.form.name.ar": "Öğe Adı (Arapça)",
