@@ -44,9 +44,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <LanguageProvider>
       <LanguageSelector />
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-background">
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow bg-background">
           {children}
         </main>
         <Footer />

@@ -102,7 +102,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       {/* Hero Section */}
       <section className="relative">
         <div className="h-[300px] md:h-[400px] overflow-hidden">
@@ -130,58 +130,58 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
-              <Card className="bg-gray-50 mb-6">
+              <Card className="bg-gray-50 dark:bg-card mb-6 shadow-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary mb-6">{t('contact.info.title')}</h3>
+                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.info.title')}</h3>
                   
                   <div className="flex items-start mb-4">
-                    <i className={`bi bi-geo-alt text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
+                    <i className={`bi bi-geo-alt text-primary dark:text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                     <div>
-                      <h4 className="font-bold">{t('contact.address.title')}</h4>
-                      <p className="text-foreground">{t('contact.address.value')}</p>
+                      <h4 className="font-bold dark:text-foreground">{t('contact.address.title')}</h4>
+                      <p className="text-foreground dark:text-foreground/80">{t('contact.address.value')}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start mb-4">
-                    <i className={`bi bi-telephone text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
+                    <i className={`bi bi-telephone text-primary dark:text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                     <div>
-                      <h4 className="font-bold">{t('contact.phone.title')}</h4>
-                      <p className="text-foreground">{t('contact.phone.value')}</p>
+                      <h4 className="font-bold dark:text-foreground">{t('contact.phone.title')}</h4>
+                      <p className="text-foreground dark:text-foreground/80">{t('contact.phone.value')}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start mb-4">
-                    <i className={`bi bi-envelope text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
+                    <i className={`bi bi-envelope text-primary dark:text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                     <div>
-                      <h4 className="font-bold">{t('contact.email.title')}</h4>
-                      <p className="text-foreground">{t('contact.email.value')}</p>
+                      <h4 className="font-bold dark:text-foreground">{t('contact.email.title')}</h4>
+                      <p className="text-foreground dark:text-foreground/80">{t('contact.email.value')}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start">
-                    <i className={`bi bi-clock text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
+                    <i className={`bi bi-clock text-primary dark:text-primary text-xl mt-1 ${isRtl ? 'ml-3' : 'mr-3'}`}></i>
                     <div>
-                      <h4 className="font-bold">{t('contact.hours.title')}</h4>
-                      <p className="text-foreground">{t('contact.hours.value')}</p>
+                      <h4 className="font-bold dark:text-foreground">{t('contact.hours.title')}</h4>
+                      <p className="text-foreground dark:text-foreground/80">{t('contact.hours.value')}</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card className="bg-gray-50">
+              <Card className="bg-gray-50 dark:bg-card shadow-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary mb-6">{t('contact.social.title')}</h3>
+                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.social.title')}</h3>
                   <div className="flex gap-6">
-                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                    <a href="#" className="bg-primary dark:bg-primary text-white dark:text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 dark:hover:bg-primary/90 transition shadow-sm">
                       <i className="bi bi-instagram text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                    <a href="#" className="bg-primary dark:bg-primary text-white dark:text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 dark:hover:bg-primary/90 transition shadow-sm">
                       <i className="bi bi-facebook text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                    <a href="#" className="bg-primary dark:bg-primary text-white dark:text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 dark:hover:bg-primary/90 transition shadow-sm">
                       <i className="bi bi-youtube text-lg"></i>
                     </a>
-                    <a href="#" className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 transition">
+                    <a href="#" className="bg-primary dark:bg-primary text-white dark:text-primary-foreground w-12 h-12 rounded-full flex items-center justify-center hover:bg-primary/90 dark:hover:bg-primary/90 transition shadow-sm">
                       <i className="bi bi-twitter text-lg"></i>
                     </a>
                   </div>
@@ -205,9 +205,9 @@ const ContactPage = () => {
             
             {/* Reservation Form */}
             <div>
-              <Card>
+              <Card className="dark:bg-card shadow-sm">
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-secondary mb-6">{t('contact.booking.title')}</h3>
+                  <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-6">{t('contact.booking.title')}</h3>
                   
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

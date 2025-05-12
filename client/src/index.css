@@ -35,30 +35,30 @@
 }
 
 .dark {
-  --background: 220 26% 14%; /* Darker version of deep navy */
+  --background: 220 26% 12%; /* Darker background for dark mode */
   --foreground: 0 0% 98%;
   --muted: 220 16% 22%;
-  --muted-foreground: 220 5% 70%;
+  --muted-foreground: 220 5% 75%; /* Brighter muted text for better contrast */
   --popover: 220 26% 14%;
   --popover-foreground: 0 0% 98%;
-  --card: 220 28% 16%;
+  --card: 220 28% 14%; /* Slightly darker cards */
   --card-foreground: 0 0% 98%;
-  --border: 220 16% 22%;
+  --border: 220 16% 25%; /* Slightly more visible borders */
   --input: 220 16% 22%;
-  --primary: 43 49% 65%; /* Slightly brighter gold for dark mode */
+  --primary: 43 49% 70%; /* Brighter gold for dark mode */
   --primary-foreground: 0 0% 0%;
-  --secondary: 210 29% 35%; /* Brighter navy for dark mode */
+  --secondary: 210 29% 40%; /* Brighter navy for dark mode */
   --secondary-foreground: 0 0% 98%;
-  --accent: 0 70% 45%; /* Brighter accent for dark mode */
+  --accent: 0 70% 50%; /* Brighter accent for dark mode */
   --accent-foreground: 0 0% 98%;
   --destructive: 0 62.8% 40%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 43 49% 65%; /* Match the royal gold color */
+  --ring: 43 49% 70%; /* Match the royal gold color */
   
   /* Dark mode specific chart colors */
-  --chart-1: 43 49% 65%; /* Brighter gold */
+  --chart-1: 43 49% 70%; /* Brighter gold */
   --chart-2: 210 29% 40%; /* Brighter navy */
-  --chart-3: 0 70% 45%; /* Brighter red */
+  --chart-3: 0 70% 50%; /* Brighter red */
   --chart-4: 34 78% 91%; /* Light gold */
   --chart-5: 210 40% 60%; /* Light navy */
 }
