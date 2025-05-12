@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/LanguageSelector';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface WorkingHoursInputProps {
   name: string;
@@ -20,6 +21,7 @@ const WorkingHoursInput: React.FC<WorkingHoursInputProps> = ({
   const [value, setValue] = useState(defaultValue);
   const [isEditing, setIsEditing] = useState(false);
   const { language } = useLanguage();
+  const { t } = useTranslation();
   
   useEffect(() => {
     setValue(defaultValue);
@@ -57,9 +59,7 @@ const WorkingHoursInput: React.FC<WorkingHoursInputProps> = ({
           
           {!isValidTimeFormat(value) && (
             <p className="text-red-500 text-xs">
-              {language === 'ar' 
-                ? 'الرجاء إدخال التوقيت بصيغة صحيحة (مثال: 12:00 - 23:00)'
-                : 'Please enter time in correct format (e.g., 12:00 - 23:00)'}
+              {t('admin.hours.format')}
             </p>
           )}
           
@@ -69,14 +69,14 @@ const WorkingHoursInput: React.FC<WorkingHoursInputProps> = ({
               disabled={!isValidTimeFormat(value)}
               size="sm"
             >
-              {language === 'ar' ? 'حفظ' : 'Save'}
+              {t('admin.hours.save')}
             </Button>
             <Button 
               onClick={handleCancel}
               variant="outline"
               size="sm"
             >
-              {language === 'ar' ? 'إلغاء' : 'Cancel'}
+              {t('admin.hours.cancel')}
             </Button>
           </div>
         </div>
@@ -88,7 +88,7 @@ const WorkingHoursInput: React.FC<WorkingHoursInputProps> = ({
             variant="ghost"
             size="sm"
           >
-            {language === 'ar' ? 'تعديل' : 'Edit'}
+            {t('admin.hours.edit')}
           </Button>
         </div>
       )}

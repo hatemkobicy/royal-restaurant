@@ -127,7 +127,21 @@ const translations: TranslationSet = {
     "admin.form.available": "متاح للطلب",
     "admin.form.cancel": "إلغاء",
     "admin.form.submit": "إضافة العنصر",
-    "admin.form.update": "تحديث العنصر"
+    "admin.form.update": "تحديث العنصر",
+    
+    // Working Hours
+    "admin.hours.title": "ساعات العمل",
+    "admin.hours.description": "تعديل ساعات عمل المطعم التي ستظهر في الموقع",
+    "admin.hours.weekdays": "الإثنين - الخميس",
+    "admin.hours.weekend": "الجمعة - السبت",
+    "admin.hours.sunday": "الأحد",
+    "admin.hours.format": "الرجاء إدخال التوقيت بصيغة صحيحة (مثال: 12:00 - 23:00)",
+    "admin.hours.save": "حفظ",
+    "admin.hours.cancel": "إلغاء",
+    "admin.hours.edit": "تعديل",
+    "admin.hours.updated.weekdays": "تم تحديث ساعات العمل أيام الأسبوع",
+    "admin.hours.updated.weekend": "تم تحديث ساعات العمل في نهاية الأسبوع",
+    "admin.hours.updated.sunday": "تم تحديث ساعات العمل يوم الأحد"
   },
   tr: {
     // Layout & Navigation
@@ -248,7 +262,21 @@ const translations: TranslationSet = {
     "admin.form.available": "Sipariş İçin Mevcut",
     "admin.form.cancel": "İptal",
     "admin.form.submit": "Öğe Ekle",
-    "admin.form.update": "Öğeyi Güncelle"
+    "admin.form.update": "Öğeyi Güncelle",
+    
+    // Working Hours
+    "admin.hours.title": "Çalışma Saatleri",
+    "admin.hours.description": "Web sitesinde görüntülenecek restoran çalışma saatlerini değiştir",
+    "admin.hours.weekdays": "Pazartesi - Perşembe",
+    "admin.hours.weekend": "Cuma - Cumartesi",
+    "admin.hours.sunday": "Pazar",
+    "admin.hours.format": "Lütfen zamanı doğru biçimde girin (örn. 12:00 - 23:00)",
+    "admin.hours.save": "Kaydet",
+    "admin.hours.cancel": "İptal",
+    "admin.hours.edit": "Düzenle",
+    "admin.hours.updated.weekdays": "Hafta içi çalışma saatleri güncellendi",
+    "admin.hours.updated.weekend": "Hafta sonu çalışma saatleri güncellendi",
+    "admin.hours.updated.sunday": "Pazar çalışma saatleri güncellendi"
   }
 };
 

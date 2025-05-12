@@ -10,6 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/components/LanguageSelector';
+import { useTranslation } from '@/hooks/useTranslation';
 import SocialMediaInput from '@/components/admin/SocialMediaInput';
 import WorkingHoursInput from '@/components/admin/WorkingHoursInput';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -20,6 +21,7 @@ import CarouselEditor from '@/components/admin/CarouselEditor';
 const AdminSettings = () => {
   const { toast } = useToast();
   const { language } = useLanguage();
+  const { t } = useTranslation();
   const [hours, setHours] = useState(getWorkingHours());
   
   // Placeholder function to clear cache
@@ -138,6 +140,62 @@ const AdminSettings = () => {
                 </div>
               </div>
 
+              {/* Working Hours Section */}
+              <div className="mb-8">
+                <h3 className="text-lg font-medium mb-4">
+                  {t('admin.hours.title')}
+                </h3>
+                <div className="space-y-6 border rounded-lg p-4 bg-background dark:bg-background/80">
+                  <p className="text-sm text-muted-foreground">
+                    {t('admin.hours.description')}
+                  </p>
+                  
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <WorkingHoursInput
+                      name="weekdays"
+                      label={t('admin.hours.weekdays')}
+                      defaultValue={hours.weekdays}
+                      onSave={(value) => {
+                        saveWorkingHours(WORKING_HOURS.KEYS.WEEKDAYS, value);
+                        setHours({...hours, weekdays: value});
+                        toast({
+                          title: t('admin.form.update'),
+                          description: t('admin.hours.updated.weekdays')
+                        });
+                      }}
+                    />
+                    
+                    <WorkingHoursInput
+                      name="weekend"
+                      label={t('admin.hours.weekend')}
+                      defaultValue={hours.weekend}
+                      onSave={(value) => {
+                        saveWorkingHours(WORKING_HOURS.KEYS.WEEKEND, value);
+                        setHours({...hours, weekend: value});
+                        toast({
+                          title: t('admin.form.update'),
+                          description: t('admin.hours.updated.weekend')
+                        });
+                      }}
+                    />
+                    
+                    <WorkingHoursInput
+                      name="sunday"
+                      label={t('admin.hours.sunday')}
+                      defaultValue={hours.sunday}
+                      onSave={(value) => {
+                        saveWorkingHours(WORKING_HOURS.KEYS.SUNDAY, value);
+                        setHours({...hours, sunday: value});
+                        toast({
+                          title: t('admin.form.update'),
+                          description: t('admin.hours.updated.sunday')
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              
               {/* Social Media Links */}
               <div>
                 <h3 className="text-lg font-medium mb-2">
