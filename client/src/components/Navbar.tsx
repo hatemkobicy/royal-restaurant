@@ -4,6 +4,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from './LanguageSelector';
 import ThemeToggle from './ThemeToggle';
+import { getLogo } from '@/utils/logo';
 import {
   Sheet,
   SheetContent,
@@ -15,6 +16,7 @@ const Navbar = () => {
   const [location] = useLocation();
   const { language, setLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
+  const [logo, setLogo] = useState(getLogo());
   const isRtl = getDirection() === 'rtl';
 
   // Handle scroll effect for navbar
@@ -26,6 +28,24 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  // Listen for logo updates
+  useEffect(() => {
+    const handleLogoChange = () => {
+      setLogo(getLogo());
+    };
+    
+    // Update when localStorage changes
+    window.addEventListener('storage', handleLogoChange);
+    
+    // Custom event for logo updates from admin panel
+    document.addEventListener('logoUpdated', handleLogoChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleLogoChange);
+      document.removeEventListener('logoUpdated', handleLogoChange);
     };
   }, []);
 
@@ -40,7 +60,11 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex justify-start">
             <div className="flex-shrink-0 flex items-center">
-              <img className="h-12 w-auto" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120&q=80" alt="Royal Restaurant Logo" />
+              <img 
+                className="h-12 w-auto object-contain" 
+                src={logo.url} 
+                alt={logo.alt} 
+              />
               <div className={`${isRtl ? 'mr-3' : 'ml-3'}`}>
                 <h1 className="text-xl font-bold text-primary">{t('app.title')}</h1>
                 <p className="text-xs text-foreground/70">{t('app.subtitle')}</p>
@@ -116,7 +140,11 @@ const Navbar = () => {
                   
                   <div className="mt-auto border-t border-gray-200 dark:border-gray-700 pt-4 px-2">
                     <div className="flex items-center">
-                      <img className="h-8 w-auto" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120&q=80" alt="Royal Restaurant Logo" />
+                      <img 
+                        className="h-8 w-auto object-contain" 
+                        src={logo.url} 
+                        alt={logo.alt} 
+                      />
                       <div className={`${isRtl ? 'mr-3' : 'ml-3'}`}>
                         <h1 className="text-sm font-bold text-primary">{t('app.title')}</h1>
                       </div>
