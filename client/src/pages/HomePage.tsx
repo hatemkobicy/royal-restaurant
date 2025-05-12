@@ -7,9 +7,125 @@ import { Card, CardContent } from '@/components/ui/card';
 import CustomCarousel from '@/components/CustomCarousel';
 import MenuItemCard from '@/components/MenuItemCard';
 import { restaurantImages, menuItemImages, formatCurrency } from '@/lib/utils';
-import { type MenuItem, type Category } from '@shared/schema';
+import { type MenuItem, type Category, type SpecialDish } from '@shared/schema';
 import { getCarouselData } from '@/utils/carousel';
 import { getStoryData, type StoryData } from '@/utils/story';
+
+// Special Dishes Component
+const SpecialDishesSection = () => {
+  const { language, getDirection } = useTranslation();
+  const isRtl = getDirection() === 'rtl';
+  
+  // Fetch special dishes data
+  const { data: specialDishes = [], isLoading } = useQuery<SpecialDish[]>({
+    queryKey: ['/api/special-dishes/active'],
+  });
+  
+  // Sort by position
+  const sortedDishes = [...specialDishes].sort((a, b) => a.position - b.position);
+  
+  if (isLoading) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-white/80">{language === 'ar' ? 'جاري التحميل...' : 'Loading...'}</p>
+      </div>
+    );
+  }
+  
+  if (sortedDishes.length === 0) {
+    // Default dishes if no special dishes are defined yet
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Default Special Dish 1 */}
+        <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+          <img 
+            src={menuItemImages[6].url} 
+            alt={menuItemImages[6].alt} 
+            className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
+          />
+          <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
+            {language === 'ar' ? 'طبق المشاوي الملكي' : 'Royal Mixed Grill Plate'}
+          </h3>
+          <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base line-clamp-3">
+            {language === 'ar'
+              ? 'تشكيلة فاخرة من المشاوي تتضمن قطع من لحم الضأن، شيش طاووق، كفتة، ريش غنم، وكباب. يقدم مع الأرز المبهر والخضروات المشوية وصلصات متنوعة.'
+              : 'A luxurious selection of grilled meats including lamb cuts, shish tawook, kofta, lamb chops, and kebab. Served with spiced rice, grilled vegetables, and various sauces.'
+            }
+          </p>
+          <div className="flex justify-start">
+            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(395)}</span>
+          </div>
+        </div>
+                  
+        {/* Default Special Dish 2 */}
+        <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+          <img 
+            src={menuItemImages[7].url} 
+            alt={menuItemImages[7].alt} 
+            className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
+          />
+          <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
+            {language === 'ar' ? 'طبق المأكولات البحرية' : 'Seafood Platter'}
+          </h3>
+          <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base line-clamp-3">
+            {language === 'ar'
+              ? 'تشكيلة من أجود أنواع المأكولات البحرية الطازجة تشمل سمك السلطان إبراهيم، الروبيان، الكاليماري والمحار. يقدم مع الأعشاب البحرية، صلصة الليمون والثوم وخبز محمص.'
+              : 'A selection of the finest fresh seafood including Sultan Ibrahim fish, prawns, calamari, and oysters. Served with seaweed, lemon and garlic sauce, and toasted bread.'
+            }
+          </p>
+          <div className="flex justify-start">
+            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(450)}</span>
+          </div>
+        </div>
+                  
+        {/* Default Special Dish 3 */}
+        <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+          <img 
+            src={menuItemImages[5].url} 
+            alt={menuItemImages[5].alt} 
+            className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
+          />
+          <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
+            {language === 'ar' ? 'كنافة بالقشطة' : 'Cream Kunafa'}
+          </h3>
+          <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base line-clamp-3">
+            {language === 'ar'
+              ? 'حلوى عربية تقليدية من العجين الرفيع المحمص والمحشو بالقشطة الطازجة، مغطاة بالقطر ومزينة بالفستق الحلبي.'
+              : 'Traditional Arabic dessert made with thin, crispy pastry filled with fresh cream, soaked in sweet syrup and garnished with crushed pistachios.'
+            }
+          </p>
+          <div className="flex justify-start">
+            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(95)}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Display up to 3 dishes from the database
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {sortedDishes.slice(0, 3).map((dish) => (
+        <div key={dish.id} className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+          <img 
+            src={dish.imageUrl} 
+            alt={isRtl ? dish.titleAr : dish.titleTr} 
+            className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
+          />
+          <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
+            {isRtl ? dish.titleAr : dish.titleTr}
+          </h3>
+          <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base line-clamp-3">
+            {isRtl ? dish.descriptionAr : dish.descriptionTr}
+          </p>
+          <div className="flex justify-start">
+            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(dish.price)}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const HomePage = () => {
   const { t, language, getDirection } = useTranslation();
@@ -201,7 +317,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Special Offers Section */}
+      {/* Special Dishes Section */}
       <section id="specialties" className="py-16 bg-secondary dark:bg-secondary/90 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
@@ -210,53 +326,8 @@ const HomePage = () => {
             <p className="text-lg text-white/90 dark:text-white/90 max-w-3xl mx-auto">{t('home.special.subtitle')}</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
-              <img 
-                src={menuItemImages[6].url} 
-                alt={menuItemImages[6].alt} 
-                className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
-              />
-              <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
-                {language === 'ar' ? 'طبق المشاوي الملكي' : 'Royal Mixed Grill Plate'}
-              </h3>
-              <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base">
-                {language === 'ar' 
-                  ? 'تشكيلة فاخرة من المشاوي تتضمن قطع من لحم الضأن، شيش طاووق، كفتة، ريش غنم، وكباب. يقدم مع الأرز المبهر والخضروات المشوية وصلصات متنوعة.'
-                  : 'A luxurious selection of grilled meats including lamb cuts, shish tawook, kofta, lamb chops, and kebab. Served with spiced rice, grilled vegetables, and various sauces.'
-                }
-              </p>
-              <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:justify-between sm:items-center">
-                <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(395)}</span>
-                <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
-                  {t('home.special.cta')}
-                </Button>
-              </div>
-            </div>
-            
-            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
-              <img 
-                src={menuItemImages[7].url} 
-                alt={menuItemImages[7].alt} 
-                className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
-              />
-              <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
-                {language === 'ar' ? 'طبق المأكولات البحرية' : 'Seafood Platter'}
-              </h3>
-              <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base">
-                {language === 'ar'
-                  ? 'تشكيلة من أجود أنواع المأكولات البحرية الطازجة تشمل سمك السلطان إبراهيم، الروبيان، الكاليماري والمحار. يقدم مع الأعشاب البحرية، صلصة الليمون والثوم وخبز محمص.'
-                  : 'A selection of the finest fresh seafood including Sultan Ibrahim fish, prawns, calamari, and oysters. Served with seaweed, lemon and garlic sauce, and toasted bread.'
-                }
-              </p>
-              <div className="flex flex-wrap gap-3 sm:flex-nowrap sm:justify-between sm:items-center">
-                <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(450)}</span>
-                <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
-                  {t('home.special.cta')}
-                </Button>
-              </div>
-            </div>
-          </div>
+          {/* Fetch special dishes */}
+          <SpecialDishesSection />
         </div>
         
         {/* Decorative pattern overlay */}
