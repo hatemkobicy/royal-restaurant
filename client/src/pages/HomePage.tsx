@@ -70,12 +70,12 @@ const HomePage = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 bg-white">
+      <section id="about" className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">{t('home.about.title')}</h2>
-            <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-foreground max-w-3xl mx-auto">{t('home.about.subtitle')}</p>
+            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('home.about.title')}</h2>
+            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
+            <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">{t('home.about.subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -91,19 +91,19 @@ const HomePage = () => {
             </div>
             
             <div>
-              <h3 className="text-2xl font-bold text-secondary mb-4">{t('home.about.story.title')}</h3>
-              <div className="w-16 h-1 bg-primary mb-6"></div>
-              <p className="text-foreground mb-6">{t('home.about.story.p1')}</p>
-              <p className="text-foreground mb-6">{t('home.about.story.p2')}</p>
+              <h3 className="text-2xl font-bold text-secondary dark:text-secondary mb-4">{t('home.about.story.title')}</h3>
+              <div className="w-16 h-1 bg-primary dark:bg-primary mb-6"></div>
+              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p1')}</p>
+              <p className="text-foreground dark:text-foreground/90 mb-6">{t('home.about.story.p2')}</p>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gray-50 p-4 rounded-lg text-center">
-                  <i className="bi bi-award text-3xl text-primary mb-2"></i>
-                  <p className="font-bold">{t('home.about.quality')}</p>
+                <div className="bg-gray-50 dark:bg-card p-4 rounded-lg text-center shadow-sm">
+                  <i className="bi bi-award text-3xl text-primary dark:text-primary mb-2"></i>
+                  <p className="font-bold dark:text-foreground">{t('home.about.quality')}</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg text-center">
-                  <i className="bi bi-hand-thumbs-up text-3xl text-primary mb-2"></i>
-                  <p className="font-bold">{t('home.about.service')}</p>
+                <div className="bg-gray-50 dark:bg-card p-4 rounded-lg text-center shadow-sm">
+                  <i className="bi bi-hand-thumbs-up text-3xl text-primary dark:text-primary mb-2"></i>
+                  <p className="font-bold dark:text-foreground">{t('home.about.service')}</p>
                 </div>
               </div>
               
@@ -117,12 +117,12 @@ const HomePage = () => {
       </section>
 
       {/* Menu Highlights Section */}
-      <section id="menu-highlights" className="py-16 bg-gray-50 arabic-pattern">
+      <section id="menu-highlights" className="py-16 bg-gray-50 dark:bg-background/95 arabic-pattern">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">{t('menu.title')}</h2>
-            <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-foreground max-w-3xl mx-auto">{t('menu.subtitle')}</p>
+            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('menu.title')}</h2>
+            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
+            <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">{t('menu.subtitle')}</p>
           </div>
           
           {/* Menu Items Grid */}
@@ -130,16 +130,16 @@ const HomePage = () => {
             {isLoading ? (
               // Loading skeleton
               Array(6).fill(0).map((_, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <div className="w-full h-48 bg-gray-200 animate-pulse"></div>
+                <Card key={index} className="overflow-hidden dark:bg-card">
+                  <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
                   <CardContent className="p-6">
-                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/4 mb-4 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded w-5/6 mb-4 animate-pulse"></div>
+                    <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6 mb-4 animate-pulse"></div>
                     <div className="flex justify-between items-center">
-                      <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse"></div>
-                      <div className="h-6 bg-gray-200 rounded-full w-8 animate-pulse"></div>
+                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 animate-pulse"></div>
+                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-8 animate-pulse"></div>
                     </div>
                   </CardContent>
                 </Card>
@@ -172,12 +172,12 @@ const HomePage = () => {
       </section>
 
       {/* Special Offers Section */}
-      <section id="specialties" className="py-16 bg-secondary text-white relative overflow-hidden">
+      <section id="specialties" className="py-16 bg-secondary dark:bg-secondary/90 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">{t('home.special.title')}</h2>
-            <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-white/90 max-w-3xl mx-auto">{t('home.special.subtitle')}</p>
+            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">{t('home.special.title')}</h2>
+            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
+            <p className="text-lg text-white/90 dark:text-white/90 max-w-3xl mx-auto">{t('home.special.subtitle')}</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -124,14 +124,14 @@ const AboutPage = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-background/95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary mb-4">
+            <h2 className="text-3xl font-bold text-primary dark:text-primary mb-4">
               {language === 'ar' ? 'فريقنا' : 'Our Team'}
             </h2>
-            <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-            <p className="text-lg text-foreground max-w-3xl mx-auto">
+            <div className="w-24 h-1 bg-primary dark:bg-primary mx-auto mb-6"></div>
+            <p className="text-lg text-foreground dark:text-foreground/90 max-w-3xl mx-auto">
               {language === 'ar' 
                 ? 'يتكون فريقنا من مجموعة من الخبراء المحترفين الذين يسعون دائماً لتقديم الأفضل'
                 : 'Our team consists of a group of professional experts who always strive to provide the best'}
@@ -139,7 +139,7 @@ const AboutPage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-md">
+            <div className="bg-white dark:bg-card rounded-lg overflow-hidden shadow-md">
               <div className="h-64 overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
@@ -148,13 +148,13 @@ const AboutPage = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-bold text-secondary mb-1">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-1">
                   {language === 'ar' ? 'أحمد محمود' : 'Ahmed Mahmoud'}
                 </h3>
-                <p className="text-primary font-medium mb-3">
+                <p className="text-primary dark:text-primary font-medium mb-3">
                   {language === 'ar' ? 'رئيس الطهاة التنفيذي' : 'Executive Chef'}
                 </p>
-                <p className="text-foreground/80 text-sm">
+                <p className="text-foreground/80 dark:text-foreground/70 text-sm">
                   {language === 'ar' 
                     ? 'خبرة أكثر من 20 عاماً في المطبخ الشرقي، حائز على العديد من الجوائز العالمية'
                     : 'Over 20 years of experience in Middle Eastern cuisine, recipient of several international awards'}
@@ -162,7 +162,7 @@ const AboutPage = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md">
+            <div className="bg-white dark:bg-card rounded-lg overflow-hidden shadow-md">
               <div className="h-64 overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
@@ -171,13 +171,13 @@ const AboutPage = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-bold text-secondary mb-1">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-1">
                   {language === 'ar' ? 'ليلى أوزتورك' : 'Leyla Öztürk'}
                 </h3>
-                <p className="text-primary font-medium mb-3">
+                <p className="text-primary dark:text-primary font-medium mb-3">
                   {language === 'ar' ? 'مديرة المطعم' : 'Restaurant Manager'}
                 </p>
-                <p className="text-foreground/80 text-sm">
+                <p className="text-foreground/80 dark:text-foreground/70 text-sm">
                   {language === 'ar' 
                     ? 'متخصصة في إدارة المطاعم الفاخرة وتقديم تجربة ضيافة استثنائية'
                     : 'Specialized in luxury restaurant management and providing an exceptional hospitality experience'}
@@ -185,7 +185,7 @@ const AboutPage = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg overflow-hidden shadow-md">
+            <div className="bg-white dark:bg-card rounded-lg overflow-hidden shadow-md">
               <div className="h-64 overflow-hidden">
                 <img 
                   src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
@@ -194,13 +194,13 @@ const AboutPage = () => {
                 />
               </div>
               <div className="p-6 text-center">
-                <h3 className="text-xl font-bold text-secondary mb-1">
+                <h3 className="text-xl font-bold text-secondary dark:text-secondary mb-1">
                   {language === 'ar' ? 'مصطفى كمال' : 'Mustafa Kemal'}
                 </h3>
-                <p className="text-primary font-medium mb-3">
+                <p className="text-primary dark:text-primary font-medium mb-3">
                   {language === 'ar' ? 'رئيس قسم الحلويات' : 'Pastry Chef'}
                 </p>
-                <p className="text-foreground/80 text-sm">
+                <p className="text-foreground/80 dark:text-foreground/70 text-sm">
                   {language === 'ar' 
                     ? 'متخصص في الحلويات الشرقية التقليدية مع لمسة إبداعية عصرية'
                     : 'Specialized in traditional Eastern desserts with a creative modern touch'}
