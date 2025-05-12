@@ -16,13 +16,15 @@ const SpecialDishesSection = () => {
   const { language, getDirection } = useTranslation();
   const isRtl = getDirection() === 'rtl';
   
-  // Fetch special dishes data
-  const { data: specialDishes = [], isLoading } = useQuery<SpecialDish[]>({
-    queryKey: ['/api/special-dishes/active'],
+  // Fetch regular menu items instead of special dishes
+  const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
+    queryKey: ['/api/menu-items'],
   });
   
-  // Sort by position
-  const sortedDishes = [...specialDishes].sort((a, b) => a.position - b.position);
+  // Get the latest 3 dishes based on ID (assuming higher ID = more recently added)
+  const latestDishes = [...menuItems]
+    .sort((a, b) => b.id - a.id) // Sort by ID descending (newest first)
+    .slice(0, 3);  // Take only the first 3
   
   if (isLoading) {
     return (
@@ -32,8 +34,8 @@ const SpecialDishesSection = () => {
     );
   }
   
-  if (sortedDishes.length === 0) {
-    // Default dishes if no special dishes are defined yet
+  if (latestDishes.length === 0) {
+    // Default dishes if no menu items are available yet
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {/* Default Special Dish 1 */}
@@ -102,24 +104,24 @@ const SpecialDishesSection = () => {
     );
   }
   
-  // Display up to 3 dishes from the database
+  // Display the 3 most recently added menu items
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {sortedDishes.slice(0, 3).map((dish) => (
-        <div key={dish.id} className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+      {latestDishes.map((item) => (
+        <div key={item.id} className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-primary/30 transition duration-300">
           <img 
-            src={dish.imageUrl} 
-            alt={isRtl ? dish.titleAr : dish.titleTr} 
+            src={item.imageUrl || menuItemImages[Math.floor(Math.random() * menuItemImages.length)].url} 
+            alt={isRtl ? item.nameAr : item.nameTr} 
             className="w-full h-48 sm:h-64 object-cover rounded-lg mb-4 sm:mb-6"
           />
           <h3 className="text-xl sm:text-2xl font-bold text-primary dark:text-primary mb-2">
-            {isRtl ? dish.titleAr : dish.titleTr}
+            {isRtl ? item.nameAr : item.nameTr}
           </h3>
           <p className="text-white/80 dark:text-white/90 mb-4 text-sm sm:text-base line-clamp-3">
-            {isRtl ? dish.descriptionAr : dish.descriptionTr}
+            {isRtl ? item.descriptionAr : item.descriptionTr}
           </p>
           <div className="flex justify-start">
-            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(dish.price)}</span>
+            <span className="text-xl sm:text-2xl font-bold text-primary dark:text-primary">{formatCurrency(item.price)}</span>
           </div>
         </div>
       ))}
