@@ -1,7 +1,7 @@
 // MySQL connection for Hostinger
 const mysql = require('mysql2/promise');
 const { drizzle } = require('drizzle-orm/mysql2');
-const schema = require('./shared/schema');
+const schema = require('../shared/schema');
 
 // Database connection configuration
 const poolConfig = {

@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 43 49% 61%;  /* #C5A572 (royal gold) */
+  --primary-foreground: 211 100% 99%;
+  --secondary: 210 29% 24%; /* #2C3E50 (deep navy) */
+  --secondary-foreground: 0 0% 98%;
+  --accent: 0 100% 27%; /* #8B0000 (deep red) */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 20 14.3% 4.1%;
+  --radius: 0.5rem;
+
+  --chart-1: 43 49% 61%; /* Royal gold */
+  --chart-2: 210 29% 24%; /* Deep navy */
+  --chart-3: 0 100% 27%; /* Deep red */
+  --chart-4: 34 78% 91%; /* Light gold */
+  --chart-5: 210 29% 40%; /* Light navy */
+}
+
+.dark {
+  --background: 220 26% 12%; /* Darker background for dark mode */
+  --foreground: 0 0% 98%;
+  --muted: 220 16% 22%;
+  --muted-foreground: 220 5% 75%; /* Brighter muted text for better contrast */
+  --popover: 220 26% 14%;
+  --popover-foreground: 0 0% 98%;
+  --card: 220 28% 14%; /* Slightly darker cards */
+  --card-foreground: 0 0% 98%;
+  --border: 220 16% 25%; /* Slightly more visible borders */
+  --input: 220 16% 22%;
+  --primary: 43 49% 70%; /* Brighter gold for dark mode */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 210 29% 40%; /* Brighter navy for dark mode */
+  --secondary-foreground: 0 0% 98%;
+  --accent: 0 70% 50%; /* Brighter accent for dark mode */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 43 49% 70%; /* Match the royal gold color */
+  
+  /* Dark mode specific chart colors */
+  --chart-1: 43 49% 70%; /* Brighter gold */
+  --chart-2: 210 29% 40%; /* Brighter navy */
+  --chart-3: 0 70% 50%; /* Brighter red */
+  --chart-4: 34 78% 91%; /* Light gold */
+  --chart-5: 210 40% 60%; /* Light navy */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply antialiased bg-background text-foreground;
+  }
+}
+
+/* Language & Direction styles */
+html[dir="rtl"] {
+  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
+}
+
+html[dir="ltr"] {
+  font-family: 'Roboto', 'Open Sans', sans-serif;
+}
+
+/* Custom classes */
+.font-arabic {
+  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
+}
+
+.font-turkish {
+  font-family: 'Roboto', 'Open Sans', sans-serif;
+}
+
+/* Arabic pattern background */
+.arabic-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5a572' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.dark .arabic-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5a572' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Gold border */
+.gold-border {
+  background-image: linear-gradient(to right, #C5A572, #e3c99f, #C5A572);
+  height: 2px;
+}
+
+/* Menu card transitions */
+.menu-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .menu-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(197, 165, 114, 0.07), 0 10px 10px -5px rgba(197, 165, 114, 0.04);
+}
+
+/* Admin sidebar styles */
+.sidebar-item:hover {
+  background-color: rgba(197, 165, 114, 0.1);
+}
+
+.dark .sidebar-item:hover {
+  background-color: rgba(197, 165, 114, 0.15);
+}
+
+.sidebar-item.active {
+  background-color: rgba(197, 165, 114, 0.2);
+}
+
+.dark .sidebar-item.active {
+  background-color: rgba(197, 165, 114, 0.25);
+}
+
+html[dir="rtl"] .sidebar-item.active {
+  border-right: 3px solid #C5A572;
+}
+
+html[dir="ltr"] .sidebar-item.active {
+  border-left: 3px solid #C5A572;
+}
+
+/* Form input focus states */
+.form-input:focus {
+  border-color: #C5A572;
+  box-shadow: 0 0 0 3px rgba(197, 165, 114, 0.2);
+}
+
+.dark .form-input:focus {
+  border-color: #d9bf94;
+  box-shadow: 0 0 0 3px rgba(197, 165, 114, 0.3);
+}
