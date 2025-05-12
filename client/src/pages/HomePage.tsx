@@ -181,46 +181,46 @@ const HomePage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
               <img 
                 src={menuItemImages[6].url} 
                 alt={menuItemImages[6].alt} 
                 className="w-full h-64 object-cover rounded-lg mb-6"
               />
-              <h3 className="text-2xl font-bold text-primary mb-2">
+              <h3 className="text-2xl font-bold text-primary dark:text-primary mb-2">
                 {language === 'ar' ? 'طبق المشاوي الملكي' : 'Royal Mixed Grill Plate'}
               </h3>
-              <p className="text-white/80 mb-4">
+              <p className="text-white/80 dark:text-white/90 mb-4">
                 {language === 'ar' 
                   ? 'تشكيلة فاخرة من المشاوي تتضمن قطع من لحم الضأن، شيش طاووق، كفتة، ريش غنم، وكباب. يقدم مع الأرز المبهر والخضروات المشوية وصلصات متنوعة.'
                   : 'A luxurious selection of grilled meats including lamb cuts, shish tawook, kofta, lamb chops, and kebab. Served with spiced rice, grilled vegetables, and various sauces.'
                 }
               </p>
               <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold text-primary">{formatCurrency(395)}</span>
+                <span className="text-2xl font-bold text-primary dark:text-primary">{formatCurrency(395)}</span>
                 <Button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
                   {t('home.special.cta')}
                 </Button>
               </div>
             </div>
             
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
+            <div className="bg-white/5 dark:bg-black/20 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-primary/30 transition duration-300">
               <img 
                 src={menuItemImages[7].url} 
                 alt={menuItemImages[7].alt} 
                 className="w-full h-64 object-cover rounded-lg mb-6"
               />
-              <h3 className="text-2xl font-bold text-primary mb-2">
+              <h3 className="text-2xl font-bold text-primary dark:text-primary mb-2">
                 {language === 'ar' ? 'طبق المأكولات البحرية' : 'Seafood Platter'}
               </h3>
-              <p className="text-white/80 mb-4">
+              <p className="text-white/80 dark:text-white/90 mb-4">
                 {language === 'ar'
                   ? 'تشكيلة من أجود أنواع المأكولات البحرية الطازجة تشمل سمك السلطان إبراهيم، الروبيان، الكاليماري والمحار. يقدم مع الأعشاب البحرية، صلصة الليمون والثوم وخبز محمص.'
                   : 'A selection of the finest fresh seafood including Sultan Ibrahim fish, prawns, calamari, and oysters. Served with seaweed, lemon and garlic sauce, and toasted bread.'
                 }
               </p>
               <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold text-primary">{formatCurrency(450)}</span>
+                <span className="text-2xl font-bold text-primary dark:text-primary">{formatCurrency(450)}</span>
                 <Button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded transition duration-300">
                   {t('home.special.cta')}
                 </Button>
