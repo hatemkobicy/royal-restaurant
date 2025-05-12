@@ -43,7 +43,7 @@ const MenuItemCard = ({ item, category }: MenuItemCardProps) => {
                 className="text-xs sm:text-sm whitespace-nowrap" 
                 style={{ color: item.travelPriceColor || '#FF5722' }}
               >
-                {isRtl ? `توصيل: ${formatCurrency(item.travelPrice)}` : `Delivery: ${formatCurrency(item.travelPrice)}`}
+                {isRtl ? `سعر السفري: ${formatCurrency(item.travelPrice)}` : `Seferi: ${formatCurrency(item.travelPrice)}`}
               </span>
             )}
           </div>
