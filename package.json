@@ -1,13 +1,11 @@
 {
-  "name": "rest-express",
+  "name": "royal-restaurant",
   "version": "1.0.0",
-  "type": "module",
-  "license": "MIT",
+  "main": "server.js",
   "scripts": {
-  "dev": "NODE_ENV=development tsx server/index.ts",
-  "build": "npx vite build && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-  "start": "NODE_ENV=production node dist/index.js"
-  },
+    "dev": "NODE_ENV=development nodemon server.js",
+    "build": "node build.js",
+    "start": "NODE_ENV=production node server.js"
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
