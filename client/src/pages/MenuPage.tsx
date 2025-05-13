@@ -30,7 +30,6 @@ const MenuPage = () => {
       if (storedItems) {
         const parsedItems = JSON.parse(storedItems);
         if (Array.isArray(parsedItems) && parsedItems.length > 0) {
-          console.log('MenuPage loaded items from localStorage:', parsedItems.length);
           setLocalMenuItems(parsedItems);
           return;
         }

@@ -69,7 +69,6 @@ const AdminMenuItems = () => {
       if (storedItems) {
         const parsedItems = JSON.parse(storedItems);
         if (Array.isArray(parsedItems) && parsedItems.length > 0) {
-          console.log('Loaded menu items from localStorage:', parsedItems.length);
           setLocalMenuItems(parsedItems);
           return; // Skip API data if we have localStorage data
         }
@@ -173,7 +172,6 @@ const AdminMenuItems = () => {
           const parsedItems = JSON.parse(storedItems);
           const updatedItems = parsedItems.filter((item: any) => item.id !== id);
           localStorage.setItem('menuItems', JSON.stringify(updatedItems));
-          console.log('Deleted menu item from localStorage:', id);
           
           // Update local state immediately for UI
           setLocalMenuItems(prev => prev.filter(item => item.id !== id));

@@ -35,7 +35,6 @@ export function useAuth() {
           navigate('/admin/login');
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
         setIsAuthenticated(false);
         navigate('/admin/login');
       } finally {
