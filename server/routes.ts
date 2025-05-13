@@ -322,7 +322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/special-dishes', isAuthenticated, isAdmin, async (req, res) => {
+  app.post('/api/special-dishes', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const dishData = insertSpecialDishSchema.parse(req.body);
       const newDish = await storage.createSpecialDish(dishData);
@@ -337,7 +337,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/special-dishes/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.put('/api/special-dishes/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -362,7 +362,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/special-dishes/:id', isAuthenticated, isAdmin, async (req, res) => {
+  app.delete('/api/special-dishes/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
