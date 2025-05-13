@@ -5,10 +5,17 @@ services:
     env: node
     buildCommand: npm install && npm run build
     startCommand: npm start
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/categories
+    domains:
+      - royal-restaurant.onrender.com
     envVars:
       - key: NODE_ENV
         value: production
       - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_SECRET
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
@@ -19,3 +26,4 @@ databases:
   - name: royal-restaurant-db
     databaseName: royal_restaurant
     user: royal_restaurant_user
+    plan: free

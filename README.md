@@ -21,43 +21,25 @@ A bilingual (Arabic/Turkish) restaurant website with an admin dashboard for cont
 - JWT-based authentication
 - Drizzle ORM
 
-## Deployment Instructions for Render
+## Free Deployment Options
 
-### 1. Sign up for Render
+### Render (Recommended)
 
-Create an account at [render.com](https://render.com)
+For detailed step-by-step instructions on deploying to Render's free tier, see [RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)
 
-### 2. Create a New PostgreSQL Database
+### Railway
 
-1. In the Render dashboard, click on "New" and select "PostgreSQL"
-2. Configure your database:
-   - Name: royal-restaurant-db
-   - Database: royal_restaurant
-   - User: royal_restaurant_user
-3. Create the database and copy the "Internal Connection String"
+Railway offers a good free tier option with:
+- Integrated PostgreSQL database
+- Automatic deployments from GitHub
+- Simple environment variable management
+- Free tier includes $5 of usage credits monthly
 
-### 3. Deploy the Web Service
+### Netlify + Supabase
 
-1. In the Render dashboard, click on "New" and select "Web Service"
-2. Connect your GitHub repository
-3. Configure your web service:
-   - Name: royal-restaurant
-   - Build Command: `npm install && npm run build`
-   - Start Command: `npm start`
-4. Add the following environment variables:
-   - `NODE_ENV`: production
-   - `DATABASE_URL`: (the Internal Connection String from step 2)
-   - `SESSION_SECRET`: (a random secure string)
-   - `ADMIN_SECRET`: (a secure string for admin authentication)
-5. Deploy the service
-
-### 4. Apply Database Migrations
-
-After deployment, connect to your service's shell via the Render dashboard and run:
-
-```
-npm run db:push
-```
+For front-end focused deployments:
+- Deploy the frontend to Netlify (free tier)
+- Use Supabase for database (free tier with limitations)
 
 ## Local Development
 
@@ -73,3 +55,21 @@ Access the admin dashboard at `/admin/login` with the default credentials:
 - Password: RoyalRestaurant2023
 
 Change the admin password after first login for security.
+
+## Environment Variables
+
+See `.env.example` for the required environment variables:
+
+```
+# Database Connection
+DATABASE_URL=postgres://username:password@localhost:5432/royal_restaurant
+
+# Session Configuration
+SESSION_SECRET=your_secure_session_secret
+
+# Admin Configuration
+ADMIN_SECRET=your_admin_secret_key
+
+# Node Environment
+NODE_ENV=development
+```

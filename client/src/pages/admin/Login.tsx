@@ -65,13 +65,10 @@ const AdminLogin = () => {
   // Handle form submission
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    console.log('Attempting login with:', data.username);
     
     try {
       // For testing purposes - hardcoded admin login
       if (data.username === 'admin' && data.password === 'RoyalRestaurant2023') {
-        console.log('Using hardcoded admin credentials');
-        
         // Store a mock token
         localStorage.setItem('token', 'mock-admin-token');
         
@@ -89,7 +86,6 @@ const AdminLogin = () => {
       }
       
       const result = await apiClient.login(data.username, data.password);
-      console.log('Login successful:', result);
       
       // Store token
       localStorage.setItem('token', result.token);
@@ -105,8 +101,6 @@ const AdminLogin = () => {
       // Navigate to admin dashboard
       navigate('/admin');
     } catch (error: any) {
-      console.error('Login error:', error);
-      
       // Show error message
       toast({
         title: language === 'ar' ? "خطأ في تسجيل الدخول" : "Login Failed",
