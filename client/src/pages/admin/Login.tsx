@@ -170,8 +170,8 @@ const AdminLogin = () => {
         </CardContent>
         <CardFooter className="justify-center text-sm text-gray-500">
           {language === 'ar' 
-            ? "استخدم 'admin' كاسم مستخدم و 'RoyalRestaurant2023' ككلمة مرور" 
-            : "Use 'admin' as username and 'RoyalRestaurant2023' as password"
+            ? "اتصل بالمسؤول للحصول على بيانات الاعتماد" 
+            : "Contact the administrator for credentials"
           }
         </CardFooter>
       </Card>
