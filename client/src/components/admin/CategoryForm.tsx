@@ -62,21 +62,25 @@ const CategoryForm = ({ category, onSuccess }: CategoryFormProps) => {
   };
 
   // Create mutation
-  const createMutation = useMutation({
-    mutationFn: async (data: CategoryFormValues) => {
-      const response = await fetch('/api/categories', {
-        method: 'POST',
-        headers: apiClient.getAuthHeaders(),
-        body: JSON.stringify(data),
-      });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to create category');
-      }
-      
-      return response.json();
-    },
+ mutationFn: async (data: CategoryFormValues) => {
+  console.log('Sending request with data:', data);
+  console.log('Headers:', apiClient.getAuthHeaders());
+  
+  const response = await fetch('/api/categories', {
+    method: 'POST',
+    headers: apiClient.getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    console.error('Response status:', response.status);
+    const errorText = await response.text();
+    console.error('Error response:', errorText);
+    throw new Error('Failed to create category');
+  }
+  
+  return response.json();
+}
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
       toast({
