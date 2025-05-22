@@ -51,19 +51,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post('/api/categories', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
-    try {
-      const categoryData = insertCategorySchema.parse(req.body);
-      const newCategory = await storage.createCategory(categoryData);
-      res.status(201).json(newCategory);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const validationError = fromZodError(error);
-        return res.status(400).json({ message: validationError.message });
-      }
-      console.error('Error creating category:', error);
-      res.status(500).json({ message: 'Failed to create category' });
-    }
-  });
+  try {
+    const categoryData = req.body;
+    const newCategory = await storage.createCategory(categoryData);
+    res.status(201).json(newCategory);
+  } catch (error) {
+    console.error('Error creating category:', error);
+    res.status(500).json({ error: 'Failed to create category' });
+  }
+});
 
   app.put('/api/categories/:id', requireAuth, requireAdmin, async (req: AuthenticatedRequest, res) => {
     try {
