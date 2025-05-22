@@ -42,6 +42,6 @@ app.get('*', (req, res) => {
 });
 
 // بدء الخادم
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
