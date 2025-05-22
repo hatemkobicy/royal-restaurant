@@ -1,15 +1,19 @@
-// vite.prod.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
 export default defineConfig({
-  root: './client', // تحديد مجلد client كمجلد رئيسي
-  build: {
-    outDir: '../dist/client',
-    emptyOutDir: true
-  },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        // ضمان أن الملفات المجمعة تستخدم امتدادات مناسبة
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './client/src'),
