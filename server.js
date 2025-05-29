@@ -2,53 +2,26 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const { Pool } = require('pg');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// In-memory data store (will reset on server restart)
-let categories = [
-  { id: 1, nameAr: 'المقبلات', nameTr: 'Başlangıçlar', imageUrl: 'https://images.unsplash.com/photo-1577906096429-f73c2c312435', slug: 'appetizers' },
-  { id: 2, nameAr: 'الأطباق الرئيسية', nameTr: 'Ana Yemekler', imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947', slug: 'main-dishes' },
-  { id: 3, nameAr: 'الحلويات', nameTr: 'Tatlılar', imageUrl: 'https://images.pixabay.com/photo/2020/03/07/16/02/baklava-4910371_1280.jpg', slug: 'desserts' },
-  { id: 4, nameAr: 'المشروبات', nameTr: 'İçecekler', imageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574', slug: 'drinks' }
-];
-let menuItems = [];
+// PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
-// Try to load data from files if they exist
-try {
-  if (fs.existsSync('./data/categories.json')) {
-    categories = JSON.parse(fs.readFileSync('./data/categories.json', 'utf8'));
-    console.log('Loaded categories from file');
+// Test database connection
+pool.connect((err, client, release) => {
+  if (err) {
+    console.error('Error connecting to database:', err);
+  } else {
+    console.log('Successfully connected to PostgreSQL database');
+    release();
   }
-  if (fs.existsSync('./data/menuItems.json')) {
-    menuItems = JSON.parse(fs.readFileSync('./data/menuItems.json', 'utf8'));
-    console.log('Loaded menu items from file');
-  }
-} catch (error) {
-  console.error('Error loading data files:', error);
-}
-
-// Ensure data directory exists
-if (!fs.existsSync('./data')) {
-  try {
-    fs.mkdirSync('./data');
-    console.log('Created data directory');
-  } catch (error) {
-    console.error('Error creating data directory:', error);
-  }
-}
-
-// Function to save data to files
-const saveData = () => {
-  try {
-    fs.writeFileSync('./data/categories.json', JSON.stringify(categories, null, 2));
-    fs.writeFileSync('./data/menuItems.json', JSON.stringify(menuItems, null, 2));
-    console.log('Data saved to files');
-  } catch (error) {
-    console.error('Error saving data files:', error);
-  }
-};
+});
 
 // Middleware for parsing JSON and serving static files
 app.use(express.json());
@@ -112,6 +85,72 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
+// Initialize database tables
+const initTables = async () => {
+  try {
+    // Create categories table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS categories (
+        id SERIAL PRIMARY KEY,
+        name_ar TEXT NOT NULL,
+        name_tr TEXT NOT NULL,
+        slug TEXT NOT NULL UNIQUE,
+        image_url TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Create menu_items table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS menu_items (
+        id SERIAL PRIMARY KEY,
+        name_ar TEXT NOT NULL,
+        name_tr TEXT NOT NULL,
+        description_ar TEXT NOT NULL,
+        description_tr TEXT NOT NULL,
+        price DECIMAL(10,2) NOT NULL,
+        travel_price DECIMAL(10,2),
+        travel_price_color TEXT DEFAULT '#FF5722',
+        image_url TEXT,
+        is_available BOOLEAN DEFAULT TRUE,
+        category_id INTEGER REFERENCES categories(id),
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Create users table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        is_admin BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Insert default categories if they don't exist
+    const categoryCheck = await pool.query('SELECT COUNT(*) FROM categories');
+    if (parseInt(categoryCheck.rows[0].count) === 0) {
+      await pool.query(`
+        INSERT INTO categories (name_ar, name_tr, slug, image_url) VALUES
+        ('المقبلات', 'Başlangıçlar', 'appetizers', 'https://images.unsplash.com/photo-1577906096429-f73c2c312435'),
+        ('الأطباق الرئيسية', 'Ana Yemekler', 'main-dishes', 'https://images.unsplash.com/photo-1544025162-d76694265947'),
+        ('الحلويات', 'Tatlılar', 'desserts', 'https://images.pixabay.com/photo/2020/03/07/16/02/baklava-4910371_1280.jpg'),
+        ('المشروبات', 'İçecekler', 'drinks', 'https://images.unsplash.com/photo-1544787219-7f47ccb76574')
+      `);
+      console.log('Default categories inserted');
+    }
+
+    console.log('Database tables initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database tables:', error);
+  }
+};
+
+// Initialize tables on startup
+initTables();
+
 // Login route
 app.post('/api/auth/login', async (req, res) => {
   try {
@@ -144,19 +183,42 @@ app.get('/api/auth/check', authMiddleware, (req, res) => {
 });
 
 // Test route
-app.get('/api/test', (req, res) => {
-  res.json({ 
-    message: 'Server is running', 
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV,
-    categories: categories.length,
-    menuItems: menuItems.length
-  });
+app.get('/api/test', async (req, res) => {
+  try {
+    const categoriesCount = await pool.query('SELECT COUNT(*) FROM categories');
+    const menuItemsCount = await pool.query('SELECT COUNT(*) FROM menu_items');
+    
+    res.json({ 
+      message: 'Server is running', 
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      database: 'connected',
+      categories: parseInt(categoriesCount.rows[0].count),
+      menuItems: parseInt(menuItemsCount.rows[0].count)
+    });
+  } catch (error) {
+    res.json({ 
+      message: 'Server is running', 
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      database: 'error',
+      error: error.message
+    });
+  }
 });
 
 // Categories API routes
 app.get('/api/categories', async (req, res) => {
   try {
+    const result = await pool.query('SELECT * FROM categories ORDER BY id');
+    const categories = result.rows.map(row => ({
+      id: row.id,
+      nameAr: row.name_ar,
+      nameTr: row.name_tr,
+      slug: row.slug,
+      imageUrl: row.image_url,
+      createdAt: row.created_at
+    }));
     res.json(categories);
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -169,27 +231,30 @@ app.post('/api/categories', authMiddleware, async (req, res) => {
   try {
     console.log('Creating category with data:', req.body);
     
-    // Generate a new ID
-    const newId = categories.length > 0 
-      ? Math.max(...categories.map(c => c.id)) + 1 
-      : 1;
+    const { nameAr, nameTr, slug, imageUrl } = req.body;
+    
+    const result = await pool.query(
+      'INSERT INTO categories (name_ar, name_tr, slug, image_url) VALUES ($1, $2, $3, $4) RETURNING *',
+      [nameAr, nameTr, slug, imageUrl]
+    );
     
     const newCategory = {
-      id: newId,
-      ...req.body,
-      createdAt: new Date().toISOString()
+      id: result.rows[0].id,
+      nameAr: result.rows[0].name_ar,
+      nameTr: result.rows[0].name_tr,
+      slug: result.rows[0].slug,
+      imageUrl: result.rows[0].image_url,
+      createdAt: result.rows[0].created_at
     };
-    
-    // Add to our in-memory array
-    categories.push(newCategory);
-    
-    // Save data to file
-    saveData();
     
     res.status(201).json(newCategory);
   } catch (error) {
     console.error('Error creating category:', error);
-    res.status(500).json({ error: 'Failed to create category' });
+    if (error.code === '23505') { // Unique constraint violation
+      res.status(400).json({ error: 'Category with this slug already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to create category' });
+    }
   }
 });
 
@@ -197,32 +262,36 @@ app.post('/api/categories', authMiddleware, async (req, res) => {
 app.put('/api/categories/:id', authMiddleware, async (req, res) => {
   try {
     const categoryId = parseInt(req.params.id);
+    const { nameAr, nameTr, slug, imageUrl } = req.body;
+    
     console.log(`Updating category with ID ${categoryId}:`, req.body);
     
-    // Find the category
-    const index = categories.findIndex(c => c.id === categoryId);
+    const result = await pool.query(
+      'UPDATE categories SET name_ar = $1, name_tr = $2, slug = $3, image_url = $4 WHERE id = $5 RETURNING *',
+      [nameAr, nameTr, slug, imageUrl, categoryId]
+    );
     
-    if (index === -1) {
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Category not found' });
     }
     
-    // Update the category
     const updatedCategory = {
-      ...categories[index],
-      ...req.body,
-      id: categoryId, // ensure ID doesn't change
-      updatedAt: new Date().toISOString()
+      id: result.rows[0].id,
+      nameAr: result.rows[0].name_ar,
+      nameTr: result.rows[0].name_tr,
+      slug: result.rows[0].slug,
+      imageUrl: result.rows[0].image_url,
+      createdAt: result.rows[0].created_at
     };
-    
-    categories[index] = updatedCategory;
-    
-    // Save data to file
-    saveData();
     
     res.json(updatedCategory);
   } catch (error) {
     console.error('Error updating category:', error);
-    res.status(500).json({ error: 'Failed to update category' });
+    if (error.code === '23505') { // Unique constraint violation
+      res.status(400).json({ error: 'Category with this slug already exists' });
+    } else {
+      res.status(500).json({ error: 'Failed to update category' });
+    }
   }
 });
 
@@ -232,16 +301,15 @@ app.delete('/api/categories/:id', authMiddleware, async (req, res) => {
     const categoryId = parseInt(req.params.id);
     console.log(`Deleting category with ID ${categoryId}`);
     
-    // Find and remove the category
-    const initialLength = categories.length;
-    categories = categories.filter(c => c.id !== categoryId);
+    // First delete related menu items
+    await pool.query('DELETE FROM menu_items WHERE category_id = $1', [categoryId]);
     
-    if (categories.length === initialLength) {
+    // Then delete the category
+    const result = await pool.query('DELETE FROM categories WHERE id = $1 RETURNING *', [categoryId]);
+    
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: 'Category not found' });
     }
-    
-    // Save data to file
-    saveData();
     
     res.json({ success: true, message: 'Category deleted successfully' });
   } catch (error) {
@@ -253,6 +321,30 @@ app.delete('/api/categories/:id', authMiddleware, async (req, res) => {
 // Menu items API routes
 app.get('/api/menu-items', async (req, res) => {
   try {
+    const result = await pool.query(`
+      SELECT m.*, c.name_ar as category_name_ar, c.name_tr as category_name_tr 
+      FROM menu_items m 
+      LEFT JOIN categories c ON m.category_id = c.id 
+      ORDER BY m.id
+    `);
+    
+    const menuItems = result.rows.map(row => ({
+      id: row.id,
+      nameAr: row.name_ar,
+      nameTr: row.name_tr,
+      descriptionAr: row.description_ar,
+      descriptionTr: row.description_tr,
+      price: parseFloat(row.price),
+      travelPrice: row.travel_price ? parseFloat(row.travel_price) : null,
+      travelPriceColor: row.travel_price_color,
+      imageUrl: row.image_url,
+      isAvailable: row.is_available,
+      categoryId: row.category_id,
+      categoryNameAr: row.category_name_ar,
+      categoryNameTr: row.category_name_tr,
+      createdAt: row.created_at
+    }));
+    
     res.json(menuItems);
   } catch (error) {
     console.error('Error fetching menu items:', error);
@@ -260,26 +352,131 @@ app.get('/api/menu-items', async (req, res) => {
   }
 });
 
-// Auth debug route
-app.get('/api/auth-debug', (req, res) => {
-  const authHeader = req.headers.authorization;
-  
-  res.json({
-    authHeader: authHeader,
-    hasToken: !!authHeader,
-    tokenStartsWithBearer: authHeader?.startsWith('Bearer ') || false
-  });
+// Create a new menu item
+app.post('/api/menu-items', authMiddleware, async (req, res) => {
+  try {
+    console.log('Creating menu item with data:', req.body);
+    
+    const { 
+      nameAr, nameTr, descriptionAr, descriptionTr, 
+      price, travelPrice, travelPriceColor, imageUrl, 
+      isAvailable, categoryId 
+    } = req.body;
+    
+    const result = await pool.query(`
+      INSERT INTO menu_items 
+      (name_ar, name_tr, description_ar, description_tr, price, travel_price, travel_price_color, image_url, is_available, category_id) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+      RETURNING *
+    `, [nameAr, nameTr, descriptionAr, descriptionTr, price, travelPrice, travelPriceColor, imageUrl, isAvailable, categoryId]);
+    
+    const newMenuItem = {
+      id: result.rows[0].id,
+      nameAr: result.rows[0].name_ar,
+      nameTr: result.rows[0].name_tr,
+      descriptionAr: result.rows[0].description_ar,
+      descriptionTr: result.rows[0].description_tr,
+      price: parseFloat(result.rows[0].price),
+      travelPrice: result.rows[0].travel_price ? parseFloat(result.rows[0].travel_price) : null,
+      travelPriceColor: result.rows[0].travel_price_color,
+      imageUrl: result.rows[0].image_url,
+      isAvailable: result.rows[0].is_available,
+      categoryId: result.rows[0].category_id,
+      createdAt: result.rows[0].created_at
+    };
+    
+    res.status(201).json(newMenuItem);
+  } catch (error) {
+    console.error('Error creating menu item:', error);
+    res.status(500).json({ error: 'Failed to create menu item' });
+  }
 });
 
-// Data status route
-app.get('/api/data-status', (req, res) => {
-  res.json({
-    categories: categories.length,
-    menuItems: menuItems.length,
-    dataDirectory: fs.existsSync('./data'),
-    categoriesFile: fs.existsSync('./data/categories.json'),
-    menuItemsFile: fs.existsSync('./data/menuItems.json')
-  });
+// Update a menu item
+app.put('/api/menu-items/:id', authMiddleware, async (req, res) => {
+  try {
+    const menuItemId = parseInt(req.params.id);
+    const { 
+      nameAr, nameTr, descriptionAr, descriptionTr, 
+      price, travelPrice, travelPriceColor, imageUrl, 
+      isAvailable, categoryId 
+    } = req.body;
+    
+    console.log(`Updating menu item with ID ${menuItemId}:`, req.body);
+    
+    const result = await pool.query(`
+      UPDATE menu_items 
+      SET name_ar = $1, name_tr = $2, description_ar = $3, description_tr = $4, 
+          price = $5, travel_price = $6, travel_price_color = $7, image_url = $8, 
+          is_available = $9, category_id = $10 
+      WHERE id = $11 
+      RETURNING *
+    `, [nameAr, nameTr, descriptionAr, descriptionTr, price, travelPrice, travelPriceColor, imageUrl, isAvailable, categoryId, menuItemId]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Menu item not found' });
+    }
+    
+    const updatedMenuItem = {
+      id: result.rows[0].id,
+      nameAr: result.rows[0].name_ar,
+      nameTr: result.rows[0].name_tr,
+      descriptionAr: result.rows[0].description_ar,
+      descriptionTr: result.rows[0].description_tr,
+      price: parseFloat(result.rows[0].price),
+      travelPrice: result.rows[0].travel_price ? parseFloat(result.rows[0].travel_price) : null,
+      travelPriceColor: result.rows[0].travel_price_color,
+      imageUrl: result.rows[0].image_url,
+      isAvailable: result.rows[0].is_available,
+      categoryId: result.rows[0].category_id,
+      createdAt: result.rows[0].created_at
+    };
+    
+    res.json(updatedMenuItem);
+  } catch (error) {
+    console.error('Error updating menu item:', error);
+    res.status(500).json({ error: 'Failed to update menu item' });
+  }
+});
+
+// Delete a menu item
+app.delete('/api/menu-items/:id', authMiddleware, async (req, res) => {
+  try {
+    const menuItemId = parseInt(req.params.id);
+    console.log(`Deleting menu item with ID ${menuItemId}`);
+    
+    const result = await pool.query('DELETE FROM menu_items WHERE id = $1 RETURNING *', [menuItemId]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Menu item not found' });
+    }
+    
+    res.json({ success: true, message: 'Menu item deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting menu item:', error);
+    res.status(500).json({ error: 'Failed to delete menu item' });
+  }
+});
+
+// Database status route
+app.get('/api/database-status', async (req, res) => {
+  try {
+    const categoriesCount = await pool.query('SELECT COUNT(*) FROM categories');
+    const menuItemsCount = await pool.query('SELECT COUNT(*) FROM menu_items');
+    
+    res.json({
+      connected: true,
+      categories: parseInt(categoriesCount.rows[0].count),
+      menuItems: parseInt(menuItemsCount.rows[0].count),
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      connected: false,
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // Catch-all route for client-side routing
@@ -292,5 +489,5 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
   console.log(`Serving files from: ${clientPath}`);
-  console.log(`Currently have ${categories.length} categories and ${menuItems.length} menu items`);
+  console.log('Database: PostgreSQL (connected)');
 });
