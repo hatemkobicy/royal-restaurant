@@ -68,19 +68,12 @@ if (process.env.NODE_ENV === 'production') {
   buildFrontend();
 }
 
-// Determine client path based on production/development
+// Always serve from ./client directory for consistency
 let clientPath = './client';
+
+// In production, prefer ./client since it contains the working React app
 if (process.env.NODE_ENV === 'production') {
-  if (fs.existsSync('./dist/public')) {
-    clientPath = './dist/public';
-  } else if (fs.existsSync('./dist')) {
-    clientPath = './dist';
-  } else if (fs.existsSync('./build')) {
-    clientPath = './build';
-  } else {
-    clientPath = './client';
-  }
-} else {
+  // Always use ./client directory as it contains the working React application
   clientPath = './client';
 }
 
