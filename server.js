@@ -10,18 +10,35 @@ const PORT = process.env.PORT || 3000;
 // PostgreSQL connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
-// Test database connection
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error('Error connecting to database:', err);
-  } else {
-    console.log('Successfully connected to PostgreSQL database');
-    release();
+// Test database connection with retry logic
+const connectWithRetry = async () => {
+  let retries = 5;
+  while (retries > 0) {
+    try {
+      const client = await pool.connect();
+      console.log('Successfully connected to PostgreSQL database');
+      client.release();
+      return true;
+    } catch (err) {
+      console.log(`Database connection attempt failed. Retries left: ${retries - 1}`);
+      console.error('Error:', err.message);
+      retries--;
+      if (retries > 0) {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retry
+      }
+    }
   }
-});
+  console.error('Failed to connect to database after all retries');
+  return false;
+};
+
+connectWithRetry();
 
 // Middleware for parsing JSON and serving static files
 app.use(express.json());
@@ -85,9 +102,19 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-// Initialize database tables
+// Initialize database tables with better error handling
 const initTables = async () => {
+  // Skip if DATABASE_URL is not set
+  if (!process.env.DATABASE_URL) {
+    console.log('DATABASE_URL not found, skipping database initialization');
+    return;
+  }
+
   try {
+    // Test connection first
+    const client = await pool.connect();
+    client.release();
+
     // Create categories table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS categories (
@@ -144,7 +171,8 @@ const initTables = async () => {
 
     console.log('Database tables initialized successfully');
   } catch (error) {
-    console.error('Error initializing database tables:', error);
+    console.log('Database initialization skipped - using fallback mode');
+    console.error('Database error details:', error.message);
   }
 };
 
@@ -207,9 +235,22 @@ app.get('/api/test', async (req, res) => {
   }
 });
 
+// Fallback data for when database is not available
+const fallbackCategories = [
+  { id: 1, nameAr: 'المقبلات', nameTr: 'Başlangıçlar', slug: 'appetizers', imageUrl: 'https://images.unsplash.com/photo-1577906096429-f73c2c312435' },
+  { id: 2, nameAr: 'الأطباق الرئيسية', nameTr: 'Ana Yemekler', slug: 'main-dishes', imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947' },
+  { id: 3, nameAr: 'الحلويات', nameTr: 'Tatlılar', slug: 'desserts', imageUrl: 'https://images.pixabay.com/photo/2020/03/07/16/02/baklava-4910371_1280.jpg' },
+  { id: 4, nameAr: 'المشروبات', nameTr: 'İçecekler', slug: 'drinks', imageUrl: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574' }
+];
+let fallbackMenuItems = [];
+
 // Categories API routes
 app.get('/api/categories', async (req, res) => {
   try {
+    if (!process.env.DATABASE_URL) {
+      return res.json(fallbackCategories);
+    }
+    
     const result = await pool.query('SELECT * FROM categories ORDER BY id');
     const categories = result.rows.map(row => ({
       id: row.id,
@@ -221,8 +262,8 @@ app.get('/api/categories', async (req, res) => {
     }));
     res.json(categories);
   } catch (error) {
-    console.error('Error fetching categories:', error);
-    res.status(500).json({ error: 'Failed to fetch categories' });
+    console.error('Error fetching categories, using fallback:', error.message);
+    res.json(fallbackCategories);
   }
 });
 
