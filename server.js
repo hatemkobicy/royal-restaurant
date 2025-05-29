@@ -50,13 +50,40 @@ express.static.mime.define({
   'text/css': ['css']
 });
 
+// Build frontend files if not built
+const buildFrontend = () => {
+  try {
+    const { execSync } = require('child_process');
+    if (!fs.existsSync('./dist') && !fs.existsSync('./build')) {
+      console.log('Building frontend...');
+      execSync('npm run build', { stdio: 'inherit' });
+    }
+  } catch (error) {
+    console.error('Error building frontend:', error.message);
+  }
+};
+
+// Call build function in production
+if (process.env.NODE_ENV === 'production') {
+  buildFrontend();
+}
+
 // Determine client path
 let clientPath = './client';
 if (fs.existsSync('./dist/client')) {
   clientPath = './dist/client';
 } else if (fs.existsSync('./dist')) {
   clientPath = './dist';
+} else if (fs.existsSync('./build')) {
+  clientPath = './build';
 }
+
+console.log('Checking for client files:');
+console.log('- ./client exists:', fs.existsSync('./client'));
+console.log('- ./dist/client exists:', fs.existsSync('./dist/client'));
+console.log('- ./dist exists:', fs.existsSync('./dist'));
+console.log('- ./build exists:', fs.existsSync('./build'));
+console.log('Selected client path:', clientPath);
 
 // Serve static files with correct MIME types
 app.use(express.static(clientPath, {
@@ -69,6 +96,16 @@ app.use(express.static(clientPath, {
     }
   }
 }));
+
+// Add static file serving for assets
+app.use('/assets', express.static(path.join(__dirname, 'client', 'assets')));
+app.use('/src', express.static(path.join(__dirname, 'client', 'src')));
+
+// Log all requests for debugging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // Simple auth middleware
 const authMiddleware = (req, res, next) => {
