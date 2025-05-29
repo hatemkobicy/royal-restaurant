@@ -1,8 +1,6 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-// import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import RootLayout from "@/components/RootLayout";
 import LandingPage from "@/pages/LandingPage";
@@ -82,9 +80,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <SettingsProvider>
         <LanguageProvider>
-          <TooltipProvider>
-            <Router />
-          </TooltipProvider>
+          <Router />
         </LanguageProvider>
       </SettingsProvider>
     </QueryClientProvider>
