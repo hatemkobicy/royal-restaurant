@@ -17,7 +17,7 @@ try {
     process.exit(1);
   }
 
-  // Build frontend from client directory
+  // Build frontend from client directory using local config
   console.log('Building frontend from client directory...');
   execSync('cd client && npx vite build', { stdio: 'inherit' });
 
