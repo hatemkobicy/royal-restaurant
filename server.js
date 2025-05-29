@@ -68,19 +68,26 @@ if (process.env.NODE_ENV === 'production') {
   buildFrontend();
 }
 
-// Determine client path
+// Determine client path based on production/development
 let clientPath = './client';
-if (fs.existsSync('./dist/client')) {
-  clientPath = './dist/client';
-} else if (fs.existsSync('./dist')) {
-  clientPath = './dist';
-} else if (fs.existsSync('./build')) {
-  clientPath = './build';
+if (process.env.NODE_ENV === 'production') {
+  if (fs.existsSync('./dist/public')) {
+    clientPath = './dist/public';
+  } else if (fs.existsSync('./dist')) {
+    clientPath = './dist';
+  } else if (fs.existsSync('./build')) {
+    clientPath = './build';
+  } else {
+    clientPath = './client';
+  }
+} else {
+  clientPath = './client';
 }
 
+console.log('Environment:', process.env.NODE_ENV);
 console.log('Checking for client files:');
 console.log('- ./client exists:', fs.existsSync('./client'));
-console.log('- ./dist/client exists:', fs.existsSync('./dist/client'));
+console.log('- ./dist/public exists:', fs.existsSync('./dist/public'));
 console.log('- ./dist exists:', fs.existsSync('./dist'));
 console.log('- ./build exists:', fs.existsSync('./build'));
 console.log('Selected client path:', clientPath);
